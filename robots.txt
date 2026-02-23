@@ -1,0 +1,6 @@
+# FusionFlow landing — allow indexing
+# Update the host to your production domain (e.g. https://fusionflow.app)
+User-agent: *
+Allow: /
+
+Sitemap: https://fusionflow.app/sitemap.xml

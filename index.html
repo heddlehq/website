@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FusionFlow — Real-time workflows, without limits</title>
+  <meta name="description" content="High-performance workflow platform for real-time data orchestration. Low-code, scalable, and fault-tolerant. Open source. Workflow automation, data orchestration, Elixir." />
+  <meta name="keywords" content="FusionFlow, workflow automation, real-time workflows, data orchestration, low-code, open source, Elixir, Phoenix, workflow platform, automation platform, orquestração de dados, automação de workflows" />
+  <meta name="author" content="FusionFlow" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="canonical" href="https://fusionflow.app/" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fusionflow.app/" />
+  <meta property="og:title" content="FusionFlow — Real-time workflows, without limits" />
+  <meta property="og:description" content="High-performance workflow platform for real-time data orchestration. Low-code, scalable, fault-tolerant. Open source." />
+  <meta property="og:image" content="https://fusionflow.app/assets/img/logo.png" />
+  <meta property="og:site_name" content="FusionFlow" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="pt_BR" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FusionFlow — Real-time workflows, without limits" />
+  <meta name="twitter:description" content="High-performance workflow platform for real-time data orchestration. Low-code, scalable, fault-tolerant. Open source." />
+  <meta name="twitter:image" content="https://fusionflow.app/assets/img/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: 'oklch(58% 0.233 277.117)',
+          },
+          fontFamily: {
+            display: ['Outfit', 'system-ui', 'sans-serif'],
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out forwards',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: { from: { opacity: '0', transform: 'translateY(12px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="app.css" />
+  <style>
+    [data-animate] { opacity: 0; }
+    [data-animate].visible { animation: fadeIn 0.7s ease-out forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    [data-animate].visible:nth-child(1) { animation-delay: 0.05s; }
+    [data-animate].visible:nth-child(2) { animation-delay: 0.1s; }
+    [data-animate].visible:nth-child(3) { animation-delay: 0.15s; }
+    [data-animate].visible:nth-child(4) { animation-delay: 0.2s; }
+    [data-animate].visible:nth-child(5) { animation-delay: 0.25s; }
+    [data-animate].visible:nth-child(6) { animation-delay: 0.3s; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "FusionFlow",
+        "url": "https://fusionflow.app/",
+        "description": "High-performance workflow platform for real-time data orchestration. Low-code, scalable, fault-tolerant. Open source.",
+        "potentialAction": {
+          "@type": "ReadAction",
+          "target": "https://hexdocs.pm/fusion_flow/installation.html"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "FusionFlow",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web, Elixir/Erlang",
+        "description": "Workflow automation platform for real-time data orchestration. Design, manage, and run business logic and data processing flows. Scalable and fault-tolerant.",
+        "url": "https://github.com/FusionFlow-app/fusion_flow",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased min-h-screen overflow-x-hidden">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <!-- Background -->
+  <div class="fixed inset-0 rete-bg-grid text-slate-800/40 pointer-events-none" aria-hidden="true"></div>
+  <div class="fixed inset-0 bg-gradient-to-b from-slate-950 via-slate-950/95 to-slate-950 pointer-events-none" aria-hidden="true"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[120%] h-[80vh] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <header class="relative z-10 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
+    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 text-white font-display font-bold text-xl tracking-tight">
+        <img src="assets/img/logo.png" alt="FusionFlow" class="h-9 w-auto object-contain" />
+        FusionFlow
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#how" class="hover:text-white transition-colors">How it works</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://hexdocs.pm/fusion_flow/installation.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white font-semibold text-sm transition-colors shadow-lg shadow-indigo-500/25">Get started</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="relative z-10" role="main">
+    <!-- Hero: centered -->
+    <section class="max-w-6xl mx-auto px-6 pt-20 pb-20 md:pt-28 md:pb-24">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-4" data-animate>Real-time workflows</p>
+        <h1 class="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl tracking-tight text-white leading-[1.08] mb-6" data-animate>
+          Orchestrate data.
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">No limits.</span>
+        </h1>
+        <p class="text-lg text-gray-400 leading-relaxed mb-10" data-animate>
+          High-performance platform to design, manage, and run business logic and data processing flows. Low-code, scalable, and fault-tolerant. Open source.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center" data-animate>
+          <a href="https://hexdocs.pm/fusion_flow/installation.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold transition-colors shadow-lg shadow-indigo-500/30">
+            Get started
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo: Rete editor -->
+    <section id="demo" class="max-w-6xl mx-auto px-6 py-16 md:py-24 border-t border-slate-800/80">
+      <p class="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-2 text-center">Try it</p>
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4 text-center">Visual flow editor</h2>
+      <p class="text-gray-400 max-w-xl mx-auto mb-10 text-center text-sm">Drag the nodes to explore. Built with the same node-based approach that powers FusionFlow.</p>
+      <div class="rete-demo-wrap relative w-full max-w-4xl mx-auto" data-animate>
+        <div class="absolute -inset-px rounded-2xl bg-gradient-to-b from-indigo-500/40 via-slate-600/30 to-indigo-500/20 opacity-60 blur-sm" aria-hidden="true"></div>
+        <div class="relative w-full h-[420px] md:h-[520px] rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900/40 shadow-2xl shadow-indigo-500/5">
+          <span class="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 backdrop-blur-sm">Interactive</span>
+          <div id="rete-demo-area" class="rete-demo-area w-full h-full overflow-hidden touch-none select-none rounded-2xl">
+            <div id="rete-demo-view" class="rete-demo-view absolute inset-0 w-full h-full origin-top-left" style="transform: translate(0px, 0px);">
+              <svg class="block w-full h-full rete-demo-svg" viewBox="0 0 400 360" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="rete-conn-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#818cf8"/></linearGradient>
+                  <filter id="rete-conn-glow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                    <feFlood flood-color="#4338ca" flood-opacity="0.6" result="color"/>
+                    <feComposite in="color" in2="blur" operator="in" result="glow"/>
+                    <feMerge>
+                      <feMergeNode in="glow"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <path id="rete-conn-path-flow" fill="none" stroke="url(#rete-conn-gradient)" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 14" d="" pointer-events="none" class="rete-conn-flow"/>
+                <path id="rete-conn-path" fill="none" stroke="#4338ca" stroke-width="5" stroke-linecap="round" filter="url(#rete-conn-glow)" d="" pointer-events="none"/>
+              <g id="rete-node-1" class="rete-demo-node cursor-move" transform="translate(70, 160)" data-x="70" data-y="160">
+                <circle r="28" fill="#334155" stroke="#6366f1" stroke-width="2" pointer-events="all"/>
+                <g transform="translate(-10,-10) scale(0.85)" fill="none" stroke="#c7d2fe" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
+                  <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </g>
+                <text y="42" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui,sans-serif" pointer-events="none">Trigger</text>
+                <line x1="28" y1="0" x2="34" y2="0" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                <circle cx="34" cy="0" r="4" fill="#4338ca" stroke="white" stroke-width="1.5"/>
+              </g>
+              <g id="rete-node-2" class="rete-demo-node cursor-move" transform="translate(200, 160)" data-x="200" data-y="160">
+                <circle r="28" fill="#334155" stroke="#0ea5e9" stroke-width="2" pointer-events="all"/>
+                <g transform="translate(-10,-10) scale(0.85)" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
+                  <path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                </g>
+                <text y="42" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui,sans-serif" pointer-events="none">Process</text>
+                <line x1="-28" y1="0" x2="-34" y2="0" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                <circle cx="-34" cy="0" r="4" fill="#4338ca" stroke="white" stroke-width="1.5"/>
+                <line x1="28" y1="0" x2="34" y2="0" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                <circle cx="34" cy="0" r="4" fill="#4338ca" stroke="white" stroke-width="1.5"/>
+              </g>
+              <g id="rete-node-3" class="rete-demo-node cursor-move" transform="translate(330, 160)" data-x="330" data-y="160">
+                <circle r="28" fill="#334155" stroke="#10b981" stroke-width="2" pointer-events="all"/>
+                <g transform="translate(-10,-10) scale(0.85)" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none">
+                  <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                </g>
+                <text y="42" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui,sans-serif" pointer-events="none">Output</text>
+                <line x1="-28" y1="0" x2="-34" y2="0" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                <circle cx="-34" cy="0" r="4" fill="#4338ca" stroke="white" stroke-width="1.5"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/80">
+      <p class="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-2">Features</p>
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-12">Built for complex flows</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-slate-700 hover:bg-slate-800/50 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg text-white mb-2">Real-time</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Orchestration and execution in real time, with minimal latency and instant updates.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-slate-700 hover:bg-slate-800/50 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg text-white mb-2">Scalable</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Architecture built to grow: from prototype to enterprise without rewriting flows.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-slate-700 hover:bg-slate-800/50 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg text-white mb-2">Low-code</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Design flows visually. Advanced automation with no code or low code.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-slate-700 hover:bg-slate-800/50 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg text-white mb-2">Fault-tolerant</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Reliable execution with retry, checkpoints, and automatic recovery.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/80">
+      <p class="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-2">How it works</p>
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">Build without limits</h2>
+      <p class="text-gray-400 max-w-2xl mb-12">From simple tasks to microservice orchestration. FusionFlow’s visual tools let you design any flow.</p>
+      <div class="rounded-2xl border border-slate-700/80 bg-slate-900/40 p-8 md:p-12">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center md:text-left">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 font-display font-bold text-lg mb-4">1</span>
+            <h3 class="font-display font-semibold text-white mb-2">Design</h3>
+            <p class="text-gray-400 text-sm">Drag nodes, connect inputs and outputs. Intuitive visual interface.</p>
+          </div>
+          <div class="text-center md:text-left">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 font-display font-bold text-lg mb-4">2</span>
+            <h3 class="font-display font-semibold text-white mb-2">Configure</h3>
+            <p class="text-gray-400 text-sm">Set triggers, transforms, and destinations. All without leaving the canvas.</p>
+          </div>
+          <div class="text-center md:text-left">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 font-display font-bold text-lg mb-4">3</span>
+            <h3 class="font-display font-semibold text-white mb-2">Execute</h3>
+            <p class="text-gray-400 text-sm">Run in real time. Monitor, debug, and scale when you need to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/80">
+      <div class="rounded-3xl border border-slate-700/80 bg-slate-900/60 p-10 md:p-16 text-center relative overflow-hidden">
+        <div class="absolute inset-0 rete-bg-grid text-slate-700/30" aria-hidden="true"></div>
+        <div class="relative">
+          <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-4">Ready to orchestrate?</h2>
+          <p class="text-gray-400 text-lg max-w-xl mx-auto mb-8">Open source. No sign-up required. Clone and run.</p>
+          <a href="https://hexdocs.pm/fusion_flow/installation.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold text-lg transition-colors shadow-lg shadow-indigo-500/30">
+            Get started
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-slate-800/80 bg-slate-950/80">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="#" class="flex items-center gap-2 text-gray-400 font-display font-bold text-lg hover:text-white transition-colors">
+        <img src="assets/img/logo.png" alt="FusionFlow" class="h-8 w-auto object-contain opacity-90" />
+        FusionFlow
+      </a>
+      <p class="text-gray-500 text-sm">© FusionFlow. Real-time workflows. Open source.</p>
+      <div class="flex items-center gap-6 text-sm text-gray-500">
+        <a href="https://github.com/FusionFlow-app/fusion_flow" target="_blank" rel="noopener noreferrer" class="hover:text-gray-400 transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+
+    // Rete demo: pan background OR drag individual nodes; connections update when nodes move
+    (function () {
+      const area = document.getElementById('rete-demo-area');
+      const view = document.getElementById('rete-demo-view');
+      const pathEl = document.getElementById('rete-conn-path');
+      const pathFlowEl = document.getElementById('rete-conn-path-flow');
+      const nodes = [
+        document.getElementById('rete-node-1'),
+        document.getElementById('rete-node-2'),
+        document.getElementById('rete-node-3')
+      ];
+      if (!area || !view || !pathEl || nodes.some(function (n) { return !n; })) return;
+      if (pathFlowEl) pathFlowEl.setAttribute('d', pathEl.getAttribute('d') || '');
+
+      var NODE_R = 28;
+      var PORT_OFFSET = 34;
+      var VIEW_W = 400, VIEW_H = 360;
+      var nodePos = [
+        { x: 70, y: 160 },
+        { x: 200, y: 160 },
+        { x: 330, y: 160 }
+      ];
+      var draggingNode = -1;
+      var dragStartX = 0, dragStartY = 0;
+      var dragNodeStartX = 0, dragNodeStartY = 0;
+
+      function clampNode(i) {
+        var p = nodePos[i];
+        p.x = Math.max(NODE_R, Math.min(VIEW_W - NODE_R, p.x));
+        p.y = Math.max(NODE_R, Math.min(VIEW_H - NODE_R, p.y));
+      }
+
+      function getPortOut1() { return { x: nodePos[0].x + PORT_OFFSET, y: nodePos[0].y }; }
+      function getPortIn2()  { return { x: nodePos[1].x - PORT_OFFSET, y: nodePos[1].y }; }
+      function getPortOut2() { return { x: nodePos[1].x + PORT_OFFSET, y: nodePos[1].y }; }
+      function getPortIn3()  { return { x: nodePos[2].x - PORT_OFFSET, y: nodePos[2].y }; }
+
+      function bezierTo(sx, sy, ex, ey) {
+        var dx = ex - sx, dy = ey - sy;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var ux = dx / dist, uy = dy / dist;
+        var perpX = -uy, perpY = ux;
+        // Control points mais afastados = curva mais suave e “elástica”
+        var t = Math.min(dist * 0.4, 55);
+        var bend = Math.min(dist * 0.08, 12);
+        var c1x = sx + ux * t + perpX * bend;
+        var c1y = sy + uy * t + perpY * bend;
+        var c2x = ex - ux * t + perpX * bend;
+        var c2y = ey - uy * t + perpY * bend;
+        return 'C ' + c1x + ' ' + c1y + ' ' + c2x + ' ' + c2y + ' ' + ex + ' ' + ey;
+      }
+
+      function updatePath() {
+        var p1 = getPortOut1(), p2i = getPortIn2(), p2o = getPortOut2(), p3i = getPortIn3();
+        var d = 'M ' + p1.x + ' ' + p1.y + ' ' + bezierTo(p1.x, p1.y, p2i.x, p2i.y) +
+                ' L ' + p2o.x + ' ' + p2o.y +
+                ' ' + bezierTo(p2o.x, p2o.y, p3i.x, p3i.y);
+        pathEl.setAttribute('d', d);
+        if (pathFlowEl) pathFlowEl.setAttribute('d', d);
+      }
+
+      function syncNodeTransforms() {
+        nodes.forEach(function (g, i) {
+          var p = nodePos[i];
+          g.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ')');
+          g.setAttribute('data-x', p.x);
+          g.setAttribute('data-y', p.y);
+        });
+        updatePath();
+      }
+
+      function hitNode(evt) {
+        var t = evt.target;
+        for (var i = 0; i < nodes.length; i++) {
+          if (nodes[i].contains(t)) return i;
+        }
+        return -1;
+      }
+
+      area.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0) return;
+        var idx = hitNode(e);
+        if (idx >= 0) {
+          e.stopPropagation();
+          e.preventDefault();
+          draggingNode = idx;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          dragNodeStartX = nodePos[idx].x;
+          dragNodeStartY = nodePos[idx].y;
+          area.style.cursor = 'grabbing';
+        }
+      });
+
+      area.addEventListener('pointermove', function (e) {
+        if (draggingNode >= 0) {
+          var viewRect = view.getBoundingClientRect();
+          var scaleX = viewRect.width / VIEW_W;
+          var scaleY = viewRect.height / VIEW_H;
+          var dx = (e.clientX - dragStartX) / scaleX;
+          var dy = (e.clientY - dragStartY) / scaleY;
+          nodePos[draggingNode].x = Math.round(dragNodeStartX + dx);
+          nodePos[draggingNode].y = Math.round(dragNodeStartY + dy);
+          clampNode(draggingNode);
+          syncNodeTransforms();
+        }
+      });
+
+      area.addEventListener('pointerup', function (e) {
+        if (e.button !== 0) return;
+        if (draggingNode >= 0) {
+          draggingNode = -1;
+          area.style.cursor = 'move';
+        }
+      });
+      area.addEventListener('pointercancel', function () {
+        draggingNode = -1;
+      });
+
+      area.addEventListener('pointerover', function (e) {
+        if (draggingNode >= 0) return;
+        area.style.cursor = hitNode(e) >= 0 ? 'move' : 'default';
+      });
+      area.addEventListener('pointerout', function () {
+        if (draggingNode >= 0) return;
+        area.style.cursor = 'default';
+      });
+
+      syncNodeTransforms();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/* FusionFlow — Design tokens (AGENTS.md) */
+
+/* Skip link: hidden until focused (a11y + SEO) */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  z-index: 100;
+}
+.skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: rgb(99 102 241);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+:root {
+  --color-primary: oklch(58% 0.233 277.117);
+  --color-base-100: oklch(0.985 0.002 247);
+  --color-base-200: oklch(0.965 0.005 247);
+  --color-base-300: oklch(0.90 0.01 247);
+  --color-base-content: oklch(0.22 0.02 260);
+}
+
+.dark {
+  --color-primary: oklch(58% 0.233 277.117);
+  --color-base-100: oklch(0.13 0.02 260);
+  --color-base-200: oklch(0.18 0.02 260);
+  --color-base-300: oklch(0.25 0.02 260);
+  --color-base-content: oklch(0.92 0.01 260);
+}
+
+/* Grid de fundo estilo node editor */
+.rete-bg-grid {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Rete demo: landing-style container + grid background */
+.rete-demo-wrap {
+  --rete-grid: rgba(71, 85, 105, 0.25);
+}
+.rete-demo-area {
+  position: relative;
+  background-color: rgba(15, 23, 42, 0.92);
+  background-image:
+    radial-gradient(circle, var(--rete-grid) 1px, transparent 1px),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(67, 56, 202, 0.07) 0%, transparent 55%);
+  background-size: 20px 20px, 100% 100%;
+}
+.rete-demo-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(99, 102, 241, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+.rete-demo-svg {
+  display: block;
+}
+/* Efeito de “fluxo” nas conexões — traço animado */
+.rete-conn-flow {
+  animation: rete-flow 1.2s linear infinite;
+}
+@keyframes rete-flow {
+  to { stroke-dashoffset: -22; }
+}
+/* Hover nos nós: brilho suave */
+.rete-demo-node circle:first-of-type {
+  transition: filter 0.2s ease, stroke-width 0.2s ease;
+}
+.rete-demo-node:hover circle:first-of-type {
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+  stroke-width: 2.5;
+}
+.rete-connection-visible {
+  transition: stroke-width 0.15s ease;
+}
+.rete-connection-visible:hover {
+  stroke-width: 6;
+}
