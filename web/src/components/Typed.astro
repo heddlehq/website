@@ -1,0 +1,93 @@
+---
+// Sets a line as if struck on a typewriter: every character lands a hair off
+// the baseline with its own ink density. Values come from a fixed seed so the
+// build is reproducible. The reveal is pure CSS, so the text needs no JavaScript.
+interface Props {
+  lines: string[];
+  accent?: string;
+}
+
+const { lines, accent } = Astro.props;
+
+let seed = 1871;
+const random = () => {
+  seed = (seed * 16807) % 2147483647;
+  return seed / 2147483647;
+};
+const spread = (range: number) => ((random() - 0.5) * 2 * range).toFixed(4);
+
+let index = 0;
+const typed = lines.map((line) =>
+  line.split(' ').map((word) => ({
+    accent: word.replace(/\W/g, '') === accent,
+    chars: [...word].map((char) => ({
+      char,
+      style: [
+        `--i:${index++}`,
+        `--dy:${spread(0.012)}em`,
+        `--tilt:${spread(0.5)}deg`,
+        `--ink:${(0.92 + random() * 0.08).toFixed(3)}`,
+      ].join(';'),
+    })),
+  })),
+);
+---
+
+<span class="sr-only">{lines.join(' ')}</span>
+<span class="typed" aria-hidden="true">
+  {
+    typed.map((line) => (
+      <span class="typed-line">
+        {line.map((word) => (
+          <span class:list={['typed-word', { 'typed-accent': word.accent }]}>
+            {word.chars.map(({ char, style }) => (
+              <span class="typed-char" style={style}>
+                {char}
+              </span>
+            ))}
+          </span>
+        ))}
+      </span>
+    ))
+  }
+</span>
+
+<style>
+  .typed-line {
+    display: block;
+  }
+
+  .typed-word {
+    display: inline-block;
+    white-space: nowrap;
+    margin-inline-end: 0.6em;
+  }
+
+  .typed-word:last-child {
+    margin-inline-end: 0;
+  }
+
+  .typed-accent {
+    color: var(--ribbon);
+  }
+
+  .typed-char {
+    display: inline-block;
+    opacity: var(--ink);
+    transform: translateY(var(--dy)) rotate(var(--tilt));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .typed-char {
+      /* Backwards fill only: once a letter has landed, its normal style applies. */
+      animation: strike 40ms linear backwards;
+      animation-delay: calc(250ms + var(--i) * 46ms);
+    }
+  }
+
+  @keyframes strike {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

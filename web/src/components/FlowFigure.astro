@@ -1,0 +1,212 @@
+---
+// Fig. 1: a real flow drawn like a weaving draft. Faint warp threads run down
+// the page, the flow's threads are woven across them, and the red thread is
+// the path one run took. Horizontal threads dip under every other warp thread.
+const width = 440;
+const height = 420;
+const warp = Array.from({ length: 11 }, (_, i) => 20 + i * 40);
+
+const nodes = {
+  webhook: { x: 220, y: 36, label: 'Webhook' },
+  condition: { x: 220, y: 110, label: 'Condition' },
+  http: { x: 100, y: 228, label: 'HTTP Request' },
+  logger: { x: 340, y: 228, label: 'Logger' },
+  output: { x: 220, y: 384, label: 'Output' },
+};
+
+const branchY = 160;
+const joinY = 320;
+const r = 12;
+
+const { webhook, condition, http, logger, output } = nodes;
+
+// Paths are orthogonal with rounded corners, the way a draft reads on grid paper.
+const toHttp = `M${condition.x} ${condition.y} V${branchY - r} Q${condition.x} ${branchY} ${condition.x - r} ${branchY} H${http.x + r} Q${http.x} ${branchY} ${http.x} ${branchY + r} V${http.y}`;
+const toLogger = `M${condition.x} ${condition.y} V${branchY - r} Q${condition.x} ${branchY} ${condition.x + r} ${branchY} H${logger.x - r} Q${logger.x} ${branchY} ${logger.x} ${branchY + r} V${logger.y}`;
+const httpToOutput = `M${http.x} ${http.y} V${joinY - r} Q${http.x} ${joinY} ${http.x + r} ${joinY} H${output.x - r} Q${output.x} ${joinY} ${output.x} ${joinY + r} V${output.y}`;
+const loggerToOutput = `M${logger.x} ${logger.y} V${joinY - r} Q${logger.x} ${joinY} ${logger.x - r} ${joinY} H${output.x + r} Q${output.x} ${joinY} ${output.x} ${joinY + r} V${output.y}`;
+const httpError = `M${http.x} ${http.y} H${logger.x}`;
+const start = `M${webhook.x} ${webhook.y} V${condition.y}`;
+
+const inkThreads = [start, toHttp, toLogger, httpToOutput, loggerToOutput, httpError];
+const run = `${start} ${toHttp.replace(/^M\S+ \S+ /, '')} ${httpToOutput.replace(/^M\S+ \S+ /, '')}`;
+
+// Every other warp crossing on a horizontal run goes over the thread.
+const horizontals = [
+  { y: branchY, from: http.x, to: logger.x },
+  { y: http.y, from: http.x, to: logger.x },
+  { y: joinY, from: http.x, to: logger.x },
+];
+const crossings = horizontals.flatMap(({ y, from, to }, row) =>
+  warp
+    .filter((x) => x > from + 20 && x < to - 20 && x !== condition.x)
+    .filter((_, i) => (i + row) % 2 === 0)
+    .map((x) => ({ x, y })),
+);
+---
+
+<figure class="flow" data-flow>
+  <svg
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-labelledby="flow-title flow-desc"
+  >
+    <title id="flow-title">An order webhook drawn as a flow of threads</title>
+    <desc id="flow-desc">
+      A webhook leads to a condition. If true, the run goes to an HTTP request; if false,
+      to a logger. An HTTP error also goes to the logger. Both paths end at an output.
+      A red thread marks one run: webhook, condition, HTTP request, output.
+    </desc>
+
+    <g class="warp">
+      {warp.map((x) => <line x1={x} x2={x} y1="0" y2={height} />)}
+    </g>
+
+    <g class="threads">
+      {inkThreads.map((d) => <path d={d} />)}
+    </g>
+
+    <path class="run" d={run} pathLength="1" />
+
+    <g class="under">
+      {
+        crossings.map(({ x, y }) => (
+          <>
+            <line class="gap" x1={x} x2={x} y1={y - 5} y2={y + 5} />
+            <line class="over" x1={x} x2={x} y1={y - 7} y2={y + 7} />
+          </>
+        ))
+      }
+    </g>
+
+    <g class="eyes">
+      {Object.values(nodes).map(({ x, y }) => <circle cx={x} cy={y} r="7" />)}
+    </g>
+
+    <g class="labels">
+      <text x={webhook.x + 16} y={webhook.y + 5}>{webhook.label}</text>
+      <text x={condition.x + 16} y={condition.y + 5}>{condition.label}</text>
+      <text x={http.x + 14} y={http.y - 12}>{http.label}</text>
+      <text x={logger.x + 14} y={logger.y - 12}>{logger.label}</text>
+      <text x={output.x + 16} y={output.y + 5}>{output.label}</text>
+      <text class="port" x={http.x + 28} y={branchY - 9}>true</text>
+      <text class="port" x={logger.x - 28} y={branchY - 9} text-anchor="end">false</text>
+      <text class="port" x={condition.x} y={http.y + 21} text-anchor="middle">error</text>
+    </g>
+  </svg>
+  <figcaption>
+    <strong>Fig. 1.</strong> An order comes in by webhook. The red thread is one run: the order
+    was paid, so the request went out.
+  </figcaption>
+</figure>
+
+<style>
+  .flow {
+    margin: var(--space-5) auto var(--space-4);
+    max-width: 34rem;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .warp line,
+  .over {
+    stroke: var(--rule);
+    stroke-width: 1.25;
+  }
+
+  .gap {
+    stroke: var(--paper-seen);
+    stroke-width: 6;
+  }
+
+  .threads path,
+  .run {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .threads path {
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+
+  .run {
+    stroke: var(--ribbon);
+    stroke-width: 3.5;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .eyes circle {
+    fill: var(--paper-seen);
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+
+  .labels text {
+    fill: var(--ink);
+    font-family: var(--font-type);
+    font-size: 16px;
+    font-weight: 700;
+    paint-order: stroke;
+    stroke: var(--paper-seen);
+    stroke-width: 7px;
+    stroke-linejoin: round;
+  }
+
+  .labels .port {
+    fill: var(--ink-soft);
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  figcaption {
+    margin-block-start: var(--space-3);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  figcaption strong {
+    color: var(--ink);
+    font-family: var(--font-type);
+  }
+
+  :global(html.js) .flow .run {
+    stroke-dashoffset: 1;
+  }
+
+  :global(html.js) .flow.is-drawn .run {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2.2s ease-in-out 200ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.js) .flow .run {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const figure = document.querySelector<HTMLElement>('[data-flow]');
+
+  if (figure) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          figure.classList.add('is-drawn');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(figure);
+  }
+</script>

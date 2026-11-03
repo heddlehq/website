@@ -1,0 +1,81 @@
+---
+interface Props {
+  lines: string[];
+}
+
+const { lines } = Astro.props;
+---
+
+<div class="commands" data-commands>
+  <pre><code>{lines.map((line) => <span class="line">{line}</span>)}</code></pre>
+  <button type="button" data-copy={lines.join('\n')} hidden>[ copy ]</button>
+</div>
+
+<style>
+  .commands {
+    position: relative;
+    margin-block: var(--space-3) var(--space-4);
+    background: var(--paper-deep);
+  }
+
+  pre {
+    margin: 0;
+    padding: var(--space-3) var(--space-3) 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-family: var(--font-type);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  code {
+    font: inherit;
+  }
+
+  /* Long commands wrap with a hanging indent, so the prompt stays on its own edge. */
+  .line {
+    display: block;
+    padding-inline-start: 2ch;
+    text-indent: -2ch;
+  }
+
+  .line::before {
+    content: '$ ';
+    color: var(--ink-soft);
+    user-select: none;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding-inline: var(--space-3);
+    border: 0;
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: var(--font-type);
+    font-size: 0.9375rem;
+    text-align: end;
+  }
+
+  button[hidden] {
+    display: none;
+  }
+
+  button:hover {
+    color: var(--ribbon);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    if (!navigator.clipboard) return;
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(button.dataset.copy ?? '');
+      button.textContent = '[ copied ]';
+      setTimeout(() => (button.textContent = '[ copy ]'), 1600);
+    });
+  });
+</script>

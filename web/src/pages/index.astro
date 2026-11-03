@@ -1,0 +1,323 @@
+---
+import Base from '../layouts/Base.astro';
+import Commands from '../components/Commands.astro';
+import FlowFigure from '../components/FlowFigure.astro';
+import Mark from '../components/Mark.astro';
+import Typed from '../components/Typed.astro';
+import { commands, links, site } from '../config';
+
+const nodes = [
+  ['Start', 'Begins a run by hand.'],
+  ['Webhook', 'Begins a run from an incoming request.'],
+  ['HTTP Request', 'Calls an outside service, with separate paths for success and error.'],
+  ['Condition', 'Sends the run down a true or a false path.'],
+  ['Evaluate Code', 'Runs Elixir or Python with access to the flow’s context.'],
+  ['Variable', 'Keeps a typed value for later nodes.'],
+  ['Logger', 'Writes a message to the application logs.'],
+  ['Output', 'Ends the run and returns the final context.'],
+];
+
+const leader = 16;
+---
+
+<Base>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg class="sr-only" aria-hidden="true">
+    <filter id="struck">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" />
+      <feDisplacementMap in="SourceGraphic" scale="0.9" />
+    </filter>
+  </svg>
+
+  <header class="sheet masthead">
+    <a class="brand" href={import.meta.env.BASE_URL} aria-label={`${site.name}, home`}>
+      <Mark />
+      <span>{site.name}</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#how-it-runs">How it runs</a>
+      <a href="#start">Get started</a>
+      <a href={links.source}>GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main" class="sheet">
+    <section class="hero">
+      <h1><Typed lines={['Every thread goes', 'where it should.']} accent="thread" /></h1>
+      <p class="lead">
+        Heddle is an open-source workflow engine. Draw your business logic as a flow of nodes,
+        and it runs on Elixir, one step at a time, with a record of what happened.
+      </p>
+      <p class="actions">
+        <a href={links.install}>[ Read the install guide ]</a>
+        <a href={links.source}>[ Source on GitHub ]</a>
+      </p>
+      <p class="entry">
+        <strong>heddle</strong> <span class="ipa">/ˈhɛd.əl/</span> <em>noun.</em> The part of a loom
+        that lifts each warp thread so the weft can pass through. It decides which way every thread
+        goes.
+      </p>
+    </section>
+
+    <p class="break" aria-hidden="true">* * *</p>
+
+    <section aria-labelledby="flow">
+      <h2 id="flow" data-n="1.">A flow, drawn</h2>
+      <p>
+        A webhook comes in. A condition checks it. One path calls another service, the other writes
+        a line to the log, and both finish in the same place. Each step is a node, and each run
+        follows one thread through them.
+      </p>
+      <FlowFigure />
+    </section>
+
+    <section aria-labelledby="parts">
+      <h2 id="parts" data-n="2.">The parts</h2>
+      <p>Heddle ships with eight nodes.</p>
+      <dl class="parts">
+        {
+          nodes.map(([name, text]) => (
+            <div>
+              <dt>
+                {name}
+                <span class="dots" aria-hidden="true">
+                  {' '}
+                  {'.'.repeat(leader - (name?.length ?? 0))}
+                </span>
+              </dt>
+              <dd>{text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p>
+        Rather not start from a blank page? Describe the flow in the AI chat. It proposes a plan,
+        and builds the flow once you approve it. This part needs an OpenAI key. Other systems can
+        reach the same flows through the <a href={links.api}>public API</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="how-it-runs">
+      <h2 id="how-it-runs" data-n="3.">How it runs</h2>
+      <p>
+        Two roles share one Postgres database. The UI serves the editor, takes requests and puts each
+        run in a queue. Workers take runs from the queue and execute them. A run that fails gets up
+        to three attempts.
+      </p>
+      <p>When the queue grows, add workers:</p>
+      <Commands lines={commands.scale} />
+      <p>The <a href={links.scaling}>scaling guide</a> covers the rest.</p>
+    </section>
+
+    <section aria-labelledby="start">
+      <h2 id="start" data-n="4.">Start it on your machine</h2>
+      <p>You need Git and Docker.</p>
+      <Commands lines={commands.start} />
+      <p>
+        Then open <code>localhost:4000</code>. To run from source instead, follow the
+        <a href={links.install}>install guide</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="open">
+      <h2 id="open" data-n="5.">In the open</h2>
+      <p>
+        Heddle is MIT licensed and built in public. The plans are on the
+        <a href={links.roadmap}>roadmap</a>, the work in progress is on the
+        <a href={links.board}>project board</a>, and the conversation is on
+        <a href={links.discord}>Discord</a>. If you want to help, start with the
+        <a href={links.contributing}>contributing guide</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="sheet colophon">
+    <p>
+      {site.name}
+      {site.version}. <a href={links.license}>MIT license</a>.
+    </p>
+    <p>Set in Courier Prime and iA Writer Quattro.</p>
+    <p class="folio" aria-hidden="true">- 1 -</p>
+  </footer>
+</Base>
+
+<style>
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-4) 0;
+    font-family: var(--font-type);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    font-size: 1rem;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  .hero {
+    padding-block: clamp(4rem, 14vh, 8rem) var(--space-5);
+  }
+
+  h1 {
+    font-family: var(--font-type);
+    font-size: clamp(1.75rem, calc(9.4vw - 4px), 3.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0;
+    filter: url('#struck');
+  }
+
+  .lead {
+    margin-block-start: var(--space-4);
+    font-size: 1.1875rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  .actions a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration: none;
+  }
+
+  .entry {
+    margin-block-start: var(--space-5);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .entry strong {
+    color: var(--ink);
+    font-family: var(--font-type);
+  }
+
+  .ipa {
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .break {
+    color: var(--ink-soft);
+    font-family: var(--font-type);
+    text-align: center;
+  }
+
+  section + section,
+  .break + section {
+    margin-block-start: var(--space-6);
+  }
+
+  h2 {
+    position: relative;
+    margin-block-end: var(--space-3);
+    font-family: var(--font-type);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-transform: uppercase;
+    text-underline-offset: 0.3em;
+    scroll-margin-block-start: var(--space-4);
+  }
+
+  h2::before {
+    content: attr(data-n) ' ';
+    color: var(--ribbon);
+    white-space: pre;
+  }
+
+  section p + p {
+    margin-block-start: var(--space-3);
+  }
+
+  .parts {
+    margin-block: var(--space-3) var(--space-4);
+  }
+
+  .parts div {
+    padding-block: var(--space-2);
+  }
+
+  dt {
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  .dots {
+    display: none;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  code {
+    font-family: var(--font-type);
+  }
+
+  .colophon {
+    margin-block-start: var(--space-6);
+    padding-block-end: var(--space-4);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .folio {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    text-align: center;
+  }
+
+  @media (min-width: 40rem) {
+    .parts div {
+      display: grid;
+      grid-template-columns: 17ch 1fr;
+      align-items: baseline;
+      gap: var(--space-3);
+      padding-block: var(--space-1);
+    }
+
+    dt {
+      font-size: 1rem;
+      line-height: inherit;
+      white-space: nowrap;
+    }
+
+    .dots {
+      display: inline;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    h2::before {
+      position: absolute;
+      inset-inline-end: 100%;
+      margin-inline-end: var(--space-3);
+    }
+  }
+</style>

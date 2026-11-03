@@ -1,0 +1,41 @@
+---
+import '@fontsource/courier-prime/latin-400.css';
+import '@fontsource/courier-prime/latin-700.css';
+import '@fontsource/courier-prime/latin-400-italic.css';
+import '@fontsource/ia-writer-quattro/latin-400.css';
+import '@fontsource/ia-writer-quattro/latin-700.css';
+import typeFont from '@fontsource/courier-prime/files/courier-prime-latin-700-normal.woff2?url';
+import readFont from '@fontsource/ia-writer-quattro/files/ia-writer-quattro-latin-400-normal.woff2?url';
+import '../styles/global.css';
+import { site } from '../config';
+
+const title = `${site.name}: open-source workflow engine`;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL(`${base}/og.png`, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={site.description} />
+    <meta name="theme-color" content="#f0e8d8" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
+    <link rel="preload" href={typeFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={readFont} as="font" type="font/woff2" crossorigin />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={site.description} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
