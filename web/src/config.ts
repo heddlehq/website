@@ -1,6 +1,6 @@
 // Every external address lives here.
 // When the rename happens, this is the only file that has to change.
-const repo = 'https://github.com/FusionFlow-app/fusion_flow';
+const repo = 'https://github.com/FusionFlow-app/heddle';
 
 export const site = {
   name: 'Heddle',
