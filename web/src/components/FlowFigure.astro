@@ -2,16 +2,24 @@
 // Fig. 1: a real flow drawn like a weaving draft. Faint warp threads run down
 // the page, the flow's threads are woven across them, and the red thread is
 // the path one run took. Horizontal threads dip under every other warp thread.
+import type { Copy } from '../i18n/en';
+
+interface Props {
+  t: Copy['figure'];
+}
+
+const { t } = Astro.props;
+
 const width = 440;
 const height = 420;
 const warp = Array.from({ length: 11 }, (_, i) => 20 + i * 40);
 
 const nodes = {
-  webhook: { x: 220, y: 36, label: 'Webhook' },
-  condition: { x: 220, y: 110, label: 'Condition' },
-  http: { x: 100, y: 228, label: 'HTTP Request' },
-  logger: { x: 340, y: 228, label: 'Logger' },
-  output: { x: 220, y: 384, label: 'Output' },
+  webhook: { x: 180, y: 36, label: t.webhook },
+  condition: { x: 180, y: 110, label: t.condition },
+  http: { x: 60, y: 228, label: t.http },
+  logger: { x: 300, y: 228, label: t.logger },
+  output: { x: 180, y: 384, label: t.output },
 };
 
 const branchY = 160;
@@ -51,12 +59,8 @@ const crossings = horizontals.flatMap(({ y, from, to }, row) =>
     role="img"
     aria-labelledby="flow-title flow-desc"
   >
-    <title id="flow-title">An order webhook drawn as a flow of threads</title>
-    <desc id="flow-desc">
-      A webhook leads to a condition. If true, the run goes to an HTTP request; if false,
-      to a logger. An HTTP error also goes to the logger. Both paths end at an output.
-      A red thread marks one run: webhook, condition, HTTP request, output.
-    </desc>
+    <title id="flow-title">{t.title}</title>
+    <desc id="flow-desc">{t.desc}</desc>
 
     <g class="warp">
       {warp.map((x) => <line x1={x} x2={x} y1="0" y2={height} />)}
@@ -89,15 +93,12 @@ const crossings = horizontals.flatMap(({ y, from, to }, row) =>
       <text x={http.x + 14} y={http.y - 12}>{http.label}</text>
       <text x={logger.x + 14} y={logger.y - 12}>{logger.label}</text>
       <text x={output.x + 16} y={output.y + 5}>{output.label}</text>
-      <text class="port" x={http.x + 28} y={branchY - 9}>true</text>
-      <text class="port" x={logger.x - 28} y={branchY - 9} text-anchor="end">false</text>
-      <text class="port" x={condition.x} y={http.y + 21} text-anchor="middle">error</text>
+      <text class="port" x={http.x + 28} y={branchY - 9}>{t.yes}</text>
+      <text class="port" x={logger.x - 28} y={branchY - 9} text-anchor="end">{t.no}</text>
+      <text class="port" x={condition.x} y={http.y + 21} text-anchor="middle">{t.failed}</text>
     </g>
   </svg>
-  <figcaption>
-    <strong>Fig. 1.</strong> An order comes in by webhook. The red thread is one run: the order
-    was paid, so the request went out.
-  </figcaption>
+  <figcaption><strong>{t.fig}</strong> {t.caption}</figcaption>
 </figure>
 
 <style>

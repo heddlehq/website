@@ -1,0 +1,133 @@
+import type { Copy } from './en';
+
+export const pt: Copy = {
+  lang: 'pt-BR',
+  path: '/pt/',
+  og: 'og-pt.png',
+  meta: {
+    title: 'Heddle: automação que é sua de verdade',
+    description:
+      'Automação de fluxos open source com licença MIT. Conecte suas ferramentas em um editor visual e rode, embuta ou venda.',
+  },
+  skip: 'Pular para o conteúdo',
+  home: 'Heddle, início',
+  navLabel: 'Principal',
+  nav: { what: 'O que faz', early: 'Acesso antecipado', source: 'GitHub' },
+  switchTo: { label: 'EN', title: 'View in English', lang: 'en', path: '/' },
+  hero: {
+    lines: ['Automação que', 'é sua de verdade.'],
+    accent: 'sua',
+    lead: 'Conecte suas ferramentas e automatize o trabalho que fica entre elas, em um editor visual. Licença MIT: rode, embuta, venda.',
+    join: '[ Entrar na lista de acesso ]',
+    selfHost: '[ Hospedar por conta própria ]',
+  },
+  entry: {
+    kind: 'substantivo, em inglês.',
+    text: 'Liço: a peça do tear que levanta cada fio da urdidura para a trama passar. É ela que decide o caminho de cada fio.',
+  },
+  what: {
+    title: 'O que faz',
+    intro:
+      'Toda empresa roda em cima de pequenas tarefas repetidas: copiar isso para lá, avisar aquela pessoa, conferir isto antes daquilo. O Heddle faz essas tarefas por você. Você desenha os passos uma vez, e ele segue todas as vezes.',
+    after:
+      'Cada círculo é um passo, chamado de nó. Qualquer serviço com API vira um passo por meio de uma requisição HTTP, e quando um passo precisa de lógica de verdade, você escreve em Elixir ou Python.',
+  },
+  figure: {
+    title: 'Um novo pedido desenhado como um fluxo de fios',
+    desc: 'Um novo pedido leva a uma verificação: está pago? Se sim, o estoque é avisado. Se não, fica registrado. Se avisar o estoque falhar, isso também fica registrado. Os dois caminhos terminam no fim. Um fio vermelho marca uma execução: novo pedido, pago, estoque avisado, fim.',
+    webhook: 'Novo pedido',
+    condition: 'Está pago?',
+    http: 'Avisa o estoque',
+    logger: 'Registra',
+    output: 'Fim',
+    yes: 'sim',
+    no: 'não',
+    failed: 'falhou',
+    fig: 'Fig. 1.',
+    caption: 'Chega um novo pedido. O fio vermelho é uma execução: o pedido estava pago, então o estoque foi avisado.',
+  },
+  today: {
+    title: 'Hoje, e o que vem depois',
+    intro:
+      'O Heddle é novo, e preferimos dizer isso logo. Ainda não há conectores prontos: hoje, você chega a outros serviços por HTTP.',
+    nowLabel: 'Funciona hoje',
+    now: [
+      'Um editor visual com oito tipos de passo: Start, Webhook, HTTP Request, Condition, Evaluate Code, Variable, Logger e Output',
+      'Um chat com IA que planeja o fluxo e o monta depois da sua aprovação (precisa de uma chave da OpenAI)',
+      'Um histórico de cada execução',
+      'Uma API pública para os seus fluxos',
+      'Até três tentativas quando uma execução falha',
+    ],
+    nextLabel: 'Vem depois',
+    next: [
+      'Execuções agendadas',
+      'Um lugar seguro para as suas credenciais',
+      'Primeiras integrações, como Slack, Google Sheets e e-mail',
+      'Passos de dados e arquivos: CSV, S3, FTP',
+      'Agentes de IA nativos',
+      'Versões de fluxo com rollback',
+      'Métricas de execução',
+    ],
+    note: 'São planos, não datas. Acompanhe no',
+    noteLink: 'quadro do projeto',
+  },
+  own: {
+    title: 'É seu de verdade',
+    intro:
+      'O Heddle usa a licença MIT: use, altere e inclua no que você vende. Nem toda ferramenta da área funciona assim. O n8n, por exemplo, usa a Sustainable Use License, que limita o uso a fins internos da empresa, pessoais ou não comerciais.',
+    caption: 'O que cada licença permite',
+    want: 'Você quer',
+    heddle: 'Heddle',
+    n8n: 'n8n',
+    yes: 'sim',
+    no: 'não*',
+    rows: [
+      ['Rodar dentro da sua empresa', true],
+      ['Alterar o código para uso próprio', true],
+      ['Incluir em um produto que você vende', false],
+      ['Hospedar para clientes pagantes', false],
+    ],
+    star: '* Não por essa licença. O n8n também tem licenciamento enterprise à parte.',
+    fair: 'O n8n é maduro, tem mais de 500 integrações, e isso conta. Esta tabela fala só de quem é dono do quê. Ela vem dos textos das licenças e não é aconselhamento jurídico:',
+    mit: 'MIT',
+    sul: 'Sustainable Use License',
+    and: 'e',
+  },
+  early: {
+    title: 'Acesso antecipado',
+    intro:
+      'Está nos planos um Heddle hospedado, sem nada para instalar. Entre na lista e avisamos quando o acesso antecipado abrir.',
+    label: 'Seu e-mail',
+    placeholder: 'voce@empresa.com',
+    submit: '[ Entrar na lista ]',
+    sending: '[ Enviando ]',
+    success: 'Você está na lista. Avisamos quando abrir.',
+    error: 'Não deu certo. Tente de novo em um minuto.',
+    consent: 'Usamos seu e-mail só para isso. Para sair da lista, responda a qualquer mensagem.',
+    noscript: 'Este formulário precisa de JavaScript. Você também nos encontra no',
+  },
+  selfHost: {
+    title: 'Hospedar por conta própria',
+    intro:
+      'Prefere rodar você mesmo? É grátis e é seu. Você vai precisar de Elixir, Erlang, Postgres e Node.js, e de alguém à vontade no terminal.',
+    guide: '[ Ler o guia de instalação ]',
+    tech: 'Para quem é técnico: dois papéis dividem um banco Postgres. A UI serve o editor e coloca cada execução na fila, os workers executam, e você adiciona workers conforme o volume cresce. O',
+    scaling: 'guia de escala',
+    techEnd: 'tem os detalhes, e o',
+    api: 'guia da API pública',
+    techTail: 'cobre o resto.',
+  },
+  open: {
+    title: 'Às claras',
+    a: 'O Heddle é feito em público. Os planos estão no',
+    roadmap: 'roadmap',
+    b: 'e a conversa acontece no',
+    c: 'Se quiser ajudar, comece pelo',
+    contributing: 'guia de contribuição',
+  },
+  footer: {
+    closing: 'Cada fio vai aonde deve ir.',
+    license: 'Licença MIT',
+    set: 'Composto em Courier Prime e iA Writer Quattro.',
+  },
+};

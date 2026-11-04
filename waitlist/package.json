@@ -1,0 +1,15 @@
+{
+  "name": "heddle-waitlist",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "export": "wrangler d1 execute heddle-waitlist --remote --json --command 'SELECT email, lang, created_at FROM signups ORDER BY created_at'"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261103.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.157.0"
+  }
+}

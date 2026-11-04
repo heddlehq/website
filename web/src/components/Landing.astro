@@ -1,0 +1,507 @@
+---
+import Base from '../layouts/Base.astro';
+import FlowFigure from './FlowFigure.astro';
+import Mark from './Mark.astro';
+import Typed from './Typed.astro';
+import { links, site, waitlistEndpoint } from '../config';
+import type { Copy } from '../i18n/en';
+
+interface Props {
+  t: Copy;
+}
+
+const { t } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base t={t}>
+  <a class="skip" href="#main">{t.skip}</a>
+
+  <svg class="sr-only" aria-hidden="true">
+    <filter id="struck">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" />
+      <feDisplacementMap in="SourceGraphic" scale="0.9" />
+    </filter>
+  </svg>
+
+  <header class="sheet masthead">
+    <a class="brand" href={`${base}${t.path}`} aria-label={t.home}>
+      <Mark />
+      <span>{site.name}</span>
+    </a>
+    <nav aria-label={t.navLabel}>
+      <a href="#what">{t.nav.what}</a>
+      <a href="#early">{t.nav.early}</a>
+      <a href={links.source}>{t.nav.source}</a>
+      <a
+        href={`${base}${t.switchTo.path}`}
+        hreflang={t.switchTo.lang}
+        lang={t.switchTo.lang}
+        title={t.switchTo.title}>{t.switchTo.label}</a
+      >
+    </nav>
+  </header>
+
+  <main id="main" class="sheet">
+    <section class="hero">
+      <h1><Typed lines={t.hero.lines} accent={t.hero.accent} /></h1>
+      <p class="lead">{t.hero.lead}</p>
+      <p class="actions">
+        <a href="#early">{t.hero.join}</a>
+        <a href="#self-host">{t.hero.selfHost}</a>
+      </p>
+      <p class="entry">
+        <strong lang="en">heddle</strong> <span class="ipa">/ˈhɛd.əl/</span>
+        <em>{t.entry.kind}</em>
+        {t.entry.text}
+      </p>
+    </section>
+
+    <p class="break" aria-hidden="true">* * *</p>
+
+    <section aria-labelledby="what">
+      <h2 id="what" data-n="1.">{t.what.title}</h2>
+      <p>{t.what.intro}</p>
+      <FlowFigure t={t.figure} />
+      <p>{t.what.after}</p>
+    </section>
+
+    <section aria-labelledby="today">
+      <h2 id="today" data-n="2.">{t.today.title}</h2>
+      <p>{t.today.intro}</p>
+      <h3>{t.today.nowLabel}</h3>
+      <ul class="checks">
+        {t.today.now.map((item) => <li data-mark="[x]">{item}</li>)}
+      </ul>
+      <h3>{t.today.nextLabel}</h3>
+      <ul class="checks">
+        {t.today.next.map((item) => <li data-mark="[ ]">{item}</li>)}
+      </ul>
+      <p>{t.today.note} <a href={links.board}>{t.today.noteLink}</a>.</p>
+    </section>
+
+    <section aria-labelledby="own">
+      <h2 id="own" data-n="3.">{t.own.title}</h2>
+      <p>{t.own.intro}</p>
+      <table>
+        <caption class="sr-only">{t.own.caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{t.own.want}</th>
+            <th scope="col">{t.own.heddle}</th>
+            <th scope="col">{t.own.n8n}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            t.own.rows.map(([label, both]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                <td>{t.own.yes}</td>
+                <td class:list={{ denied: !both }}>{both ? t.own.yes : t.own.no}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <p class="small">{t.own.star}</p>
+      <p class="small">
+        {t.own.fair} <a href={links.license}>{t.own.mit}</a>
+        {t.own.and} <a href={links.n8nLicense}>{t.own.sul}</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="early">
+      <h2 id="early" data-n="4.">{t.early.title}</h2>
+      <p>{t.early.intro}</p>
+      <form
+        class="join"
+        data-join
+        data-endpoint={waitlistEndpoint}
+        data-lang={t.lang}
+        data-sending={t.early.sending}
+        data-success={t.early.success}
+        data-error={t.early.error}
+      >
+        <label for="email">{t.early.label}</label>
+        <div class="join-row">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder={t.early.placeholder}
+          />
+          <button type="submit">{t.early.submit}</button>
+        </div>
+        <input class="trap" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="small">{t.early.consent}</p>
+      <noscript><p class="small">{t.early.noscript} <a href={links.discord}>Discord</a>.</p></noscript>
+    </section>
+
+    <section aria-labelledby="self-host">
+      <h2 id="self-host" data-n="5.">{t.selfHost.title}</h2>
+      <p>{t.selfHost.intro}</p>
+      <p class="actions"><a href={links.install}>{t.selfHost.guide}</a></p>
+      <p class="small">
+        {t.selfHost.tech} <a href={links.scaling}>{t.selfHost.scaling}</a>
+        {t.selfHost.techEnd} <a href={links.api}>{t.selfHost.api}</a>
+        {t.selfHost.techTail}
+      </p>
+    </section>
+
+    <section aria-labelledby="open">
+      <h2 id="open" data-n="6.">{t.open.title}</h2>
+      <p>
+        {t.open.a} <a href={links.roadmap}>{t.open.roadmap}</a>
+        {t.open.b} <a href={links.discord}>Discord</a>.
+        {t.open.c} <a href={links.contributing}>{t.open.contributing}</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="sheet colophon">
+    <p class="closing">{t.footer.closing}</p>
+    <p>
+      {site.name}
+      {site.version}. <a href={links.license}>{t.footer.license}</a>.
+    </p>
+    <p>{t.footer.set}</p>
+    <p class="folio" aria-hidden="true">- 1 -</p>
+  </footer>
+</Base>
+
+<style>
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-4) 0;
+    font-family: var(--font-type);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    font-size: 1rem;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  .hero {
+    padding-block: clamp(4rem, 14vh, 8rem) var(--space-5);
+  }
+
+  h1 {
+    font-family: var(--font-type);
+    font-size: clamp(1.75rem, calc(9.4vw - 4px), 3.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0;
+    filter: url('#struck');
+  }
+
+  .lead {
+    margin-block-start: var(--space-4);
+    font-size: 1.1875rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  section .actions {
+    margin-block-start: var(--space-3);
+  }
+
+  .actions a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration: none;
+  }
+
+  .entry {
+    margin-block-start: var(--space-5);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .entry strong {
+    color: var(--ink);
+    font-family: var(--font-type);
+  }
+
+  .ipa {
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .break {
+    color: var(--ink-soft);
+    font-family: var(--font-type);
+    text-align: center;
+  }
+
+  section + section,
+  .break + section {
+    margin-block-start: var(--space-6);
+  }
+
+  h2 {
+    position: relative;
+    margin-block-end: var(--space-3);
+    font-family: var(--font-type);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-transform: uppercase;
+    text-underline-offset: 0.3em;
+    scroll-margin-block-start: var(--space-4);
+  }
+
+  h2::before {
+    content: attr(data-n) ' ';
+    color: var(--ribbon);
+    white-space: pre;
+  }
+
+  h3 {
+    margin-block: var(--space-4) var(--space-2);
+    font-family: var(--font-type);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  section p + p {
+    margin-block-start: var(--space-3);
+  }
+
+  .small {
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .checks {
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .checks li {
+    position: relative;
+    padding-block: var(--space-1);
+    padding-inline-start: 4.5ch;
+  }
+
+  .checks li::before {
+    content: attr(data-mark);
+    position: absolute;
+    inset-inline-start: 0;
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  table {
+    width: 100%;
+    margin-block: var(--space-4) var(--space-3);
+    border-collapse: collapse;
+  }
+
+  thead th {
+    border-block-end: 1px solid var(--ink);
+    font-family: var(--font-type);
+    font-size: 1rem;
+  }
+
+  th,
+  td {
+    padding: var(--space-2) var(--space-2) var(--space-2) 0;
+    text-align: start;
+    vertical-align: baseline;
+  }
+
+  tbody th {
+    font-weight: 400;
+  }
+
+  td {
+    width: 5.5ch;
+    font-family: var(--font-type);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  thead th:not(:first-child) {
+    width: 5.5ch;
+    padding-inline-end: var(--space-3);
+  }
+
+  .denied {
+    color: var(--ribbon);
+  }
+
+  .join {
+    margin-block: var(--space-3) var(--space-2);
+  }
+
+  label {
+    display: block;
+    margin-block-end: var(--space-1);
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  .join-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    align-items: center;
+  }
+
+  input[type='email'] {
+    flex: 1 1 16rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding: var(--space-1) 0;
+    border: 0;
+    border-block-end: 1px solid var(--ink);
+    border-radius: 0;
+    background: none;
+    color: inherit;
+    font-family: var(--font-type);
+    font-size: 1.0625rem;
+  }
+
+  input[type='email']::placeholder {
+    color: var(--ink-soft);
+  }
+
+  .join button {
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-family: var(--font-type);
+    font-size: inherit;
+    font-weight: 700;
+  }
+
+  .join button:hover {
+    color: var(--ribbon);
+  }
+
+  .join button:disabled {
+    color: var(--ink-soft);
+    cursor: default;
+  }
+
+  .trap {
+    position: absolute;
+    inset-inline-start: -100vw;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .status {
+    min-height: 1.65em;
+    margin-block-start: var(--space-2);
+    font-family: var(--font-type);
+    font-weight: 700;
+  }
+
+  .colophon {
+    margin-block-start: var(--space-6);
+    padding-block-end: var(--space-4);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .closing {
+    margin-block-end: var(--space-4);
+    color: var(--ink);
+    font-family: var(--font-type);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .folio {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    text-align: center;
+  }
+
+  @media (min-width: 64rem) {
+    h2::before {
+      position: absolute;
+      inset-inline-end: 100%;
+      margin-inline-end: var(--space-3);
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-join]');
+
+  if (form) {
+    const { endpoint = '', lang, sending, success, error } = form.dataset;
+    const button = form.querySelector('button')!;
+    const status = form.querySelector('.status')!;
+    const label = button.textContent ?? '';
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      button.disabled = true;
+      button.textContent = sending ?? label;
+      status.textContent = '';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: data.get('email'),
+            website: data.get('website'),
+            lang,
+          }),
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        form.querySelector('.join-row')?.remove();
+        form.querySelector('label')?.remove();
+        status.textContent = success ?? '';
+      } catch {
+        status.textContent = error ?? '';
+        button.disabled = false;
+        button.textContent = label;
+      }
+    });
+  }
+</script>

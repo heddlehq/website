@@ -1,13 +1,13 @@
-// Every external address and the install commands live here.
+// Every external address lives here.
 // When the rename happens, this is the only file that has to change.
 const repo = 'https://github.com/FusionFlow-app/fusion_flow';
 
 export const site = {
   name: 'Heddle',
   version: '0.3.0',
-  description:
-    'Heddle is an open-source workflow engine. Draw your business logic as a flow of nodes and run it on Elixir.',
 };
+
+export const waitlistEndpoint = 'https://heddle-waitlist.pedrohfonseca-1981.workers.dev';
 
 export const links = {
   source: repo,
@@ -19,14 +19,5 @@ export const links = {
   roadmap: 'https://github.com/FusionFlow-app/roadmap',
   board: 'https://github.com/orgs/FusionFlow-app/projects/2',
   discord: 'https://discord.gg/7zjnpna239',
-};
-
-export const commands = {
-  start: [
-    `git clone ${repo}.git`,
-    'cd fusion_flow',
-    'echo "SECRET_KEY_BASE=$(head -c 48 /dev/urandom | base64)" > .env',
-    'docker compose up -d --build db ui worker',
-  ],
-  scale: ['docker compose up -d --scale worker=5 worker'],
+  n8nLicense: 'https://github.com/n8n-io/n8n/blob/master/LICENSE.md',
 };
