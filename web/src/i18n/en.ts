@@ -126,7 +126,6 @@ export const en = {
   footer: {
     closing: 'Every thread goes where it should.',
     license: 'MIT license',
-    set: 'Set in Courier Prime and iA Writer Quattro.',
   },
 };
 

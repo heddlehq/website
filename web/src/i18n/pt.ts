@@ -18,7 +18,7 @@ export const pt: Copy = {
     lines: ['Automação que', 'é sua de verdade.'],
     accent: 'sua',
     lead: 'Conecte suas ferramentas e automatize o trabalho que fica entre elas, em um editor visual. Licença MIT: rode, embuta, venda.',
-    join: '[ Entrar na lista de acesso ]',
+    join: '[ Entrar na lista ]',
     selfHost: '[ Hospedar por conta própria ]',
   },
   entry: {
@@ -128,6 +128,5 @@ export const pt: Copy = {
   footer: {
     closing: 'Cada fio vai aonde deve ir.',
     license: 'Licença MIT',
-    set: 'Composto em Courier Prime e iA Writer Quattro.',
   },
 };
