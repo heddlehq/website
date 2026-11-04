@@ -18,6 +18,6 @@
     }
   ],
   "vars": {
-    "ALLOWED_ORIGINS": "https://pedrohfonseca81.github.io,http://localhost:4321"
+    "ALLOWED_ORIGINS": "https://heddlehq.github.io,http://localhost:4321"
   }
 }
