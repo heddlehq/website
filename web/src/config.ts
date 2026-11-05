@@ -4,7 +4,7 @@ const repo = 'https://github.com/heddlehq/Heddle';
 
 export const site = {
   name: 'Heddle',
-  version: '0.4.0',
+  version: '0.4.4',
 };
 
 export const waitlistEndpoint = 'https://heddle-waitlist.pedrohfonseca-1981.workers.dev';

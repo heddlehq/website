@@ -83,6 +83,20 @@ export const en = {
     disk: 'Disk',
     star: '* Didn’t finish within the test’s 5-minute limit.',
     method: '[ See the method and the data ]',
+    tabsLabel: 'Benchmark results',
+    tabs: { speed: '[ Speed ]', crash: '[ Crashes ]' },
+    crash: {
+      why: 'Heddle’s queue lives in Postgres, so what it accepted survives a crash, even with the whole machine going down. When it comes back, it carries on with the queue and restarts what was running.',
+      result:
+        'Among tools that record every run, Heddle was one of the two that lost nothing and left nothing stuck, with more than 95% of the work still queued. Windmill tied with it on that. Heddle’s 5 repeats are the runs that were in progress at the crash.',
+      how: 'We took down each whole tool, database included, with kill -9 after 1,000 accepted calls, and checked call by call. The destination takes 100 ms to answer. Every number is the median of three rounds.',
+      caption: 'What happened to the accepted calls after each crash',
+      lost: 'Lost',
+      stuck: 'Stuck',
+      repeated: 'Repeated',
+      star: '* With Redis on its default settings, without persistence.',
+      rescue: 'In this test, Heddle waits 1 minute before restarting what was running. The default is 60 minutes.',
+    },
   },
   early: {
     title: 'Early access',

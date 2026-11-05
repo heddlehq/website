@@ -5,6 +5,7 @@ import Mark from './Mark.astro';
 import Typed from './Typed.astro';
 import { installCommands, links, site, waitlistEndpoint } from '../config';
 import benchmark from '../data/benchmark.json';
+import crash from '../data/crash.json';
 import type { Copy } from '../i18n/en';
 
 interface Props {
@@ -86,40 +87,85 @@ const gigabytes = (megabytes: number) =>
 
     <section aria-labelledby="bench">
       <h2 id="bench" data-n="3.">{t.bench.title}</h2>
-      <p>{t.bench.why}</p>
-      <p>{t.bench.result}</p>
-      <p class="small">{t.bench.how}</p>
-      <div class="bench" tabindex="0" role="region" aria-labelledby="bench">
-        <table>
-          <caption class="sr-only">{t.bench.caption}</caption>
-          <thead>
-            <tr>
-              <th scope="col">{t.bench.tool}</th>
-              <th scope="col">{t.bench.perSecond}</th>
-              <th scope="col">{t.bench.oneRun}</th>
-              <th scope="col">{t.bench.memory}</th>
-              <th scope="col">{t.bench.disk}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              benchmark.map((row) => (
-                <tr class:list={{ ours: row.tool === site.name }}>
-                  <th scope="row">{row.tool}</th>
-                  <td>
-                    {number(row.completedPerSecond)}
-                    {!row.finished && '*'}
-                  </td>
-                  <td>{number(Math.round(row.oneRunMs))} ms</td>
-                  <td>{number(row.idleMemoryMb)} MB</td>
-                  <td>{gigabytes(row.diskMb)} GB</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+      <div class="tabs" role="tablist" aria-label={t.bench.tabsLabel} data-tabs>
+        <button type="button" role="tab" id="tab-speed" aria-controls="panel-speed" aria-selected="true">
+          {t.bench.tabs.speed}
+        </button>
+        <button type="button" role="tab" id="tab-crash" aria-controls="panel-crash" aria-selected="false" tabindex="-1">
+          {t.bench.tabs.crash}
+        </button>
       </div>
-      <p class="small">{t.bench.star}</p>
+      <div class="panel is-open" id="panel-speed" role="tabpanel" aria-labelledby="tab-speed">
+        <p>{t.bench.why}</p>
+        <p>{t.bench.result}</p>
+        <p class="small">{t.bench.how}</p>
+        <div class="bench" tabindex="0" role="region" aria-labelledby="bench">
+          <table>
+            <caption class="sr-only">{t.bench.caption}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{t.bench.tool}</th>
+                <th scope="col">{t.bench.perSecond}</th>
+                <th scope="col">{t.bench.oneRun}</th>
+                <th scope="col">{t.bench.memory}</th>
+                <th scope="col">{t.bench.disk}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                benchmark.map((row) => (
+                  <tr class:list={{ ours: row.tool === site.name }}>
+                    <th scope="row">{row.tool}</th>
+                    <td>
+                      {number(row.completedPerSecond)}
+                      {!row.finished && '*'}
+                    </td>
+                    <td>{number(Math.round(row.oneRunMs))} ms</td>
+                    <td>{number(row.idleMemoryMb)} MB</td>
+                    <td>{gigabytes(row.diskMb)} GB</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="small">{t.bench.star}</p>
+      </div>
+      <div class="panel" id="panel-crash" role="tabpanel" aria-labelledby="tab-crash">
+        <p>{t.bench.crash.why}</p>
+        <p>{t.bench.crash.result}</p>
+        <p class="small">{t.bench.crash.how}</p>
+        <div class="bench crash" tabindex="0" role="region" aria-label={t.bench.crash.caption}>
+          <table>
+            <caption class="sr-only">{t.bench.crash.caption}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{t.bench.tool}</th>
+                <th scope="col">{t.bench.crash.lost}</th>
+                <th scope="col">{t.bench.crash.stuck}</th>
+                <th scope="col">{t.bench.crash.repeated}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                crash.map((row) => (
+                  <tr class:list={{ ours: row.tool === site.name }}>
+                    <th scope="row">
+                      {row.tool}
+                      {row.redis && '*'}
+                    </th>
+                    <td>{number(row.lost)}</td>
+                    <td>{number(row.stuck)}</td>
+                    <td>{number(row.repeated)}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="small">{t.bench.crash.star}</p>
+        <p class="small">{t.bench.crash.rescue}</p>
+      </div>
       <p class="actions"><a href={links.benchmark}>{t.bench.method}</a></p>
     </section>
 
@@ -446,6 +492,42 @@ const gigabytes = (megabytes: number) =>
     font-weight: 400;
   }
 
+  .bench.crash table {
+    min-width: 0;
+  }
+
+  .tabs {
+    display: none;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-block-end: var(--space-3);
+  }
+
+  :global(html.js) .tabs {
+    display: flex;
+  }
+
+  .tabs button {
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: var(--font-type);
+    font-size: inherit;
+    font-weight: 700;
+  }
+
+  .tabs button:hover,
+  .tabs button[aria-selected='true'] {
+    color: var(--ribbon);
+  }
+
+  :global(html.js) .panel:not(.is-open) {
+    display: none;
+  }
+
   .ours th,
   .ours td {
     color: var(--ribbon);
@@ -556,6 +638,30 @@ const gigabytes = (megabytes: number) =>
 </style>
 
 <script>
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-tabs] [role=tab]')];
+
+  const openTab = (tab: HTMLButtonElement) => {
+    for (const other of tabs) {
+      const selected = other === tab;
+      other.setAttribute('aria-selected', String(selected));
+      other.tabIndex = selected ? 0 : -1;
+      document.getElementById(other.getAttribute('aria-controls') ?? '')?.classList.toggle('is-open', selected);
+    }
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => openTab(tab));
+    tab.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+      const step = event.key === 'ArrowRight' ? 1 : -1;
+      const next = tabs[(index + step + tabs.length) % tabs.length];
+      if (next) {
+        openTab(next);
+        next.focus();
+      }
+    });
+  });
+
   // Hidden in the markup: without JavaScript or a clipboard it couldn't do anything.
   document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
     if (!navigator.clipboard) return;
