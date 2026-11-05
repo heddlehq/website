@@ -85,6 +85,20 @@ export const pt: Copy = {
     disk: 'Disco',
     star: '* Não terminou dentro do limite de 5 minutos do teste.',
     method: '[ Ver o método e os dados ]',
+    tabsLabel: 'Resultados do benchmark',
+    tabs: { speed: '[ Velocidade ]', crash: '[ Quedas ]' },
+    crash: {
+      why: 'A fila do Heddle fica no Postgres, então o que ele aceitou sobrevive a uma queda, mesmo com a máquina inteira desligando. Ao voltar, ele continua a fila e recomeça o que estava rodando.',
+      result:
+        'Entre as ferramentas que gravam cada execução, o Heddle ficou entre as duas que não perderam nada e não deixaram nada preso, mesmo com mais de 95% do trabalho ainda na fila. O Windmill empatou nisso. As 5 repetidas do Heddle são as que estavam rodando na hora da queda.',
+      how: 'Derrubamos cada ferramenta inteira, banco incluído, com kill -9 depois de 1.000 chamadas aceitas, e conferimos chamada por chamada. O destino leva 100 ms para responder. Cada número é a mediana de três rodadas.',
+      caption: 'O que aconteceu com as chamadas aceitas depois de cada queda',
+      lost: 'Perdidas',
+      stuck: 'Presas',
+      repeated: 'Repetidas',
+      star: '* Com o Redis na configuração padrão, sem persistência.',
+      rescue: 'No teste, o Heddle espera 1 minuto para recomeçar o que estava rodando. O padrão é 60 minutos.',
+    },
   },
   early: {
     title: 'Acesso antecipado',

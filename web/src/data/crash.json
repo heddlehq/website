@@ -1,0 +1,44 @@
+[
+  {
+    "tool": "Heddle",
+    "lost": 0,
+    "stuck": 0,
+    "repeated": 5,
+    "redis": false
+  },
+  {
+    "tool": "Windmill",
+    "lost": 0,
+    "stuck": 0,
+    "repeated": 8,
+    "redis": false
+  },
+  {
+    "tool": "Kestra",
+    "lost": 0,
+    "stuck": 9,
+    "repeated": 0,
+    "redis": false
+  },
+  {
+    "tool": "n8n",
+    "lost": 1,
+    "stuck": 0,
+    "repeated": 0,
+    "redis": false
+  },
+  {
+    "tool": "n8n (queue mode)",
+    "lost": 779,
+    "stuck": 678,
+    "repeated": 0,
+    "redis": true
+  },
+  {
+    "tool": "Activepieces",
+    "lost": 1018,
+    "stuck": 62,
+    "repeated": 0,
+    "redis": true
+  }
+]
