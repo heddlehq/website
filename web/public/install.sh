@@ -14,9 +14,78 @@ set -eu
 download_url="${HEDDLE_DOWNLOAD_URL:-https://github.com/heddlehq/Heddle/releases/latest/download}"
 guide="https://github.com/heddlehq/Heddle/blob/main/guides/installation.md"
 
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ] && [ "${TERM:-dumb}" != dumb ]; then
+  bold="$(printf '\033[1m')"
+  ribbon="$(printf '\033[38;5;124m')"
+  soft="$(printf '\033[2m')"
+  plain="$(printf '\033[0m')"
+else
+  bold=""
+  ribbon=""
+  soft=""
+  plain=""
+fi
+
 fail() {
-  printf '\n%s\n\n' "$1" >&2
+  printf '\n  %s[!]%s %s\n\n' "$ribbon$bold" "$plain" "$1" >&2
   exit 1
+}
+
+step() {
+  printf '  %s[x]%s %s\n' "$ribbon$bold" "$plain" "$1"
+}
+
+columns() {
+  size="$(stty size 2>/dev/null </dev/tty || true)"
+  echo "${size#* }" | grep -E '^[0-9]+$' || echo 80
+}
+
+megabytes() {
+  echo $(($1 / 1048576))
+}
+
+# curl's own bar breaks into new lines when it can't fit the terminal. This one
+# redraws a single line, and only ever as wide as there is room for.
+draw_bar() {
+  done_bytes="$1"
+  total="$2"
+  room="$(($(columns) - 30))"
+  [ "$room" -gt 32 ] && room=32
+  [ "$room" -lt 8 ] && room=8
+
+  filled="$((done_bytes * room / total))"
+  [ "$filled" -gt "$room" ] && filled="$room"
+  percent="$((done_bytes * 100 / total))"
+  [ "$percent" -gt 100 ] && percent=100
+
+  bar="$(printf '%*s' "$filled" '' | tr ' ' '#')$(printf '%*s' "$((room - filled))" '' | tr ' ' '.')"
+  printf '\r\033[K  [ ] %s%s%s %3d%%  %s/%s MB' "$ribbon" "$bar" "$plain" "$percent" \
+    "$(megabytes "$done_bytes")" "$(megabytes "$total")"
+}
+
+download() {
+  if [ ! -t 1 ]; then
+    curl -fsSL --retry 2 -o "$2" "$1"
+    return
+  fi
+
+  total="$(curl -fsSLI "$1" | tr -d '\r' | awk 'tolower($1) == "content-length:" { size = $2 } END { print size + 0 }')"
+  curl -fsSL --retry 2 -o "$2" "$1" &
+  fetching=$!
+
+  while kill -0 "$fetching" 2>/dev/null; do
+    if [ "$total" -gt 0 ]; then
+      draw_bar "$(wc -c <"$2" 2>/dev/null || echo 0)" "$total"
+    else
+      printf '\r\033[K  [ ] Downloading %s MB' "$(megabytes "$(wc -c <"$2" 2>/dev/null || echo 0)")"
+    fi
+    sleep 0.1
+  done
+
+  status=0
+  wait "$fetching" || status=$?
+  printf '\r\033[K'
+  return "$status"
 }
 
 detect_target() {
@@ -54,7 +123,7 @@ add_to_path() {
   esac
 
   if [ -z "$profile" ]; then
-    echo "Add $1 to your PATH to use the heddle command."
+    printf '  Add %s to your PATH to use the heddle command.\n' "$1"
   elif ! grep -qs "$1" "$profile"; then
     printf '\n# Heddle\nexport PATH="%s:$PATH"\n' "$1" >> "$profile"
   fi
@@ -78,7 +147,6 @@ back_up() {
   name="$(date +%Y%m%d-%H%M%S)-$(cat "$1/app/VERSION" 2>/dev/null || echo unknown)"
   mkdir -p "$backups"
 
-  echo "Saving a copy of your data in $backups/$name"
   cp -Rp "$1/data" "$backups/$name.partial" &&
     mv "$backups/$name.partial" "$backups/$name" ||
     fail "Could not back up your data, so nothing was changed. Is the disk full?"
@@ -87,6 +155,8 @@ back_up() {
   ls -1dt "$backups"/* | tail -n +4 | while IFS= read -r old; do
     rm -rf "$old"
   done
+
+  step "Saved a copy of your data in backups/$name"
 }
 
 main() {
@@ -113,12 +183,16 @@ main() {
   work="$(mktemp -d)"
   trap 'rm -rf "$work"' EXIT
 
-  echo "Downloading Heddle for $target..."
-  curl -fSL --progress-bar -o "$work/$archive" "$download_url/$archive" ||
+  printf '\n  %sHeddle%s %sinstaller%s\n\n' "$bold" "$plain" "$soft" "$plain"
+
+  download "$download_url/$archive" "$work/$archive" ||
     fail "Could not download Heddle from $download_url/$archive"
+  step "Downloaded Heddle for $target"
+
   curl -fsSL -o "$work/$archive.sha256" "$download_url/$archive.sha256" ||
     fail "Could not download the checksum from $download_url"
   verify_checksum "$work" "$archive"
+  step "Checked the download"
 
   mkdir -p "$home" "$work/app"
   tar -xzf "$work/$archive" -C "$work/app"
@@ -134,11 +208,11 @@ main() {
 
   add_to_path "$app"
 
-  printf '\nHeddle %s is installed in %s\n' "$(cat "$app/VERSION")" "$home"
-  echo "Open a new terminal and run \`heddle\` to start it again."
+  step "Installed Heddle $(cat "$app/VERSION") in $home"
+
+  printf '\n  To start it later, open a new terminal and run %sheddle%s\n\n' "$bold" "$plain"
 
   if [ -z "${HEDDLE_NO_START:-}" ]; then
-    echo
     HEDDLE_HOME="$home" "$app/heddle"
   fi
 }
