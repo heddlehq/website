@@ -123,8 +123,10 @@ function Install-Heddle {
     # The database has to be stopped for the copy to be consistent.
     $launcher = Join-Path $app 'heddle.cmd'
     if (Test-Path $launcher) {
+      # Not `& cmd`: with errors set to stop, PowerShell 5.1 treats the message from
+      # a database that is already stopped as fatal.
       $env:HEDDLE_HOME = $heddleHome
-      & cmd /c "`"$launcher`" stop" *> $null
+      Start-Process $launcher -ArgumentList 'stop' -Wait -WindowStyle Hidden
     }
 
     Backup-HeddleData $heddleHome
