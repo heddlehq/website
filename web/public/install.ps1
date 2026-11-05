@@ -10,6 +10,11 @@
 # HEDDLE_HOME        install somewhere else
 # HEDDLE_NO_START=1  install without starting it
 
+function Write-Step($text) {
+  Write-Host '  [x] ' -ForegroundColor DarkRed -NoNewline
+  Write-Host $text
+}
+
 function Get-HeddleHome {
   if ($env:HEDDLE_HOME) {
     return $env:HEDDLE_HOME
@@ -63,13 +68,14 @@ function Backup-HeddleData($heddleHome) {
   $name = "$(Get-Date -Format 'yyyyMMdd-HHmmss')-$version"
 
   New-Item -ItemType Directory -Force -Path $backups | Out-Null
-  Write-Host "Saving a copy of your data in $backups\$name"
   Copy-Item -Recurse $data "$backups\$name.partial"
   Rename-Item "$backups\$name.partial" $name
 
   # Keep the latest three: a copy of the data can get big.
   Get-ChildItem $backups | Sort-Object CreationTime -Descending | Select-Object -Skip 3 |
     Remove-Item -Recurse -Force
+
+  Write-Step "Saved a copy of your data in backups\$name"
 }
 
 function Install-Heddle {
@@ -101,8 +107,13 @@ function Install-Heddle {
   }
 
   try {
-    Write-Host 'Downloading Heddle for Windows...'
+    Write-Host ''
+    Write-Host '  Heddle installer'
+    Write-Host ''
+    Write-Host '  [ ] Downloading Heddle for Windows...' -NoNewline
     Invoke-WebRequest -UseBasicParsing -Uri "$downloadUrl/$archive" -OutFile "$work\$archive"
+    Write-Host "`r                                         `r" -NoNewline
+    Write-Step 'Downloaded Heddle for Windows'
     Invoke-WebRequest -UseBasicParsing -Uri "$downloadUrl/$archive.sha256" -OutFile "$work\$archive.sha256"
 
     $expected = (Get-Content "$work\$archive.sha256" -Raw).Trim().Split(' ')[0]
@@ -110,6 +121,7 @@ function Install-Heddle {
     if ($expected -ne $actual) {
       throw 'The download is damaged. Run the installer again.'
     }
+    Write-Step 'Checked the download'
 
     New-Item -ItemType Directory -Force -Path "$work\app" | Out-Null
     & $tar -xzf "$work\$archive" -C "$work\app"
@@ -146,12 +158,12 @@ function Install-Heddle {
   }
   $env:Path = "$env:Path;$app"
 
+  Write-Step "Installed Heddle $((Get-Content "$app\VERSION" -Raw).Trim()) in $heddleHome"
   Write-Host ''
-  Write-Host "Heddle $((Get-Content "$app\VERSION" -Raw).Trim()) is installed in $heddleHome"
-  Write-Host 'Open a new terminal and run `heddle` to start it again.'
+  Write-Host '  To start it later, open a new terminal and run heddle'
+  Write-Host ''
 
   if (-not $env:HEDDLE_NO_START) {
-    Write-Host ''
     $env:HEDDLE_HOME = $heddleHome
     & cmd /c "`"$app\heddle.cmd`""
   }
@@ -164,6 +176,7 @@ try {
 }
 catch {
   Write-Host ''
-  Write-Host $_.Exception.Message -ForegroundColor Red
+  Write-Host '  [!] ' -ForegroundColor DarkRed -NoNewline
+  Write-Host $_.Exception.Message
   Write-Host ''
 }
