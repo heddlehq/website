@@ -15,7 +15,7 @@ export const en = {
   hero: {
     lines: ['Automation you', 'actually own.'],
     accent: 'own',
-    lead: 'Connect your tools and automate the work in between, in a visual editor. MIT licensed: run it, embed it, sell it.',
+    lead: 'Connect your tools and automate the work in between. Draw the flow yourself, or describe what you need and let AI build it. One line installs it on your computer.',
     join: '[ Join the early access list ]',
     selfHost: '[ Self-host it ]',
   },
@@ -69,27 +69,20 @@ export const en = {
     note: 'These are plans, not dates. Follow them on the',
     noteLink: 'project board',
   },
-  own: {
-    title: 'Yours to keep',
-    intro:
-      'Heddle is under the MIT license: use it, change it, build it into what you sell. Not every tool in this space works that way. n8n, for example, uses the Sustainable Use License, which limits use to internal business, personal or non-commercial purposes.',
-    caption: 'What each license allows',
-    want: 'You want to',
-    heddle: 'Heddle',
-    n8n: 'n8n',
-    yes: 'yes',
-    no: 'no*',
-    rows: [
-      ['Run it inside your company', true],
-      ['Change the code for your own use', true],
-      ['Build it into a product you sell', false],
-      ['Host it for paying customers', false],
-    ] as [string, boolean][],
-    star: '* Not under that license. n8n also has separate enterprise licensing.',
-    fair: 'n8n is mature, with over 500 integrations, and that counts. This table is only about who owns what. It comes from the license texts and isn’t legal advice:',
-    mit: 'MIT',
-    sul: 'Sustainable Use License',
-    and: 'and',
+  bench: {
+    title: 'Benchmark',
+    why: 'Heddle runs on the BEAM, Erlang’s virtual machine, built to keep thousands of lightweight processes going at once. Each run is one of those processes, and the queue lives in Postgres itself, with no Redis or other service in the way.',
+    result:
+      'Among tools that record every run, it was the fastest: 331 runs per second, 1.8 times the runner-up and more than 7 times n8n. A run takes 8 ms from webhook to destination, against 37 ms or more in the others, with the least memory and disk in the table.',
+    how: 'Same flow, same machine, default settings: a webhook triggers one HTTP call, and a run counts when that call reaches its destination. That’s 20,000 calls, and every number is the median of three rounds.',
+    caption: 'Results of the same job in each tool, fastest first',
+    tool: 'Tool',
+    perSecond: 'Runs per second',
+    oneRun: 'One run',
+    memory: 'Idle memory',
+    disk: 'Disk',
+    star: '* Didn’t finish within the test’s 5-minute limit.',
+    method: '[ See the method and the data ]',
   },
   early: {
     title: 'Early access',
@@ -135,11 +128,8 @@ export const en = {
   },
 };
 
-type Rows = (typeof en)['own']['rows'];
-
 export type Copy = Omit<typeof en, 'lang' | 'path' | 'og'> & {
   lang: string;
   path: string;
   og: string;
-  own: Omit<(typeof en)['own'], 'rows'> & { rows: Rows };
 };

@@ -27,5 +27,5 @@ export const links = {
   roadmap: 'https://github.com/heddlehq/roadmap',
   board: 'https://github.com/orgs/heddlehq/projects/2',
   discord: 'https://discord.gg/7zjnpna239',
-  n8nLicense: 'https://github.com/n8n-io/n8n/blob/master/LICENSE.md',
+  benchmark: `${repo}/tree/main/benchmark/compare`,
 };

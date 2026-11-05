@@ -1,0 +1,56 @@
+[
+  {
+    "tool": "Heddle",
+    "version": "0.4.0",
+    "completedPerSecond": 331,
+    "finished": true,
+    "oneRunMs": 8.2,
+    "idleMemoryMb": 376,
+    "diskMb": 584
+  },
+  {
+    "tool": "Windmill",
+    "version": "1.862.0",
+    "completedPerSecond": 184,
+    "finished": true,
+    "oneRunMs": 44.8,
+    "idleMemoryMb": 487,
+    "diskMb": 4580
+  },
+  {
+    "tool": "Kestra",
+    "version": "2.0.9",
+    "completedPerSecond": 131,
+    "finished": true,
+    "oneRunMs": 53.3,
+    "idleMemoryMb": 1254,
+    "diskMb": 5799
+  },
+  {
+    "tool": "n8n",
+    "version": "2.46.6",
+    "completedPerSecond": 45,
+    "finished": true,
+    "oneRunMs": 41.1,
+    "idleMemoryMb": 757,
+    "diskMb": 1393
+  },
+  {
+    "tool": "n8n (queue mode)",
+    "version": "2.46.6",
+    "completedPerSecond": 42,
+    "finished": false,
+    "oneRunMs": 46.3,
+    "idleMemoryMb": 1205,
+    "diskMb": 1430
+  },
+  {
+    "tool": "Activepieces",
+    "version": "0.92.3",
+    "completedPerSecond": 10,
+    "finished": false,
+    "oneRunMs": 37.1,
+    "idleMemoryMb": 1326,
+    "diskMb": 1637
+  }
+]

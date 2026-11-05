@@ -4,6 +4,7 @@ import FlowFigure from './FlowFigure.astro';
 import Mark from './Mark.astro';
 import Typed from './Typed.astro';
 import { installCommands, links, site, waitlistEndpoint } from '../config';
+import benchmark from '../data/benchmark.json';
 import type { Copy } from '../i18n/en';
 
 interface Props {
@@ -12,6 +13,9 @@ interface Props {
 
 const { t } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const number = (value: number) => value.toLocaleString(t.lang);
+const gigabytes = (megabytes: number) =>
+  (megabytes / 1024).toLocaleString(t.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 ---
 
 <Base t={t}>
@@ -32,7 +36,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <nav aria-label={t.navLabel}>
       <a href="#what">{t.nav.what}</a>
       <a href="#early">{t.nav.early}</a>
-      <a href={links.source}>{t.nav.source}</a>
+      <a href={links.source} target="_blank" rel="noopener">{t.nav.source}</a>
       <a
         href={`${base}${t.switchTo.path}`}
         hreflang={t.switchTo.lang}
@@ -80,35 +84,43 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>{t.today.note} <a href={links.board}>{t.today.noteLink}</a>.</p>
     </section>
 
-    <section aria-labelledby="own">
-      <h2 id="own" data-n="3.">{t.own.title}</h2>
-      <p>{t.own.intro}</p>
-      <table>
-        <caption class="sr-only">{t.own.caption}</caption>
-        <thead>
-          <tr>
-            <th scope="col">{t.own.want}</th>
-            <th scope="col">{t.own.heddle}</th>
-            <th scope="col">{t.own.n8n}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            t.own.rows.map(([label, both]) => (
-              <tr>
-                <th scope="row">{label}</th>
-                <td>{t.own.yes}</td>
-                <td class:list={{ denied: !both }}>{both ? t.own.yes : t.own.no}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-      <p class="small">{t.own.star}</p>
-      <p class="small">
-        {t.own.fair} <a href={links.license}>{t.own.mit}</a>
-        {t.own.and} <a href={links.n8nLicense}>{t.own.sul}</a>.
-      </p>
+    <section aria-labelledby="bench">
+      <h2 id="bench" data-n="3.">{t.bench.title}</h2>
+      <p>{t.bench.why}</p>
+      <p>{t.bench.result}</p>
+      <p class="small">{t.bench.how}</p>
+      <div class="bench" tabindex="0" role="region" aria-labelledby="bench">
+        <table>
+          <caption class="sr-only">{t.bench.caption}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{t.bench.tool}</th>
+              <th scope="col">{t.bench.perSecond}</th>
+              <th scope="col">{t.bench.oneRun}</th>
+              <th scope="col">{t.bench.memory}</th>
+              <th scope="col">{t.bench.disk}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              benchmark.map((row) => (
+                <tr class:list={{ ours: row.tool === site.name }}>
+                  <th scope="row">{row.tool}</th>
+                  <td>
+                    {number(row.completedPerSecond)}
+                    {!row.finished && '*'}
+                  </td>
+                  <td>{number(Math.round(row.oneRunMs))} ms</td>
+                  <td>{number(row.idleMemoryMb)} MB</td>
+                  <td>{gigabytes(row.diskMb)} GB</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="small">{t.bench.star}</p>
+      <p class="actions"><a href={links.benchmark}>{t.bench.method}</a></p>
     </section>
 
     <section aria-labelledby="early">
@@ -414,13 +426,30 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     white-space: nowrap;
   }
 
-  thead th:not(:first-child) {
-    width: 5.5ch;
-    padding-inline-end: var(--space-3);
+  thead th {
+    vertical-align: bottom;
   }
 
-  .denied {
+  /* Wider than a phone, so the table scrolls and the page doesn't. */
+  .bench {
+    margin-block: var(--space-4) var(--space-3);
+    overflow-x: auto;
+  }
+
+  .bench table {
+    min-width: 34rem;
+    margin: 0;
+  }
+
+  .bench td {
+    width: auto;
+    font-weight: 400;
+  }
+
+  .ours th,
+  .ours td {
     color: var(--ribbon);
+    font-weight: 700;
   }
 
   .join {
