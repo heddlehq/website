@@ -109,8 +109,14 @@ export const pt: Copy = {
   selfHost: {
     title: 'Hospedar por conta própria',
     intro:
-      'Prefere rodar você mesmo? É grátis e é seu. Você vai precisar de Elixir, Erlang, Postgres e Node.js, e de alguém à vontade no terminal.',
-    guide: '[ Ler o guia de instalação ]',
+      'Prefere rodar você mesmo? É grátis e é seu. Cole uma linha no terminal e o Heddle abre no seu navegador. Não precisa instalar Docker nem configurar banco de dados.',
+    unix: 'Mac e Linux',
+    windows: 'Windows (PowerShell)',
+    copy: '[ Copiar ]',
+    copied: '[ Copiado ]',
+    safety:
+      'O Heddle fica no seu computador e não pode ser acessado pela sua rede. Os fluxos podem rodar código com as permissões da sua conta, então rode só os que você confia.',
+    guide: '[ Instalar em um servidor ]',
     tech: 'Para quem é técnico: dois papéis dividem um banco Postgres. A UI serve o editor e coloca cada execução na fila, os workers executam, e você adiciona workers conforme o volume cresce. O',
     scaling: 'guia de escala',
     techEnd: 'tem os detalhes, e o',
