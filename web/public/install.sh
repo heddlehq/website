@@ -74,6 +74,12 @@ main() {
   archive="heddle-$target.tar.gz"
   home="${HEDDLE_HOME:-$HOME/.heddle}"
   app="$home/app"
+
+  # Postgres and Python don't load from a folder with accents in its name.
+  if printf '%s' "$home" | LC_ALL=C grep -q '[^ -~]'; then
+    fail "Heddle can't run from $home, because the name has accents. Pick another folder: curl -fsSL https://heddlehq.github.io/website/install.sh | HEDDLE_HOME=/some/folder sh"
+  fi
+
   work="$(mktemp -d)"
   trap 'rm -rf "$work"' EXIT
 
