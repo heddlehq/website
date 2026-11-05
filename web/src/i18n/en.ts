@@ -107,8 +107,14 @@ export const en = {
   selfHost: {
     title: 'Self-host it',
     intro:
-      'Prefer to run it yourself? It’s free, and it’s yours. You’ll need Elixir, Erlang, Postgres and Node.js, and someone comfortable in a terminal.',
-    guide: '[ Read the install guide ]',
+      'Prefer to run it yourself? It’s free, and it’s yours. Paste one line in a terminal and Heddle opens in your browser. There’s no Docker to install and no database to set up.',
+    unix: 'Mac and Linux',
+    windows: 'Windows (PowerShell)',
+    copy: '[ Copy ]',
+    copied: '[ Copied ]',
+    safety:
+      'Heddle stays on your computer and can’t be reached from your network. Flows can run code with your account’s permissions, so run only the ones you trust.',
+    guide: '[ Install on a server ]',
     tech: 'For the technical reader: two roles share one Postgres database. The UI serves the editor and queues each run, workers execute them, and you add workers as volume grows. The',
     scaling: 'scaling guide',
     techEnd: 'has the details, and the',

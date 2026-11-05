@@ -4,14 +4,22 @@ const repo = 'https://github.com/heddlehq/Heddle';
 
 export const site = {
   name: 'Heddle',
-  version: '0.3.0',
+  version: '0.4.0',
 };
 
 export const waitlistEndpoint = 'https://heddle-waitlist.pedrohfonseca-1981.workers.dev';
 
+// Served from web/public, so they follow this site if it ever moves to a domain.
+const installBase = 'https://heddlehq.github.io/website';
+
+export const installCommands = {
+  unix: `curl -fsSL ${installBase}/install.sh | sh`,
+  windows: `irm ${installBase}/install.ps1 | iex`,
+};
+
 export const links = {
   source: repo,
-  install: 'https://hexdocs.pm/fusion_flow/installation.html',
+  install: `${repo}/blob/main/guides/installation.md`,
   scaling: `${repo}/blob/main/guides/scaling.md`,
   api: `${repo}/blob/main/docs/api/PUBLIC_API_GUIDE.md`,
   license: `${repo}/blob/main/LICENSE`,

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import FlowFigure from './FlowFigure.astro';
 import Mark from './Mark.astro';
 import Typed from './Typed.astro';
-import { links, site, waitlistEndpoint } from '../config';
+import { installCommands, links, site, waitlistEndpoint } from '../config';
 import type { Copy } from '../i18n/en';
 
 interface Props {
@@ -145,6 +145,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <section aria-labelledby="self-host">
       <h2 id="self-host" data-n="5.">{t.selfHost.title}</h2>
       <p>{t.selfHost.intro}</p>
+      {
+        [
+          { label: t.selfHost.unix, command: installCommands.unix },
+          { label: t.selfHost.windows, command: installCommands.windows },
+        ].map(({ label, command }) => (
+          <figure class="command">
+            <figcaption>{label}</figcaption>
+            <pre tabindex="0"><code>{command}</code></pre>
+            <button type="button" hidden data-copy={command} data-done={t.selfHost.copied}>
+              {t.selfHost.copy}
+            </button>
+          </figure>
+        ))
+      }
+      <p class="small">{t.selfHost.safety}</p>
       <p class="actions"><a href={links.install}>{t.selfHost.guide}</a></p>
       <p class="small">
         {t.selfHost.tech} <a href={links.scaling}>{t.selfHost.scaling}</a>
@@ -296,6 +311,51 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   section p + p {
+    margin-block-start: var(--space-3);
+  }
+
+  .command {
+    margin: 1.25rem 0 0;
+    position: relative;
+  }
+
+  .command figcaption {
+    color: var(--ink-soft);
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .command pre {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+    overflow-x: auto;
+    padding: 0.75rem;
+  }
+
+  .command button {
+    background: none;
+    border: 0;
+    color: var(--ribbon);
+    cursor: pointer;
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .command button:hover {
+    text-decoration: underline;
+  }
+
+  .command + .small {
     margin-block-start: var(--space-3);
   }
 
@@ -467,6 +527,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </style>
 
 <script>
+  // Hidden in the markup: without JavaScript or a clipboard it couldn't do anything.
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    if (!navigator.clipboard) return;
+
+    const label = button.textContent ?? '';
+    button.hidden = false;
+
+    button.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(button.dataset.copy ?? '');
+      button.textContent = button.dataset.done ?? label;
+      setTimeout(() => (button.textContent = label), 2000);
+    });
+  });
+
   const form = document.querySelector<HTMLFormElement>('[data-join]');
 
   if (form) {
