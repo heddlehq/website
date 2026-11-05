@@ -4,7 +4,8 @@
 #
 # Everything goes in %LOCALAPPDATA%\Heddle, or in %ProgramData%\Heddle when your
 # user folder has an accent in its name. To remove it, delete that folder and take
-# it out of your user PATH.
+# it out of your user PATH. Updating keeps your data, and saves a copy of it in the
+# backups folder there first.
 #
 # HEDDLE_HOME        install somewhere else
 # HEDDLE_NO_START=1  install without starting it
@@ -32,6 +33,43 @@ function Protect-HeddleHome($path) {
   if ($LASTEXITCODE -ne 0) {
     throw "Could not restrict access to $path."
   }
+}
+
+# A major Postgres version can't open the data of another one. Stop here, before
+# anything has changed, instead of leaving an install that won't start.
+function Assert-PostgresVersion($heddleHome, $incomingApp) {
+  $versionFile = Join-Path $heddleHome 'data\postgres\PG_VERSION'
+  if (-not (Test-Path $versionFile)) {
+    return
+  }
+
+  $current = (Get-Content $versionFile -Raw).Trim()
+  $incoming = [regex]::Match((& "$incomingApp\pgsql\bin\postgres.exe" --version), '\d+').Value
+
+  if ($current -ne $incoming) {
+    throw "This version of Heddle needs Postgres $incoming, and your data is on Postgres $current. Nothing was changed."
+  }
+}
+
+function Backup-HeddleData($heddleHome) {
+  $data = Join-Path $heddleHome 'data'
+  if (-not (Test-Path $data)) {
+    return
+  }
+
+  $backups = Join-Path $heddleHome 'backups'
+  $versionFile = Join-Path $heddleHome 'app\VERSION'
+  $version = if (Test-Path $versionFile) { (Get-Content $versionFile -Raw).Trim() } else { 'unknown' }
+  $name = "$(Get-Date -Format 'yyyyMMdd-HHmmss')-$version"
+
+  New-Item -ItemType Directory -Force -Path $backups | Out-Null
+  Write-Host "Saving a copy of your data in $backups\$name"
+  Copy-Item -Recurse $data "$backups\$name.partial"
+  Rename-Item "$backups\$name.partial" $name
+
+  # Keep the latest three: a copy of the data can get big.
+  Get-ChildItem $backups | Sort-Object CreationTime -Descending | Select-Object -Skip 3 |
+    Remove-Item -Recurse -Force
 }
 
 function Install-Heddle {
@@ -73,17 +111,23 @@ function Install-Heddle {
       throw 'The download is damaged. Run the installer again.'
     }
 
-    # An update replaces the program and leaves your data in $heddleHome\data alone.
-    $launcher = Join-Path $app 'heddle.cmd'
-    if (Test-Path $launcher) {
-      & cmd /c "`"$launcher`" stop" *> $null
-    }
-
     New-Item -ItemType Directory -Force -Path "$work\app" | Out-Null
     & $tar -xzf "$work\$archive" -C "$work\app"
     if ($LASTEXITCODE -ne 0) {
       throw 'Could not unpack Heddle.'
     }
+
+    Assert-PostgresVersion $heddleHome "$work\app"
+
+    # An update replaces the program and leaves your data in $heddleHome\data alone.
+    # The database has to be stopped for the copy to be consistent.
+    $launcher = Join-Path $app 'heddle.cmd'
+    if (Test-Path $launcher) {
+      $env:HEDDLE_HOME = $heddleHome
+      & cmd /c "`"$launcher`" stop" *> $null
+    }
+
+    Backup-HeddleData $heddleHome
 
     if (Test-Path $app) {
       Remove-Item -Recurse -Force $app

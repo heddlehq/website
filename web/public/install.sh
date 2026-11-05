@@ -4,7 +4,8 @@
 #     curl -fsSL https://heddlehq.github.io/website/install.sh | sh
 #
 # Everything goes in ~/.heddle. To remove it, delete that folder and the line
-# this script added to your shell profile.
+# this script added to your shell profile. Updating keeps your data, and saves a
+# copy of it in ~/.heddle/backups first.
 #
 # HEDDLE_HOME        install somewhere else
 # HEDDLE_NO_START=1  install without starting it
@@ -59,6 +60,35 @@ add_to_path() {
   fi
 }
 
+# A major Postgres version can't open the data of another one. Stop here, before
+# anything has changed, instead of leaving an install that won't start.
+check_postgres() {
+  current="$(cat "$1/data/postgres/PG_VERSION" 2>/dev/null || true)"
+  [ -n "$current" ] || return 0
+
+  incoming="$("$2/pgsql/bin/postgres" --version | sed 's/[^0-9]*\([0-9]*\).*/\1/')"
+  [ "$current" = "$incoming" ] ||
+    fail "This version of Heddle needs Postgres $incoming, and your data is on Postgres $current. Nothing was changed. See $guide"
+}
+
+back_up() {
+  [ -d "$1/data" ] || return 0
+
+  backups="$1/backups"
+  name="$(date +%Y%m%d-%H%M%S)-$(cat "$1/app/VERSION" 2>/dev/null || echo unknown)"
+  mkdir -p "$backups"
+
+  echo "Saving a copy of your data in $backups/$name"
+  cp -Rp "$1/data" "$backups/$name.partial" &&
+    mv "$backups/$name.partial" "$backups/$name" ||
+    fail "Could not back up your data, so nothing was changed. Is the disk full?"
+
+  # Keep the latest three: a copy of the data can get big.
+  ls -1dt "$backups"/* | tail -n +4 | while IFS= read -r old; do
+    rm -rf "$old"
+  done
+}
+
 main() {
   [ "$(id -u)" != 0 ] || fail "Run this as your normal user, not root: the bundled Postgres refuses root. On a server, use Docker: $guide"
 
@@ -90,11 +120,15 @@ main() {
     fail "Could not download the checksum from $download_url"
   verify_checksum "$work" "$archive"
 
-  # An update replaces the program and leaves your data in $home/data alone.
-  [ -x "$app/heddle" ] && "$app/heddle" stop >/dev/null 2>&1 || true
-
   mkdir -p "$home" "$work/app"
   tar -xzf "$work/$archive" -C "$work/app"
+  check_postgres "$home" "$work/app"
+
+  # An update replaces the program and leaves your data in $home/data alone. The
+  # database has to be stopped for the copy to be consistent.
+  [ -x "$app/heddle" ] && HEDDLE_HOME="$home" "$app/heddle" stop >/dev/null 2>&1 || true
+  back_up "$home"
+
   rm -rf "$app"
   mv "$work/app" "$app"
 
