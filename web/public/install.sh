@@ -44,6 +44,11 @@ megabytes() {
   echo $(($1 / 1048576))
 }
 
+# The file doesn't exist until curl gets its first bytes.
+size_of() {
+  if [ -f "$1" ]; then wc -c <"$1"; else echo 0; fi
+}
+
 # curl's own bar breaks into new lines when it can't fit the terminal. This one
 # redraws a single line, and only ever as wide as there is room for.
 draw_bar() {
@@ -75,9 +80,9 @@ download() {
 
   while kill -0 "$fetching" 2>/dev/null; do
     if [ "$total" -gt 0 ]; then
-      draw_bar "$(wc -c <"$2" 2>/dev/null || echo 0)" "$total"
+      draw_bar "$(size_of "$2")" "$total"
     else
-      printf '\r\033[K  [ ] Downloading %s MB' "$(megabytes "$(wc -c <"$2" 2>/dev/null || echo 0)")"
+      printf '\r\033[K  [ ] Downloading %s MB' "$(megabytes "$(size_of "$2")")"
     fi
     sleep 0.1
   done
