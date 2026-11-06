@@ -1,0 +1,26 @@
+[
+  {
+    "tool": "Heddle",
+    "completedPerSecond": 395
+  },
+  {
+    "tool": "Kestra",
+    "completedPerSecond": 84
+  },
+  {
+    "tool": "Windmill",
+    "completedPerSecond": 66
+  },
+  {
+    "tool": "n8n (queue mode)",
+    "completedPerSecond": 40
+  },
+  {
+    "tool": "n8n",
+    "completedPerSecond": 38
+  },
+  {
+    "tool": "Activepieces",
+    "completedPerSecond": 22
+  }
+]

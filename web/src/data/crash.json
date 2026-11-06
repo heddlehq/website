@@ -3,7 +3,7 @@
     "tool": "Heddle",
     "lost": 0,
     "stuck": 0,
-    "repeated": 5,
+    "repeated": 50,
     "redis": false
   },
   {
@@ -16,28 +16,28 @@
   {
     "tool": "Kestra",
     "lost": 0,
-    "stuck": 9,
+    "stuck": 13,
     "repeated": 0,
     "redis": false
   },
   {
     "tool": "n8n",
-    "lost": 1,
+    "lost": 2,
     "stuck": 0,
     "repeated": 0,
     "redis": false
   },
   {
     "tool": "n8n (queue mode)",
-    "lost": 779,
-    "stuck": 678,
+    "lost": 746,
+    "stuck": 645,
     "repeated": 0,
     "redis": true
   },
   {
     "tool": "Activepieces",
     "lost": 1018,
-    "stuck": 62,
+    "stuck": 63,
     "repeated": 0,
     "redis": true
   }

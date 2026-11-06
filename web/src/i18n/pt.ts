@@ -75,7 +75,7 @@ export const pt: Copy = {
     title: 'Benchmark',
     why: 'O Heddle roda na BEAM, a máquina virtual do Erlang, feita para manter milhares de processos leves ao mesmo tempo. Cada execução é um desses processos, e a fila fica no próprio Postgres, sem Redis nem outro serviço no caminho.',
     result:
-      'Entre as ferramentas que gravam cada execução, ele foi o mais rápido: 331 execuções por segundo, 1,8 vez o segundo colocado e mais de 7 vezes o n8n. Uma execução leva 8 ms do webhook ao destino, contra 37 ms ou mais nas outras, com a menor memória e o menor disco da tabela.',
+      'Entre as ferramentas que gravam cada execução, ele foi o mais rápido: 387 execuções por segundo, 4 vezes o segundo colocado e cerca de 13 vezes o n8n, comparando dentro de cada rodada. Uma execução leva 11 ms do webhook ao destino, contra 52 ms ou mais nas outras, com a menor memória e o menor disco da tabela.',
     how: 'Mesmo fluxo, mesma máquina e configuração padrão: um webhook dispara uma chamada HTTP, e a execução só conta quando a chamada chega ao destino. São 20.000 chamadas, e cada número é a mediana de três rodadas.',
     caption: 'Resultado do mesmo trabalho em cada ferramenta, da mais rápida para a mais lenta',
     tool: 'Ferramenta',
@@ -86,11 +86,19 @@ export const pt: Copy = {
     star: '* Não terminou dentro do limite de 5 minutos do teste.',
     method: '[ Ver o método e os dados ]',
     tabsLabel: 'Resultados do benchmark',
-    tabs: { speed: '[ Velocidade ]', crash: '[ Quedas ]' },
+    tabs: { speed: '[ Velocidade ]', slow: '[ API lenta ]', crash: '[ Quedas ]' },
+    slow: {
+      why: 'Uma API de verdade demora para responder, e o que conta então é quantas execuções a ferramenta mantém ao mesmo tempo. Cada worker do Heddle roda 50 por padrão, e uma execução esperando não ocupa conexão com o banco.',
+      result:
+        'Entre as ferramentas que gravam cada execução, ele foi o mais rápido: 395 execuções por segundo, 4,7 vezes o segundo colocado e cerca de 10 vezes o n8n, comparando dentro de cada rodada.',
+      how: 'Mesmo fluxo e configuração padrão, com um destino que leva 100 ms para responder. São 3.000 chamadas, e cada número é a mediana de três rodadas.',
+      caption: 'Execuções por segundo com um destino lento, da mais rápida para a mais lenta',
+      limit: 'Cada worker faz no máximo 50 chamadas ao mesmo tempo, então um destino mais lento baixa esse número.',
+    },
     crash: {
       why: 'A fila do Heddle fica no Postgres, então o que ele aceitou sobrevive a uma queda, mesmo com a máquina inteira desligando. Ao voltar, ele continua a fila e recomeça o que estava rodando.',
       result:
-        'Entre as ferramentas que gravam cada execução, o Heddle ficou entre as duas que não perderam nada e não deixaram nada preso, mesmo com mais de 95% do trabalho ainda na fila. O Windmill empatou nisso. As 5 repetidas do Heddle são as que estavam rodando na hora da queda.',
+        'Entre as ferramentas que gravam cada execução, o Heddle ficou entre as duas que não perderam nada e não deixaram nada preso, mesmo com mais da metade do trabalho ainda na fila. O Windmill empatou nisso. As 50 repetidas do Heddle são as que estavam rodando na hora da queda: quanto mais execuções ao mesmo tempo, mais delas recomeçam.',
       how: 'Derrubamos cada ferramenta inteira, banco incluído, com kill -9 depois de 1.000 chamadas aceitas, e conferimos chamada por chamada. O destino leva 100 ms para responder. Cada número é a mediana de três rodadas.',
       caption: 'O que aconteceu com as chamadas aceitas depois de cada queda',
       lost: 'Perdidas',

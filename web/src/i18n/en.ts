@@ -73,7 +73,7 @@ export const en = {
     title: 'Benchmark',
     why: 'Heddle runs on the BEAM, Erlang’s virtual machine, built to keep thousands of lightweight processes going at once. Each run is one of those processes, and the queue lives in Postgres itself, with no Redis or other service in the way.',
     result:
-      'Among tools that record every run, it was the fastest: 331 runs per second, 1.8 times the runner-up and more than 7 times n8n. A run takes 8 ms from webhook to destination, against 37 ms or more in the others, with the least memory and disk in the table.',
+      'Among tools that record every run, it was the fastest: 387 runs per second, 4 times the runner-up and about 13 times n8n, compared inside each round. A run takes 11 ms from webhook to destination, against 52 ms or more in the others, with the least memory and disk in the table.',
     how: 'Same flow, same machine, default settings: a webhook triggers one HTTP call, and a run counts when that call reaches its destination. That’s 20,000 calls, and every number is the median of three rounds.',
     caption: 'Results of the same job in each tool, fastest first',
     tool: 'Tool',
@@ -84,11 +84,19 @@ export const en = {
     star: '* Didn’t finish within the test’s 5-minute limit.',
     method: '[ See the method and the data ]',
     tabsLabel: 'Benchmark results',
-    tabs: { speed: '[ Speed ]', crash: '[ Crashes ]' },
+    tabs: { speed: '[ Speed ]', slow: '[ Slow API ]', crash: '[ Crashes ]' },
+    slow: {
+      why: 'A real API takes a while to answer, so what counts is how many runs a tool keeps going at once. Each Heddle worker runs 50 by default, and a waiting run holds no database connection.',
+      result:
+        'Among tools that record every run, it was the fastest: 395 runs per second, 4.7 times the runner-up and about 10 times n8n, compared inside each round.',
+      how: 'Same flow and default settings, with a destination that takes 100 ms to answer. That’s 3,000 calls, and every number is the median of three rounds.',
+      caption: 'Runs per second with a slow destination, fastest first',
+      limit: 'Each worker makes at most 50 calls at once, so a slower destination lowers this number.',
+    },
     crash: {
       why: 'Heddle’s queue lives in Postgres, so what it accepted survives a crash, even with the whole machine going down. When it comes back, it carries on with the queue and restarts what was running.',
       result:
-        'Among tools that record every run, Heddle was one of the two that lost nothing and left nothing stuck, with more than 95% of the work still queued. Windmill tied with it on that. Heddle’s 5 repeats are the runs that were in progress at the crash.',
+        'Among tools that record every run, Heddle was one of the two that lost nothing and left nothing stuck, with more than half of the work still queued. Windmill tied with it on that. Heddle’s 50 repeats are the runs that were in progress at the crash: the more runs at once, the more of them start over.',
       how: 'We took down each whole tool, database included, with kill -9 after 1,000 accepted calls, and checked call by call. The destination takes 100 ms to answer. Every number is the median of three rounds.',
       caption: 'What happened to the accepted calls after each crash',
       lost: 'Lost',
