@@ -6,6 +6,7 @@ import Typed from './Typed.astro';
 import { installCommands, links, site, waitlistEndpoint } from '../config';
 import benchmark from '../data/benchmark.json';
 import crash from '../data/crash.json';
+import slow from '../data/slow.json';
 import type { Copy } from '../i18n/en';
 
 interface Props {
@@ -91,6 +92,9 @@ const gigabytes = (megabytes: number) =>
         <button type="button" role="tab" id="tab-speed" aria-controls="panel-speed" aria-selected="true">
           {t.bench.tabs.speed}
         </button>
+        <button type="button" role="tab" id="tab-slow" aria-controls="panel-slow" aria-selected="false" tabindex="-1">
+          {t.bench.tabs.slow}
+        </button>
         <button type="button" role="tab" id="tab-crash" aria-controls="panel-crash" aria-selected="false" tabindex="-1">
           {t.bench.tabs.crash}
         </button>
@@ -130,6 +134,33 @@ const gigabytes = (megabytes: number) =>
           </table>
         </div>
         <p class="small">{t.bench.star}</p>
+      </div>
+      <div class="panel" id="panel-slow" role="tabpanel" aria-labelledby="tab-slow">
+        <p>{t.bench.slow.why}</p>
+        <p>{t.bench.slow.result}</p>
+        <p class="small">{t.bench.slow.how}</p>
+        <div class="bench crash" tabindex="0" role="region" aria-label={t.bench.slow.caption}>
+          <table>
+            <caption class="sr-only">{t.bench.slow.caption}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{t.bench.tool}</th>
+                <th scope="col">{t.bench.perSecond}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                slow.map((row) => (
+                  <tr class:list={{ ours: row.tool === site.name }}>
+                    <th scope="row">{row.tool}</th>
+                    <td>{number(row.completedPerSecond)}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="small">{t.bench.slow.limit}</p>
       </div>
       <div class="panel" id="panel-crash" role="tabpanel" aria-labelledby="tab-crash">
         <p>{t.bench.crash.why}</p>

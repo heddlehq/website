@@ -1,56 +1,56 @@
 [
   {
     "tool": "Heddle",
-    "version": "0.4.0",
-    "completedPerSecond": 331,
+    "version": "0.4.5",
+    "completedPerSecond": 387,
     "finished": true,
-    "oneRunMs": 8.2,
-    "idleMemoryMb": 376,
-    "diskMb": 584
+    "oneRunMs": 10.8,
+    "idleMemoryMb": 386,
+    "diskMb": 585
   },
   {
     "tool": "Windmill",
     "version": "1.862.0",
-    "completedPerSecond": 184,
+    "completedPerSecond": 108,
     "finished": true,
-    "oneRunMs": 44.8,
-    "idleMemoryMb": 487,
+    "oneRunMs": 53.8,
+    "idleMemoryMb": 549,
     "diskMb": 4580
   },
   {
     "tool": "Kestra",
     "version": "2.0.9",
-    "completedPerSecond": 131,
+    "completedPerSecond": 93,
     "finished": true,
-    "oneRunMs": 53.3,
-    "idleMemoryMb": 1254,
+    "oneRunMs": 55.7,
+    "idleMemoryMb": 1368,
     "diskMb": 5799
   },
   {
     "tool": "n8n",
     "version": "2.46.6",
-    "completedPerSecond": 45,
+    "completedPerSecond": 35,
     "finished": true,
-    "oneRunMs": 41.1,
-    "idleMemoryMb": 757,
+    "oneRunMs": 64.3,
+    "idleMemoryMb": 759,
     "diskMb": 1393
   },
   {
     "tool": "n8n (queue mode)",
     "version": "2.46.6",
-    "completedPerSecond": 42,
+    "completedPerSecond": 27,
     "finished": false,
-    "oneRunMs": 46.3,
-    "idleMemoryMb": 1205,
+    "oneRunMs": 71.4,
+    "idleMemoryMb": 1000,
     "diskMb": 1430
   },
   {
     "tool": "Activepieces",
     "version": "0.92.3",
-    "completedPerSecond": 10,
+    "completedPerSecond": 1,
     "finished": false,
-    "oneRunMs": 37.1,
-    "idleMemoryMb": 1326,
+    "oneRunMs": 52,
+    "idleMemoryMb": 1346,
     "diskMb": 1637
   }
 ]
