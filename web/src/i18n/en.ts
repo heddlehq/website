@@ -28,7 +28,7 @@ export const en = {
     intro:
       'Most companies run on small jobs that repeat: copy this over there, tell that person, check this before that. Heddle does them for you. You draw the steps once, and it follows them every time.',
     after:
-      'Each circle is a step, called a node. Anything with an API can be a step through an HTTP request, and when a step needs real logic you can write it in Elixir or Python.',
+      'Each circle is a step, called a node. Slack, Google Sheets, email and file storage have steps of their own, anything else with an API is one HTTP request away, and when a step needs real logic you can write it in Elixir or Python.',
   },
   figure: {
     title: 'A new order drawn as a flow of threads',
@@ -47,28 +47,25 @@ export const en = {
   today: {
     title: 'Today, and what’s next',
     intro:
-      'Heddle is young, and we’d rather say so. There are no ready-made connectors yet: today, you reach other services through HTTP.',
+      'Heddle is young, and we’d rather say so. It already talks to the tools most flows need, and anything else with an API is one HTTP request away.',
     nowLabel: 'Works today',
     now: [
-      'A visual editor with twelve kinds of step: Start, Webhook, Schedule, HTTP Request, Condition, For Each, Evaluate Code, AI Agent, Variable, Logger, Respond to Webhook and Output',
+      'A visual editor with 57 kinds of step, and titles, notes and sections to explain a flow right on the canvas',
+      'Ready-made steps for Slack, Google Sheets, email, S3 and FTP, and for reading and writing CSV',
+      'AI steps that summarize, classify, translate and extract data, read and create images, transcribe audio and turn text into speech',
+      'An AI Agent step that uses your other steps as tools',
+      'An AI chat that plans a flow and builds it once you approve (needs a key from an AI provider)',
+      'An MCP server, so your AI tools can read, build and run your flows',
+      'Encrypted credentials: a flow only keeps their name, so a secret never reaches it or its logs',
       'Scheduled runs, with cron expressions',
       'Webhooks that answer with what the flow returns',
-      'An AI chat that plans a flow and builds it once you approve (needs a key from an AI provider)',
       'A history of every run',
       'A public API for your flows',
       'Up to three attempts when a run fails',
+      'Treadle, an editor for your flows that runs in the terminal',
     ],
-    nextLabel: 'Coming next',
-    next: [
-      'A safe place for your credentials',
-      'First integrations, like Slack, Google Sheets and email',
-      'Data and file steps: CSV, S3, FTP',
-      'AI agents that use tools',
-      'Flow versions with rollback',
-      'Run metrics',
-    ],
-    note: 'These are plans, not dates. Follow them on the',
-    noteLink: 'project board',
+    nextLabel: 'What’s next is on the',
+    nextLink: 'project board',
   },
   bench: {
     title: 'Benchmark',
@@ -123,13 +120,19 @@ export const en = {
   selfHost: {
     title: 'Self-host it',
     intro:
-      'Prefer to run it yourself? It’s free, and it’s yours. Paste one line in a terminal and Heddle opens in your browser. There’s no Docker to install and no database to set up.',
+      'Prefer to run it yourself? It’s free, and it’s yours. Paste one line in a terminal, answer a few questions, and Heddle opens in your browser. There’s no Docker to install and no database to set up.',
     unix: 'Mac and Linux',
     windows: 'Windows (PowerShell)',
+    treadle: 'Only Treadle, the terminal editor',
+    agent: 'Or ask your favorite AI agent',
+    agentPrompt:
+      'Install Heddle on this computer for me, following {guide}. First ask me which AI provider and model I want, and whether I also want Treadle, the terminal editor. Then run the one-line install with --yes, so it asks nothing, plus the options for my answers: passing --help to it lists them. If I give you an API key, pass it in the HEDDLE_LLM_API_KEY variable and never on the command line. If I’d rather not share one here, skip the AI: I can add it later on the AI page. When it finishes, run heddle doctor and tell me the address.',
     copy: '[ Copy ]',
     copied: '[ Copied ]',
     safety:
       'Heddle stays on your computer and can’t be reached from your network. Flows can run code with your account’s permissions, so run only the ones you trust.',
+    after:
+      'The installer asks which AI to use and whether you also want Treadle. Your key is checked before anything is installed. After that, the heddle command starts it, stops it, updates it and backs up your data.',
     guide: '[ Install on a server ]',
     tech: 'For the technical reader: two roles share one Postgres database. The UI serves the editor and queues each run, workers execute them, and you add workers as volume grows. The',
     scaling: 'scaling guide',

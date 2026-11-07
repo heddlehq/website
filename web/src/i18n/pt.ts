@@ -30,7 +30,7 @@ export const pt: Copy = {
     intro:
       'Toda empresa roda em cima de pequenas tarefas repetidas: copiar isso para lá, avisar aquela pessoa, conferir isto antes daquilo. O Heddle faz essas tarefas por você. Você desenha os passos uma vez, e ele segue todas as vezes.',
     after:
-      'Cada círculo é um passo, chamado de nó. Qualquer serviço com API vira um passo por meio de uma requisição HTTP, e quando um passo precisa de lógica de verdade, você escreve em Elixir ou Python.',
+      'Cada círculo é um passo, chamado de nó. Slack, Google Sheets, e-mail e armazenamento de arquivos têm passos próprios, qualquer outro serviço com API está a uma requisição HTTP de distância, e quando um passo precisa de lógica de verdade, você escreve em Elixir ou Python.',
   },
   figure: {
     title: 'Um novo pedido desenhado como um fluxo de fios',
@@ -49,28 +49,25 @@ export const pt: Copy = {
   today: {
     title: 'Hoje, e o que vem depois',
     intro:
-      'O Heddle é novo, e preferimos dizer isso logo. Ainda não há conectores prontos: hoje, você chega a outros serviços por HTTP.',
+      'O Heddle é novo, e preferimos dizer isso logo. Ele já fala com as ferramentas que a maioria dos fluxos precisa, e qualquer outro serviço com API está a uma requisição HTTP de distância.',
     nowLabel: 'Funciona hoje',
     now: [
-      'Um editor visual com doze tipos de passo: Start, Webhook, Schedule, HTTP Request, Condition, For Each, Evaluate Code, AI Agent, Variable, Logger, Respond to Webhook e Output',
+      'Um editor visual com 57 tipos de passo, e títulos, notas e seções para explicar o fluxo no próprio canvas',
+      'Passos prontos para Slack, Google Sheets, e-mail, S3 e FTP, e para ler e escrever CSV',
+      'Passos de IA que resumem, classificam, traduzem e extraem dados, leem e criam imagens, transcrevem áudio e transformam texto em fala',
+      'Um passo AI Agent que usa seus outros passos como ferramentas',
+      'Um chat com IA que planeja o fluxo e o monta depois da sua aprovação (precisa da chave de um provedor de IA)',
+      'Um servidor MCP, para suas ferramentas de IA lerem, montarem e rodarem seus fluxos',
+      'Credenciais criptografadas: o fluxo guarda só o nome delas, então um segredo nunca chega a ele nem aos logs',
       'Execuções agendadas, com expressões cron',
       'Webhooks que devolvem a resposta do próprio fluxo',
-      'Um chat com IA que planeja o fluxo e o monta depois da sua aprovação (precisa da chave de um provedor de IA)',
       'Um histórico de cada execução',
       'Uma API pública para os seus fluxos',
       'Até três tentativas quando uma execução falha',
+      'Treadle, um editor dos seus fluxos que roda no terminal',
     ],
-    nextLabel: 'Vem depois',
-    next: [
-      'Um lugar seguro para as suas credenciais',
-      'Primeiras integrações, como Slack, Google Sheets e e-mail',
-      'Passos de dados e arquivos: CSV, S3, FTP',
-      'Agentes de IA que usam ferramentas',
-      'Versões de fluxo com rollback',
-      'Métricas de execução',
-    ],
-    note: 'São planos, não datas. Acompanhe no',
-    noteLink: 'quadro do projeto',
+    nextLabel: 'O que vem depois está no',
+    nextLink: 'quadro do projeto',
   },
   bench: {
     title: 'Benchmark',
@@ -125,13 +122,19 @@ export const pt: Copy = {
   selfHost: {
     title: 'Hospedar por conta própria',
     intro:
-      'Prefere rodar você mesmo? É grátis e é seu. Cole uma linha no terminal e o Heddle abre no seu navegador. Não precisa instalar Docker nem configurar banco de dados.',
+      'Prefere rodar você mesmo? É grátis e é seu. Cole uma linha no terminal, responda algumas perguntas e o Heddle abre no seu navegador. Não precisa instalar Docker nem configurar banco de dados.',
     unix: 'Mac e Linux',
     windows: 'Windows (PowerShell)',
+    treadle: 'Só o Treadle, o editor de terminal',
+    agent: 'Ou peça à sua IA favorita',
+    agentPrompt:
+      'Instale o Heddle neste computador para mim, seguindo {guide}. Primeiro me pergunte qual provedor e modelo de IA eu quero, e se também quero o Treadle, o editor de terminal. Depois rode a instalação de uma linha com --yes, para ela não perguntar nada, mais as opções das minhas respostas: passar --help para ela lista todas. Se eu der uma chave de API, passe na variável HEDDLE_LLM_API_KEY e nunca na linha de comando. Se eu preferir não compartilhar uma aqui, pule a IA: posso adicionar depois na página de IA. Quando terminar, rode heddle doctor e me diga o endereço.',
     copy: '[ Copiar ]',
     copied: '[ Copiado ]',
     safety:
       'O Heddle fica no seu computador e não pode ser acessado pela sua rede. Os fluxos podem rodar código com as permissões da sua conta, então rode só os que você confia.',
+    after:
+      'O instalador pergunta qual IA usar e se você também quer o Treadle. Sua chave é conferida antes de qualquer instalação. Depois, o comando heddle inicia, para, atualiza e faz backup dos seus dados.',
     guide: '[ Instalar em um servidor ]',
     tech: 'Para quem é técnico: dois papéis dividem um banco Postgres. A UI serve o editor e coloca cada execução na fila, os workers executam, e você adiciona workers conforme o volume cresce. O',
     scaling: 'guia de escala',

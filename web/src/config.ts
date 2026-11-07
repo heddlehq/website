@@ -4,7 +4,7 @@ const repo = 'https://github.com/heddlehq/Heddle';
 
 export const site = {
   name: 'Heddle',
-  version: '0.4.4',
+  version: '0.5.0',
 };
 
 export const waitlistEndpoint = 'https://heddle-waitlist.pedrohfonseca-1981.workers.dev';
@@ -15,6 +15,7 @@ const installBase = 'https://heddlehq.github.io/website';
 export const installCommands = {
   unix: `curl -fsSL ${installBase}/install.sh | sh`,
   windows: `irm ${installBase}/install.ps1 | iex`,
+  treadle: `curl -fsSL ${installBase}/install.sh | sh -s -- --treadle`,
 };
 
 export const links = {

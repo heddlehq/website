@@ -79,11 +79,7 @@ const gigabytes = (megabytes: number) =>
       <ul class="checks">
         {t.today.now.map((item) => <li data-mark="[x]">{item}</li>)}
       </ul>
-      <h3>{t.today.nextLabel}</h3>
-      <ul class="checks">
-        {t.today.next.map((item) => <li data-mark="[ ]">{item}</li>)}
-      </ul>
-      <p>{t.today.note} <a href={links.board}>{t.today.noteLink}</a>.</p>
+      <h3>{t.today.nextLabel} <a href={links.board}>{t.today.nextLink}</a></h3>
     </section>
 
     <section aria-labelledby="bench">
@@ -238,6 +234,8 @@ const gigabytes = (megabytes: number) =>
         [
           { label: t.selfHost.unix, command: installCommands.unix },
           { label: t.selfHost.windows, command: installCommands.windows },
+          { label: t.selfHost.treadle, command: installCommands.treadle },
+          { label: t.selfHost.agent, command: t.selfHost.agentPrompt.replace('{guide}', links.install) },
         ].map(({ label, command }) => (
           <figure class="command">
             <figcaption>{label}</figcaption>
@@ -248,6 +246,7 @@ const gigabytes = (megabytes: number) =>
           </figure>
         ))
       }
+      <p>{t.selfHost.after}</p>
       <p class="small">{t.selfHost.safety}</p>
       <p class="actions"><a href={links.install}>{t.selfHost.guide}</a></p>
       <p class="small">
@@ -422,7 +421,8 @@ const gigabytes = (megabytes: number) =>
     font-size: 0.875rem;
     line-height: 1.5;
     margin: 0;
-    overflow-x: auto;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
     padding: 0.75rem;
   }
 
@@ -444,7 +444,7 @@ const gigabytes = (megabytes: number) =>
     text-decoration: underline;
   }
 
-  .command + .small {
+  .command + p {
     margin-block-start: var(--space-3);
   }
 
