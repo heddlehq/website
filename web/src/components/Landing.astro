@@ -74,12 +74,32 @@ const gigabytes = (megabytes: number) =>
 
     <section aria-labelledby="today">
       <h2 id="today" data-n="2.">{t.today.title}</h2>
-      <p>{t.today.intro}</p>
-      <h3>{t.today.nowLabel}</h3>
-      <ul class="checks">
-        {t.today.now.map((item) => <li data-mark="[x]">{item}</li>)}
+      <p class="claim">{t.today.claim} <span>{t.today.claimAccent}</span></p>
+      <p class="lead">{t.today.lead}</p>
+      <ul class="stamps" aria-label={t.today.stampsLabel}>
+        {t.today.stamps.map((name) => <li>{name}</li>)}
       </ul>
-      <h3>{t.today.nextLabel} <a href={links.board}>{t.today.nextLink}</a></h3>
+      <dl class="stats" aria-label={t.today.statsLabel}>
+        {
+          t.today.stats.map(({ value, label }) => (
+            <div>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="features">
+        {
+          t.today.features.map(({ title, text }) => (
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="next">{t.today.nextLabel} <a href={links.board}>{t.today.nextLink}</a>.</p>
     </section>
 
     <section aria-labelledby="bench">
@@ -453,24 +473,123 @@ const gigabytes = (megabytes: number) =>
     font-size: 0.9375rem;
   }
 
-  .checks {
-    margin: 0 0 var(--space-3);
+  .claim {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    font-size: clamp(1.75rem, calc(8vw - 4px), 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    filter: url('#struck');
+  }
+
+  .claim span {
+    display: block;
+    color: var(--ribbon);
+  }
+
+  section .lead {
+    margin-block-start: var(--space-3);
+  }
+
+  .stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-4) 0 0;
     padding: 0;
     list-style: none;
   }
 
-  .checks li {
-    position: relative;
-    padding-block: var(--space-1);
-    padding-inline-start: 4.5ch;
+  .stamps li {
+    padding: 0.125rem 0.625rem;
+    border: 2px solid var(--ribbon);
+    border-radius: 3px;
+    color: var(--ribbon);
+    font-family: var(--font-type);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transform: rotate(-1.2deg);
   }
 
-  .checks li::before {
-    content: attr(data-mark);
-    position: absolute;
-    inset-inline-start: 0;
+  .stamps li:nth-child(3n) {
+    transform: rotate(0.9deg);
+  }
+
+  .stamps li:nth-child(4n + 1) {
+    transform: rotate(0.4deg);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3) var(--space-3);
+    margin-block-start: var(--space-5);
+    padding-block: var(--space-3);
+    border-block: 1px solid var(--ink);
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .stats dd {
+    font-family: var(--font-type);
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .stats dt {
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .features {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-5);
+  }
+
+  .features h3 {
+    margin-block: 0 var(--space-1);
+    font-size: 1.1875rem;
+    line-height: 1.25;
+  }
+
+  .features h3::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    margin-block-end: var(--space-2);
+    border-block-start: 3px solid var(--ribbon);
+  }
+
+  .features p {
+    color: var(--ink-soft);
+    font-size: 1rem;
+  }
+
+  .next {
+    margin-block-start: var(--space-5);
     font-family: var(--font-type);
     font-weight: 700;
+  }
+
+  @media (min-width: 36rem) {
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4) var(--space-5);
+    }
   }
 
   table {

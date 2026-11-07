@@ -47,24 +47,52 @@ export const pt: Copy = {
     caption: 'Chega um novo pedido. O fio vermelho é uma execução: o pedido estava pago, então o estoque foi avisado.',
   },
   today: {
-    title: 'Hoje, e o que vem depois',
-    intro:
-      'O Heddle é novo, e preferimos dizer isso logo. Ele já fala com as ferramentas que a maioria dos fluxos precisa, e qualquer outro serviço com API está a uma requisição HTTP de distância.',
-    nowLabel: 'Funciona hoje',
-    now: [
-      'Um editor visual com 57 tipos de passo, e títulos, notas e seções para explicar o fluxo no próprio canvas',
-      'Passos prontos para Slack, Google Sheets, e-mail, S3 e FTP, e para ler e escrever CSV',
-      'Passos de IA que resumem, classificam, traduzem e extraem dados, leem e criam imagens, transcrevem áudio e transformam texto em fala',
-      'Um passo AI Agent que usa seus outros passos como ferramentas',
-      'Um chat com IA que planeja o fluxo e o monta depois da sua aprovação (precisa da chave de um provedor de IA)',
-      'Um servidor MCP, para suas ferramentas de IA lerem, montarem e rodarem seus fluxos',
-      'Credenciais criptografadas: o fluxo guarda só o nome delas, então um segredo nunca chega a ele nem aos logs',
-      'Execuções agendadas, com expressões cron',
-      'Webhooks que devolvem a resposta do próprio fluxo',
-      'Um histórico de cada execução',
-      'Uma API pública para os seus fluxos',
-      'Até três tentativas quando uma execução falha',
-      'Treadle, um editor dos seus fluxos que roda no terminal',
+    title: 'O que vem na caixa',
+    claim: 'Suas ferramentas,',
+    claimAccent: 'já conectadas.',
+    lead: '57 passos prontos. Coloque um no canvas, escolha uma credencial, e ele roda. Qualquer outro serviço com API está a uma requisição HTTP de distância.',
+    stampsLabel: 'Funciona com',
+    stamps: ['Slack', 'Google Sheets', 'E-mail', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    statsLabel: 'O Heddle em números',
+    stats: [
+      { value: '57', label: 'passos prontos' },
+      { value: '387', label: 'execuções por segundo' },
+      { value: '11 ms', label: 'por execução' },
+      { value: '0', label: 'execuções perdidas em um crash' },
+    ],
+    features: [
+      {
+        title: 'IA que faz o trabalho',
+        text: 'Resuma, classifique, traduza e extraia dados. Leia e crie imagens, transcreva áudio, transforme texto em fala. Nove passos, prontos para usar.',
+      },
+      {
+        title: 'Agentes com ferramentas de verdade',
+        text: 'Entregue seus outros passos a um AI Agent, e ele os usa como ferramentas para resolver o trabalho.',
+      },
+      {
+        title: 'Descreva e ganhe um fluxo',
+        text: 'Diga ao chat com IA o que você precisa. Ele planeja o fluxo e monta depois da sua aprovação.',
+      },
+      {
+        title: 'Aberto às suas ferramentas de IA',
+        text: 'Um servidor MCP embutido deixa elas lerem, montarem e rodarem seus fluxos.',
+      },
+      {
+        title: 'Roda sozinho',
+        text: 'Agendamentos com cron, webhooks que respondem com o resultado, novas tentativas automáticas e o histórico de cada execução.',
+      },
+      {
+        title: 'Segredo fica em segredo',
+        text: 'Credenciais criptografadas. O fluxo guarda só o nome delas, então uma chave nunca vai parar em um log.',
+      },
+      {
+        title: 'Canvas ou terminal',
+        text: 'Desenhe no navegador, com notas e seções que explicam o fluxo. Ou fique no terminal com o Treadle.',
+      },
+      {
+        title: 'Código quando você quiser',
+        text: 'Escreva em Elixir ou Python quando precisar de lógica de verdade, e controle tudo por uma API pública.',
+      },
     ],
     nextLabel: 'O que vem depois está no',
     nextLink: 'quadro do projeto',

@@ -45,24 +45,52 @@ export const en = {
     caption: 'A new order comes in. The red thread is one run: the order was paid, so the warehouse was told.',
   },
   today: {
-    title: 'Today, and what’s next',
-    intro:
-      'Heddle is young, and we’d rather say so. It already talks to the tools most flows need, and anything else with an API is one HTTP request away.',
-    nowLabel: 'Works today',
-    now: [
-      'A visual editor with 57 kinds of step, and titles, notes and sections to explain a flow right on the canvas',
-      'Ready-made steps for Slack, Google Sheets, email, S3 and FTP, and for reading and writing CSV',
-      'AI steps that summarize, classify, translate and extract data, read and create images, transcribe audio and turn text into speech',
-      'An AI Agent step that uses your other steps as tools',
-      'An AI chat that plans a flow and builds it once you approve (needs a key from an AI provider)',
-      'An MCP server, so your AI tools can read, build and run your flows',
-      'Encrypted credentials: a flow only keeps their name, so a secret never reaches it or its logs',
-      'Scheduled runs, with cron expressions',
-      'Webhooks that answer with what the flow returns',
-      'A history of every run',
-      'A public API for your flows',
-      'Up to three attempts when a run fails',
-      'Treadle, an editor for your flows that runs in the terminal',
+    title: 'What’s in the box',
+    claim: 'Your tools,',
+    claimAccent: 'already wired.',
+    lead: '57 ready-made steps. Drop one on the canvas, pick a credential, and it runs. Anything else with an API is one HTTP request away.',
+    stampsLabel: 'Works with',
+    stamps: ['Slack', 'Google Sheets', 'Email', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    statsLabel: 'Heddle in numbers',
+    stats: [
+      { value: '57', label: 'ready-made steps' },
+      { value: '387', label: 'runs per second' },
+      { value: '11 ms', label: 'for one run' },
+      { value: '0', label: 'runs lost in a crash' },
+    ],
+    features: [
+      {
+        title: 'AI that does the work',
+        text: 'Summarize, classify, translate and extract data. Read and create images, transcribe audio, turn text into speech. Nine steps, ready to drop in.',
+      },
+      {
+        title: 'Agents with real tools',
+        text: 'Hand an AI Agent your other steps, and it uses them as tools to get the job done.',
+      },
+      {
+        title: 'Describe it, get a flow',
+        text: 'Tell the AI chat what you need. It plans the flow and builds it once you approve.',
+      },
+      {
+        title: 'Open to your AI tools',
+        text: 'A built-in MCP server lets them read, build and run your flows.',
+      },
+      {
+        title: 'Runs on its own',
+        text: 'Cron schedules, webhooks that answer with the result, automatic retries and a history of every run.',
+      },
+      {
+        title: 'Secrets stay secret',
+        text: 'Credentials are encrypted. A flow keeps only their name, so a key never lands in a log.',
+      },
+      {
+        title: 'Canvas or terminal',
+        text: 'Draw in the browser, with notes and sections that explain the flow. Or stay in the terminal with Treadle.',
+      },
+      {
+        title: 'Code when you want it',
+        text: 'Drop into Elixir or Python for real logic, and drive everything through a public API.',
+      },
     ],
     nextLabel: 'What’s next is on the',
     nextLink: 'project board',
