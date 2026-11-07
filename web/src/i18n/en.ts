@@ -48,12 +48,11 @@ export const en = {
     title: 'What’s in the box',
     claim: 'Your tools,',
     claimAccent: 'already wired.',
-    lead: '57 ready-made steps. Drop one on the canvas, pick a credential, and it runs. Anything else with an API is one HTTP request away.',
+    lead: 'Countless ready-made nodes. Drop one on the canvas, pick a credential, and it runs. Anything else with an API is one HTTP request away.',
     stampsLabel: 'Works with',
     stamps: ['Slack', 'Google Sheets', 'Email', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
     statsLabel: 'Heddle in numbers',
     stats: [
-      { value: '57', label: 'ready-made steps' },
       { value: '387', label: 'runs per second' },
       { value: '11 ms', label: 'for one run' },
       { value: '0', label: 'runs lost in a crash' },
@@ -61,7 +60,7 @@ export const en = {
     features: [
       {
         title: 'AI that does the work',
-        text: 'Summarize, classify, translate and extract data. Read and create images, transcribe audio, turn text into speech. Nine steps, ready to drop in.',
+        text: 'Summarize, classify, translate and extract data. Read and create images, transcribe audio, turn text into speech. Ready to drop in.',
       },
       {
         title: 'Agents with real tools',

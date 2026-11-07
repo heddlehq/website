@@ -50,12 +50,11 @@ export const pt: Copy = {
     title: 'O que vem na caixa',
     claim: 'Suas ferramentas,',
     claimAccent: 'já conectadas.',
-    lead: '57 passos prontos. Coloque um no canvas, escolha uma credencial, e ele roda. Qualquer outro serviço com API está a uma requisição HTTP de distância.',
+    lead: 'Inúmeros nós prontos. Coloque um no canvas, escolha uma credencial, e ele roda. Qualquer outro serviço com API está a uma requisição HTTP de distância.',
     stampsLabel: 'Funciona com',
     stamps: ['Slack', 'Google Sheets', 'E-mail', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
     statsLabel: 'O Heddle em números',
     stats: [
-      { value: '57', label: 'passos prontos' },
       { value: '387', label: 'execuções por segundo' },
       { value: '11 ms', label: 'por execução' },
       { value: '0', label: 'execuções perdidas em um crash' },
@@ -63,7 +62,7 @@ export const pt: Copy = {
     features: [
       {
         title: 'IA que faz o trabalho',
-        text: 'Resuma, classifique, traduza e extraia dados. Leia e crie imagens, transcreva áudio, transforme texto em fala. Nove passos, prontos para usar.',
+        text: 'Resuma, classifique, traduza e extraia dados. Leia e crie imagens, transcreva áudio, transforme texto em fala. Pronto para usar.',
       },
       {
         title: 'Agentes com ferramentas de verdade',

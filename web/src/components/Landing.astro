@@ -523,7 +523,7 @@ const gigabytes = (megabytes: number) =>
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-3) var(--space-3);
     margin-block-start: var(--space-5);
     padding-block: var(--space-3);
@@ -582,10 +582,6 @@ const gigabytes = (megabytes: number) =>
   }
 
   @media (min-width: 36rem) {
-    .stats {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
     .features {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-4) var(--space-5);
