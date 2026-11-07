@@ -78,6 +78,7 @@ const gigabytes = (megabytes: number) =>
       <p class="lead">{t.today.lead}</p>
       <ul class="stamps" aria-label={t.today.stampsLabel}>
         {t.today.stamps.map((name) => <li>{name}</li>)}
+        <li class="more">{t.today.stampsMore}</li>
       </ul>
       <dl class="stats" aria-label={t.today.statsLabel}>
         {
@@ -519,6 +520,12 @@ const gigabytes = (megabytes: number) =>
 
   .stamps li:nth-child(4n + 1) {
     transform: rotate(0.4deg);
+  }
+
+  .stamps li.more {
+    border-style: dashed;
+    text-transform: none;
+    font-style: italic;
   }
 
   .stats {

@@ -51,6 +51,7 @@ export const en = {
     lead: 'Countless ready-made nodes. Drop one on the canvas, pick a credential, and it runs. Anything else with an API is one HTTP request away.',
     stampsLabel: 'Works with',
     stamps: ['Slack', 'Google Sheets', 'Email', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    stampsMore: 'and more',
     statsLabel: 'Heddle in numbers',
     stats: [
       { value: '387', label: 'runs per second' },

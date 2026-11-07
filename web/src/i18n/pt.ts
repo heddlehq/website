@@ -53,6 +53,7 @@ export const pt: Copy = {
     lead: 'Inúmeros nós prontos. Coloque um no canvas, escolha uma credencial, e ele roda. Qualquer outro serviço com API está a uma requisição HTTP de distância.',
     stampsLabel: 'Funciona com',
     stamps: ['Slack', 'Google Sheets', 'E-mail', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    stampsMore: 'e muito mais',
     statsLabel: 'O Heddle em números',
     stats: [
       { value: '387', label: 'execuções por segundo' },
