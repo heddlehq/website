@@ -1,0 +1,1811 @@
+{
+  "definitions": {
+    "AI Agent": {
+      "name": "AI Agent",
+      "description": "Works on a task with the LLM. Nodes connected to tools are steps it can use: it fills in the fields you left blank.",
+      "category": "ai",
+      "outputs": [
+        "success",
+        "error",
+        "tools"
+      ],
+      "icon": "hero-sparkles-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Prompt",
+          "name": "prompt",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "System prompt",
+          "name": "system",
+          "type": "text"
+        },
+        {
+          "default": "text",
+          "label": "Reply as",
+          "name": "output",
+          "type": "select",
+          "options": [
+            {
+              "label": "Text",
+              "value": "text"
+            },
+            {
+              "label": "JSON",
+              "value": "json"
+            }
+          ]
+        },
+        {
+          "default": "",
+          "label": "Memory key",
+          "name": "memory_key",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Creativity",
+          "name": "temperature",
+          "type": "select",
+          "options": [
+            {
+              "label": "The model's default",
+              "value": ""
+            },
+            {
+              "label": "Precise",
+              "value": "0.2"
+            },
+            {
+              "label": "Balanced",
+              "value": "0.7"
+            },
+            {
+              "label": "Creative",
+              "value": "1.0"
+            }
+          ]
+        },
+        {
+          "default": "",
+          "label": "Model",
+          "name": "model",
+          "type": "model"
+        },
+        {
+          "default": "10",
+          "label": "Max steps",
+          "name": "max_steps",
+          "type": "text"
+        }
+      ]
+    },
+    "AI: Classify": {
+      "name": "AI: Classify",
+      "description": "Picks the category that fits a text. Use a Condition on result.category to branch.",
+      "category": "ai",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "hero-tag-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "{{result}}",
+          "label": "Text",
+          "name": "text",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Categories, separated by commas",
+          "name": "categories",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Model",
+          "name": "model",
+          "type": "model"
+        }
+      ]
+    },
+    "AI: Summarize": {
+      "name": "AI: Summarize",
+      "description": "Summarizes a text, in the language it's written in.",
+      "category": "ai",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "hero-document-text-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "{{result}}",
+          "label": "Text",
+          "name": "text",
+          "type": "text"
+        },
+        {
+          "default": "paragraph",
+          "label": "Format",
+          "name": "format",
+          "type": "select",
+          "options": [
+            {
+              "label": "Short paragraph",
+              "value": "paragraph"
+            },
+            {
+              "label": "Bullet points",
+              "value": "bullets"
+            }
+          ]
+        },
+        {
+          "default": "",
+          "label": "Model",
+          "name": "model",
+          "type": "model"
+        }
+      ]
+    },
+    "Email: Send Email": {
+      "name": "Email: Send Email",
+      "description": "Sends an email through SMTP. Separate several addresses with commas.",
+      "category": "email",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "hero-envelope-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "To",
+          "name": "to",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Cc",
+          "name": "cc",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Bcc",
+          "name": "bcc",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Subject",
+          "name": "subject",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Message",
+          "name": "message",
+          "type": "text"
+        },
+        {
+          "default": "plain",
+          "label": "Format",
+          "name": "format",
+          "type": "select",
+          "options": [
+            {
+              "label": "Text",
+              "value": "plain"
+            },
+            {
+              "label": "HTML",
+              "value": "html"
+            }
+          ]
+        },
+        {
+          "default": "",
+          "label": "Attachment name",
+          "name": "attachment_name",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Attachment content",
+          "name": "attachment",
+          "type": "text"
+        }
+      ]
+    },
+    "Evaluate Code": {
+      "name": "Evaluate Code",
+      "description": "Runs Elixir or Python code with access to the current flow context.",
+      "category": "code",
+      "outputs": [
+        "exec"
+      ],
+      "icon": "hero-code-bracket-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "elixir",
+          "label": "Language",
+          "name": "language",
+          "type": "select",
+          "options": [
+            "elixir",
+            "python"
+          ]
+        },
+        {
+          "default": "",
+          "label": "Code Editor",
+          "name": "code",
+          "type": "code",
+          "render": "button"
+        }
+      ]
+    },
+    "For Each": {
+      "name": "For Each",
+      "description": "Runs the item branch once per item, with the item in result and index in a variable. The done branch gets the results.",
+      "category": "flow_control",
+      "outputs": [
+        "item",
+        "done"
+      ],
+      "icon": "hero-arrow-path-rounded-square-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "result",
+          "label": "List",
+          "name": "items",
+          "type": "text"
+        }
+      ]
+    },
+    "Google Sheets: Add Rows": {
+      "name": "Google Sheets: Add Rows",
+      "description": "Adds rows after the last row of a range.",
+      "category": "google_sheets",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "logo-google-sheets",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Spreadsheet ID",
+          "name": "spreadsheet_id",
+          "type": "text"
+        },
+        {
+          "default": "Sheet1!A:Z",
+          "label": "Range",
+          "name": "range",
+          "type": "text"
+        },
+        {
+          "default": "result",
+          "label": "Rows",
+          "name": "rows",
+          "type": "text"
+        }
+      ]
+    },
+    "HTTP Request": {
+      "name": "HTTP Request",
+      "description": "Calls an external HTTP endpoint and routes success or error responses.",
+      "category": "http",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "hero-globe-alt-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "GET",
+          "label": "Method",
+          "name": "method",
+          "type": "select",
+          "options": [
+            {
+              "label": "GET",
+              "value": "GET"
+            },
+            {
+              "label": "POST",
+              "value": "POST"
+            },
+            {
+              "label": "PUT",
+              "value": "PUT"
+            },
+            {
+              "label": "DELETE",
+              "value": "DELETE"
+            },
+            {
+              "label": "PATCH",
+              "value": "PATCH"
+            }
+          ]
+        },
+        {
+          "default": "https://api.example.com",
+          "label": "Endpoint URL",
+          "name": "url",
+          "type": "text"
+        },
+        {
+          "default": "{}",
+          "label": "Headers (JSON)",
+          "name": "headers",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Body",
+          "name": "body",
+          "type": "text"
+        }
+      ]
+    },
+    "Merge": {
+      "name": "Merge",
+      "description": "Waits for every branch connected to it, then goes on once with their results together.",
+      "category": "flow_control",
+      "outputs": [
+        "exec"
+      ],
+      "icon": "hero-arrows-pointing-in-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "list",
+          "label": "Combine",
+          "name": "combine",
+          "type": "select",
+          "options": [
+            {
+              "label": "List of results",
+              "value": "list"
+            },
+            {
+              "label": "Join lists",
+              "value": "concat"
+            },
+            {
+              "label": "Merge objects",
+              "value": "objects"
+            }
+          ]
+        }
+      ]
+    },
+    "Redis: Delete Keys": {
+      "name": "Redis: Delete Keys",
+      "description": "Deletes one key, or several separated by commas.",
+      "category": "database",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "logo-redis",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Keys",
+          "name": "keys",
+          "type": "text"
+        }
+      ]
+    },
+    "Redis: Increment": {
+      "name": "Redis: Increment",
+      "description": "Adds to the number in a key, which starts at 0, and returns the new number.",
+      "category": "database",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "logo-redis",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Key",
+          "name": "key",
+          "type": "text"
+        },
+        {
+          "default": "1",
+          "label": "Amount",
+          "name": "amount",
+          "type": "text"
+        }
+      ]
+    },
+    "Respond to Webhook": {
+      "name": "Respond to Webhook",
+      "description": "Answers the webhook call with this status and body. The caller waits for it, and the flow goes on after.",
+      "category": "flow_control",
+      "outputs": [
+        "exec"
+      ],
+      "icon": "hero-arrow-uturn-left-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "200",
+          "label": "Status",
+          "name": "response_status",
+          "type": "text"
+        },
+        {
+          "default": "{{result}}",
+          "label": "Body",
+          "name": "response_body",
+          "type": "text"
+        }
+      ]
+    },
+    "SQL: Run Query": {
+      "name": "SQL: Run Query",
+      "description": "Runs any statement on PostgreSQL, MySQL, MariaDB, SQL Server, SQLite or Oracle. {{placeholders}} go as parameters, so a value can't change the query.",
+      "category": "database",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "hero-circle-stack-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Query",
+          "name": "sql",
+          "type": "textarea"
+        }
+      ]
+    },
+    "Schedule": {
+      "name": "Schedule",
+      "description": "Starts the flow on a schedule, written as a cron expression in UTC.",
+      "category": "trigger",
+      "outputs": [
+        "exec"
+      ],
+      "icon": "hero-clock-solid",
+      "inputs": [],
+      "ui_fields": [
+        {
+          "default": "0 9 * * *",
+          "label": "Cron (UTC)",
+          "name": "cron",
+          "type": "text"
+        }
+      ]
+    },
+    "Slack: Send Message": {
+      "name": "Slack: Send Message",
+      "description": "Sends a message to a channel. Give a thread timestamp to reply in that thread.",
+      "category": "slack",
+      "outputs": [
+        "success",
+        "error"
+      ],
+      "icon": "logo-slack",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "",
+          "label": "Credential",
+          "name": "credential",
+          "type": "credential"
+        },
+        {
+          "default": "",
+          "label": "Channel",
+          "name": "channel",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Message",
+          "name": "text",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Thread timestamp, to reply in a thread",
+          "name": "thread_ts",
+          "type": "text"
+        }
+      ]
+    },
+    "Switch": {
+      "name": "Switch",
+      "description": "Sends the run down the output of the first case equal to the value, or down otherwise when none is.",
+      "category": "flow_control",
+      "outputs": [
+        "case 1",
+        "case 2",
+        "case 3",
+        "case 4",
+        "otherwise"
+      ],
+      "icon": "hero-arrows-right-left-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "{{result}}",
+          "label": "Value",
+          "name": "switch_value",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Case 1",
+          "name": "case_1",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Case 2",
+          "name": "case_2",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Case 3",
+          "name": "case_3",
+          "type": "text"
+        },
+        {
+          "default": "",
+          "label": "Case 4",
+          "name": "case_4",
+          "type": "text"
+        }
+      ]
+    },
+    "Wait": {
+      "name": "Wait",
+      "description": "Pauses the run for a while, until a date, or until a call to {{resume_url}}. With a call, How long is the most it waits, and the run goes on through timeout after it.",
+      "category": "flow_control",
+      "outputs": [
+        "exec",
+        "timeout"
+      ],
+      "icon": "hero-pause-circle-solid",
+      "inputs": [
+        "exec"
+      ],
+      "ui_fields": [
+        {
+          "default": "time",
+          "label": "Wait",
+          "name": "wait_for",
+          "type": "select",
+          "options": [
+            {
+              "label": "For a while",
+              "value": "time"
+            },
+            {
+              "label": "Until a date",
+              "value": "date"
+            },
+            {
+              "label": "Until a call",
+              "value": "call"
+            }
+          ]
+        },
+        {
+          "default": "5",
+          "label": "How long",
+          "name": "amount",
+          "type": "text"
+        },
+        {
+          "default": "minutes",
+          "label": "Unit",
+          "name": "unit",
+          "type": "select",
+          "options": [
+            "seconds",
+            "minutes",
+            "hours",
+            "days"
+          ]
+        },
+        {
+          "default": "",
+          "label": "Date (ISO 8601, UTC)",
+          "name": "wait_until",
+          "type": "text"
+        }
+      ]
+    },
+    "Webhook": {
+      "name": "Webhook",
+      "description": "Starts a flow from an incoming webhook request.",
+      "category": "trigger",
+      "outputs": [
+        "exec"
+      ],
+      "icon": "hero-bolt-solid",
+      "inputs": [],
+      "ui_fields": [
+        {
+          "default": "POST",
+          "label": "Method",
+          "name": "method",
+          "type": "select",
+          "options": [
+            {
+              "label": "GET",
+              "value": "GET"
+            },
+            {
+              "label": "POST",
+              "value": "POST"
+            },
+            {
+              "label": "PUT",
+              "value": "PUT"
+            },
+            {
+              "label": "DELETE",
+              "value": "DELETE"
+            }
+          ]
+        },
+        {
+          "default": "/webhook",
+          "label": "Path",
+          "name": "path",
+          "type": "text"
+        }
+      ]
+    }
+  },
+  "flows": [
+    {
+      "comments": [
+        {
+          "color": "yellow",
+          "height": 140,
+          "id": "why-keep",
+          "kind": "note",
+          "position": {
+            "x": 150,
+            "y": -40
+          },
+          "text": "The HTTP Request has a body field of its own, which would hide the form's. So the lead is kept under another name first.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "form",
+          "sourceOutput": "exec",
+          "target": "keep",
+          "targetInput": "exec"
+        },
+        {
+          "source": "keep",
+          "sourceOutput": "exec",
+          "target": "lookup",
+          "targetInput": "exec"
+        },
+        {
+          "source": "lookup",
+          "sourceOutput": "success",
+          "target": "score",
+          "targetInput": "exec"
+        },
+        {
+          "source": "score",
+          "sourceOutput": "exec",
+          "target": "route",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "case 1",
+          "target": "sales",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "case 2",
+          "target": "pipeline",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "otherwise",
+          "target": "welcome",
+          "targetInput": "exec"
+        },
+        {
+          "source": "sales",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "pipeline",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "welcome",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "join",
+          "sourceOutput": "exec",
+          "target": "answer",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "leads",
+      "nodes": [
+        {
+          "controls": {
+            "method": "POST",
+            "path": "/leads"
+          },
+          "id": "form",
+          "label": "Form sent",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Webhook"
+        },
+        {
+          "controls": {
+            "code_elixir": "Map.put(context, \"lead\", context[\"body\"])",
+            "code_python": "",
+            "language": "elixir"
+          },
+          "id": "keep",
+          "label": "Keep the lead",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "Evaluate Code"
+        },
+        {
+          "controls": {
+            "body": "",
+            "headers": "{\"Accept\": \"application/vnd.github+json\"}",
+            "method": "GET",
+            "url": "https://api.github.com/orgs/{{lead.github_org}}"
+          },
+          "id": "lookup",
+          "label": "Look up the company",
+          "position": {
+            "x": 360,
+            "y": 150
+          },
+          "type": "HTTP Request"
+        },
+        {
+          "controls": {
+            "code_elixir": "tier =\n  cond do\n    result[\"followers\"] >= 1_000 -> \"hot\"\n    result[\"public_repos\"] >= 20 -> \"warm\"\n    true -> \"cold\"\n  end\n\nMap.put(context, \"result\", %{\n  \"company\" => result[\"name\"],\n  \"followers\" => result[\"followers\"],\n  \"tier\" => tier\n})",
+            "code_python": "",
+            "language": "elixir"
+          },
+          "id": "score",
+          "label": "Score it",
+          "position": {
+            "x": 540,
+            "y": 150
+          },
+          "type": "Evaluate Code"
+        },
+        {
+          "controls": {
+            "case_1": "hot",
+            "case_2": "warm",
+            "case_3": "",
+            "case_4": "",
+            "switch_value": "{{result.tier}}"
+          },
+          "id": "route",
+          "label": "Route by tier",
+          "position": {
+            "x": 720,
+            "y": 150
+          },
+          "type": "Switch"
+        },
+        {
+          "controls": {
+            "channel": "#sales",
+            "credential": "",
+            "text": "Hot lead: {{lead.name}} from {{result.company}}, {{result.followers}} followers on GitHub.",
+            "thread_ts": ""
+          },
+          "id": "sales",
+          "label": "Tell sales",
+          "position": {
+            "x": 900,
+            "y": 0
+          },
+          "type": "Slack: Send Message"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "range": "Leads!A:D",
+            "rows": "[[\"{{lead.name}}\", \"{{lead.email}}\", \"{{result.company}}\", \"{{result.tier}}\"]]",
+            "spreadsheet_id": "your-pipeline-spreadsheet-id"
+          },
+          "id": "pipeline",
+          "label": "Add to the pipeline",
+          "position": {
+            "x": 900,
+            "y": 150
+          },
+          "type": "Google Sheets: Add Rows"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "Hi {{lead.name}}, thanks for writing to us. While we read it, these guides are a good start: https://yourcompany.com/guides",
+            "subject": "Thanks for reaching out",
+            "to": "{{lead.email}}"
+          },
+          "id": "welcome",
+          "label": "Send the guides",
+          "position": {
+            "x": 900,
+            "y": 300
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "combine": "list"
+          },
+          "id": "join",
+          "label": "Join",
+          "position": {
+            "x": 1080,
+            "y": 150
+          },
+          "type": "Merge"
+        },
+        {
+          "controls": {
+            "response_body": "{\"received\": true}",
+            "response_status": "200"
+          },
+          "id": "answer",
+          "label": "Answer the form",
+          "position": {
+            "x": 1260,
+            "y": 150
+          },
+          "type": "Respond to Webhook"
+        }
+      ]
+    },
+    {
+      "comments": [
+        {
+          "color": "blue",
+          "height": 140,
+          "id": "bound",
+          "kind": "note",
+          "position": {
+            "x": 120,
+            "y": -60
+          },
+          "text": "The query runs as it is written. Values from a run would go in as bound parameters, never as text.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "morning",
+          "sourceOutput": "exec",
+          "target": "sales",
+          "targetInput": "exec"
+        },
+        {
+          "source": "sales",
+          "sourceOutput": "success",
+          "target": "summary",
+          "targetInput": "exec"
+        },
+        {
+          "source": "sales",
+          "sourceOutput": "error",
+          "target": "failed",
+          "targetInput": "exec"
+        },
+        {
+          "source": "summary",
+          "sourceOutput": "success",
+          "target": "channel",
+          "targetInput": "exec"
+        },
+        {
+          "source": "summary",
+          "sourceOutput": "success",
+          "target": "leadership",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "sales-report",
+      "nodes": [
+        {
+          "controls": {
+            "cron": "0 8 * * 1-5"
+          },
+          "id": "morning",
+          "label": "Weekdays at 8",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Schedule"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "sql": "SELECT product, count(*) AS orders, sum(total) AS revenue\nFROM orders\nWHERE created_at >= current_date - 1 AND created_at < current_date\nGROUP BY product\nORDER BY revenue DESC\n"
+          },
+          "id": "sales",
+          "label": "Yesterday's sales",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "SQL: Run Query"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "format": "bullets",
+            "model": "",
+            "text": "{{result.rows}}"
+          },
+          "id": "summary",
+          "label": "Sum it up",
+          "position": {
+            "x": 360,
+            "y": 150
+          },
+          "type": "AI: Summarize"
+        },
+        {
+          "controls": {
+            "channel": "#sales",
+            "credential": "",
+            "text": "Good morning! Yesterday's sales:\n{{result}}",
+            "thread_ts": ""
+          },
+          "id": "channel",
+          "label": "Post in #sales",
+          "position": {
+            "x": 540,
+            "y": 60
+          },
+          "type": "Slack: Send Message"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "{{result}}",
+            "subject": "Yesterday's sales",
+            "to": "leadership@yourcompany.com"
+          },
+          "id": "leadership",
+          "label": "Email leadership",
+          "position": {
+            "x": 540,
+            "y": 240
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "channel": "#ops",
+            "credential": "",
+            "text": "The sales report couldn't read the database: {{result.error}}",
+            "thread_ts": ""
+          },
+          "id": "failed",
+          "label": "Tell ops it failed",
+          "position": {
+            "x": 360,
+            "y": 360
+          },
+          "type": "Slack: Send Message"
+        }
+      ]
+    },
+    {
+      "comments": [
+        {
+          "color": "green",
+          "height": 140,
+          "id": "copy",
+          "kind": "note",
+          "position": {
+            "x": 860,
+            "y": 290
+          },
+          "text": "The answer goes out with support in copy, so a person sees every one.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "ticket",
+          "sourceOutput": "exec",
+          "target": "sort",
+          "targetInput": "exec"
+        },
+        {
+          "source": "sort",
+          "sourceOutput": "success",
+          "target": "route",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "case 1",
+          "target": "engineering",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "case 2",
+          "target": "billing",
+          "targetInput": "exec"
+        },
+        {
+          "source": "route",
+          "sourceOutput": "otherwise",
+          "target": "draft",
+          "targetInput": "exec"
+        },
+        {
+          "source": "draft",
+          "sourceOutput": "success",
+          "target": "reply",
+          "targetInput": "exec"
+        },
+        {
+          "source": "engineering",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "billing",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "reply",
+          "sourceOutput": "success",
+          "target": "join",
+          "targetInput": "exec"
+        },
+        {
+          "source": "join",
+          "sourceOutput": "exec",
+          "target": "answer",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "support",
+      "nodes": [
+        {
+          "controls": {
+            "method": "POST",
+            "path": "/tickets"
+          },
+          "id": "ticket",
+          "label": "New ticket",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Webhook"
+        },
+        {
+          "controls": {
+            "categories": "bug, billing, question",
+            "credential": "",
+            "model": "",
+            "text": "{{body.subject}}\n\n{{body.message}}"
+          },
+          "id": "sort",
+          "label": "Sort it",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "AI: Classify"
+        },
+        {
+          "controls": {
+            "case_1": "bug",
+            "case_2": "billing",
+            "case_3": "",
+            "case_4": "",
+            "switch_value": "{{result.category}}"
+          },
+          "id": "route",
+          "label": "Route by kind",
+          "position": {
+            "x": 360,
+            "y": 150
+          },
+          "type": "Switch"
+        },
+        {
+          "controls": {
+            "channel": "#bugs",
+            "credential": "",
+            "text": "New bug from {{body.email}}: {{body.subject}}\n> {{body.message}}",
+            "thread_ts": ""
+          },
+          "id": "engineering",
+          "label": "Tell engineering",
+          "position": {
+            "x": 540,
+            "y": 0
+          },
+          "type": "Slack: Send Message"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "From {{body.email}}:\n\n{{body.message}}",
+            "subject": "Billing: {{body.subject}}",
+            "to": "billing@yourcompany.com"
+          },
+          "id": "billing",
+          "label": "Forward to billing",
+          "position": {
+            "x": 540,
+            "y": 150
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "max_steps": "",
+            "memory_key": "",
+            "model": "",
+            "output": "text",
+            "prompt": "Answer this question from a customer:\n\n{{body.message}}",
+            "system": "You answer for the support team. Be brief and kind, and say a person will follow up if the answer isn't enough.",
+            "temperature": "0.2"
+          },
+          "id": "draft",
+          "label": "Write an answer",
+          "position": {
+            "x": 540,
+            "y": 300
+          },
+          "type": "AI Agent"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "support@yourcompany.com",
+            "credential": "",
+            "format": "plain",
+            "message": "{{result}}",
+            "subject": "Re: {{body.subject}}",
+            "to": "{{body.email}}"
+          },
+          "id": "reply",
+          "label": "Reply to the customer",
+          "position": {
+            "x": 720,
+            "y": 300
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "combine": "list"
+          },
+          "id": "join",
+          "label": "Join",
+          "position": {
+            "x": 900,
+            "y": 150
+          },
+          "type": "Merge"
+        },
+        {
+          "controls": {
+            "response_body": "{\"handled\": true}",
+            "response_status": "200"
+          },
+          "id": "answer",
+          "label": "Tell the help desk",
+          "position": {
+            "x": 1080,
+            "y": 150
+          },
+          "type": "Respond to Webhook"
+        }
+      ]
+    },
+    {
+      "comments": [
+        {
+          "color": "yellow",
+          "height": 140,
+          "id": "resume",
+          "kind": "note",
+          "position": {
+            "x": 500,
+            "y": -110
+          },
+          "text": "{{resume_url}} resumes this run. The wait is saved, so it survives a restart of the server.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "request",
+          "sourceOutput": "exec",
+          "target": "keep",
+          "targetInput": "exec"
+        },
+        {
+          "source": "keep",
+          "sourceOutput": "exec",
+          "target": "ask",
+          "targetInput": "exec"
+        },
+        {
+          "source": "ask",
+          "sourceOutput": "success",
+          "target": "approval",
+          "targetInput": "exec"
+        },
+        {
+          "source": "approval",
+          "sourceOutput": "exec",
+          "target": "pay",
+          "targetInput": "exec"
+        },
+        {
+          "source": "approval",
+          "sourceOutput": "timeout",
+          "target": "expired",
+          "targetInput": "exec"
+        },
+        {
+          "source": "pay",
+          "sourceOutput": "success",
+          "target": "customer",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "refunds",
+      "nodes": [
+        {
+          "controls": {
+            "method": "POST",
+            "path": "/refunds"
+          },
+          "id": "request",
+          "label": "Refund requested",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Webhook"
+        },
+        {
+          "controls": {
+            "code_elixir": "Map.put(context, \"refund\", context[\"body\"])",
+            "code_python": "",
+            "language": "elixir"
+          },
+          "id": "keep",
+          "label": "Keep the request",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "Evaluate Code"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "{{refund.customer}} asked for a refund of {{refund.amount}} on order {{refund.order_id}}.\n\nReason: {{refund.reason}}\n\nTo approve it, open {{resume_url}}",
+            "subject": "Approve a refund of {{refund.amount}} on order {{refund.order_id}}?",
+            "to": "finance@yourcompany.com"
+          },
+          "id": "ask",
+          "label": "Ask finance",
+          "position": {
+            "x": 360,
+            "y": 150
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "amount": "2",
+            "unit": "days",
+            "wait_for": "call",
+            "wait_until": ""
+          },
+          "id": "approval",
+          "label": "Wait for approval",
+          "position": {
+            "x": 540,
+            "y": 150
+          },
+          "type": "Wait"
+        },
+        {
+          "controls": {
+            "body": "{\"amount\": \"{{refund.amount}}\", \"reason\": \"{{refund.reason}}\"}",
+            "headers": "{\"Content-Type\": \"application/json\"}",
+            "method": "POST",
+            "url": "https://api.yourshop.com/orders/{{refund.order_id}}/refunds"
+          },
+          "id": "pay",
+          "label": "Refund the order",
+          "position": {
+            "x": 720,
+            "y": 70
+          },
+          "type": "HTTP Request"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "Hi {{refund.customer}}, we refunded {{refund.amount}} on order {{refund.order_id}}. It takes a few days to show up.",
+            "subject": "Your refund is on its way",
+            "to": "{{refund.email}}"
+          },
+          "id": "customer",
+          "label": "Tell the customer",
+          "position": {
+            "x": 900,
+            "y": 70
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "channel": "#finance",
+            "credential": "",
+            "text": "The refund for order {{refund.order_id}} waited two days. Is someone looking at it?",
+            "thread_ts": ""
+          },
+          "id": "expired",
+          "label": "Nobody approved it",
+          "position": {
+            "x": 720,
+            "y": 270
+          },
+          "type": "Slack: Send Message"
+        }
+      ]
+    },
+    {
+      "comments": [
+        {
+          "color": "blue",
+          "height": 140,
+          "id": "once",
+          "kind": "note",
+          "position": {
+            "x": 500,
+            "y": -60
+          },
+          "text": "Only the third failure alerts. The fourth goes on counting quietly, until the site is back.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "every",
+          "sourceOutput": "exec",
+          "target": "check",
+          "targetInput": "exec"
+        },
+        {
+          "source": "check",
+          "sourceOutput": "success",
+          "target": "clear",
+          "targetInput": "exec"
+        },
+        {
+          "source": "check",
+          "sourceOutput": "error",
+          "target": "count",
+          "targetInput": "exec"
+        },
+        {
+          "source": "count",
+          "sourceOutput": "success",
+          "target": "third",
+          "targetInput": "exec"
+        },
+        {
+          "source": "third",
+          "sourceOutput": "case 1",
+          "target": "alert",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "uptime",
+      "nodes": [
+        {
+          "controls": {
+            "cron": "*/5 * * * *"
+          },
+          "id": "every",
+          "label": "Every 5 minutes",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Schedule"
+        },
+        {
+          "controls": {
+            "body": "",
+            "headers": "{}",
+            "method": "GET",
+            "url": "https://yourcompany.com/health"
+          },
+          "id": "check",
+          "label": "Check the site",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "HTTP Request"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "keys": "uptime:failures"
+          },
+          "id": "clear",
+          "label": "Forget the failures",
+          "position": {
+            "x": 360,
+            "y": 60
+          },
+          "type": "Redis: Delete Keys"
+        },
+        {
+          "controls": {
+            "amount": "1",
+            "credential": "",
+            "key": "uptime:failures"
+          },
+          "id": "count",
+          "label": "Count the failure",
+          "position": {
+            "x": 360,
+            "y": 240
+          },
+          "type": "Redis: Increment"
+        },
+        {
+          "controls": {
+            "case_1": "3",
+            "case_2": "",
+            "case_3": "",
+            "case_4": "",
+            "switch_value": "{{result.value}}"
+          },
+          "id": "third",
+          "label": "Third in a row?",
+          "position": {
+            "x": 540,
+            "y": 240
+          },
+          "type": "Switch"
+        },
+        {
+          "controls": {
+            "channel": "#on-call",
+            "credential": "",
+            "text": "yourcompany.com has been down for 15 minutes: {{result.error}}",
+            "thread_ts": ""
+          },
+          "id": "alert",
+          "label": "Alert on-call",
+          "position": {
+            "x": 720,
+            "y": 240
+          },
+          "type": "Slack: Send Message"
+        }
+      ]
+    },
+    {
+      "comments": [
+        {
+          "color": "blue",
+          "height": 140,
+          "id": "bound",
+          "kind": "note",
+          "position": {
+            "x": 720,
+            "y": -60
+          },
+          "text": "{{item.quantity}} and {{item.sku}} go to the database as bound parameters, never pasted into the SQL.",
+          "width": 240
+        }
+      ],
+      "connections": [
+        {
+          "source": "order",
+          "sourceOutput": "exec",
+          "target": "keep",
+          "targetInput": "exec"
+        },
+        {
+          "source": "keep",
+          "sourceOutput": "exec",
+          "target": "each",
+          "targetInput": "exec"
+        },
+        {
+          "source": "each",
+          "sourceOutput": "item",
+          "target": "stock",
+          "targetInput": "exec"
+        },
+        {
+          "source": "each",
+          "sourceOutput": "done",
+          "target": "confirm",
+          "targetInput": "exec"
+        },
+        {
+          "source": "confirm",
+          "sourceOutput": "success",
+          "target": "answer",
+          "targetInput": "exec"
+        }
+      ],
+      "id": "orders",
+      "nodes": [
+        {
+          "controls": {
+            "method": "POST",
+            "path": "/orders"
+          },
+          "id": "order",
+          "label": "New order",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "type": "Webhook"
+        },
+        {
+          "controls": {
+            "code_elixir": "Map.put(context, \"order\", context[\"body\"])",
+            "code_python": "",
+            "language": "elixir"
+          },
+          "id": "keep",
+          "label": "Keep the order",
+          "position": {
+            "x": 180,
+            "y": 150
+          },
+          "type": "Evaluate Code"
+        },
+        {
+          "controls": {
+            "items": "order.line_items"
+          },
+          "id": "each",
+          "label": "Each item",
+          "position": {
+            "x": 360,
+            "y": 150
+          },
+          "type": "For Each"
+        },
+        {
+          "controls": {
+            "credential": "",
+            "sql": "UPDATE products SET stock = stock - {{item.quantity}} WHERE sku = {{item.sku}}"
+          },
+          "id": "stock",
+          "label": "Take it from stock",
+          "position": {
+            "x": 540,
+            "y": 60
+          },
+          "type": "SQL: Run Query"
+        },
+        {
+          "controls": {
+            "attachment": "",
+            "attachment_name": "",
+            "bcc": "",
+            "cc": "",
+            "credential": "",
+            "format": "plain",
+            "message": "Thanks, {{order.customer}}! Your order {{order.id}} is confirmed, and we'll write again when it ships.",
+            "subject": "Order {{order.id}} confirmed",
+            "to": "{{order.email}}"
+          },
+          "id": "confirm",
+          "label": "Confirm the order",
+          "position": {
+            "x": 540,
+            "y": 240
+          },
+          "type": "Email: Send Email"
+        },
+        {
+          "controls": {
+            "response_body": "{\"order\": \"{{order.id}}\", \"status\": \"confirmed\"}",
+            "response_status": "200"
+          },
+          "id": "answer",
+          "label": "Answer the shop",
+          "position": {
+            "x": 720,
+            "y": 240
+          },
+          "type": "Respond to Webhook"
+        }
+      ]
+    }
+  ],
+  "heddle_version": "0.5.0"
+}

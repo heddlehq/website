@@ -10,7 +10,7 @@ export const en = {
   skip: 'Skip to content',
   home: 'Heddle, home',
   navLabel: 'Main',
-  nav: { what: 'What it does', early: 'Early access', source: 'GitHub' },
+  nav: { what: 'What it does', showcase: 'Showcase', early: 'Early access', source: 'GitHub' },
   switchTo: { label: 'PT', title: 'Ver em português', lang: 'pt-BR', path: '/pt/' },
   hero: {
     lines: ['Automation you', 'actually own.'],
@@ -43,6 +43,7 @@ export const en = {
     failed: 'failed',
     fig: 'Fig. 1.',
     caption: 'A new order comes in. The red thread is one run: the order was paid, so the warehouse was told.',
+    watch: '[ See real flows ]',
   },
   today: {
     title: 'What’s in the box',
@@ -82,6 +83,14 @@ export const en = {
       {
         title: 'Secrets stay secret',
         text: 'Credentials are encrypted. A flow keeps only their name, so a key never lands in a log.',
+      },
+      {
+        title: 'Build it together',
+        text: 'Everyone on a flow sees the others’ cursors and changes as they happen. It saves itself, and undo takes back only what you did.',
+      },
+      {
+        title: 'Publish when it’s ready',
+        text: 'Edit a draft while production runs the version you published. Every version keeps who changed what and when, and goes back in one click.',
       },
       {
         title: 'Canvas or terminal',
@@ -175,6 +184,137 @@ export const en = {
     b: 'and the conversation is on',
     c: 'If you want to help, start with the',
     contributing: 'contributing guide',
+  },
+  showcase: {
+    path: '/showcase/',
+    meta: {
+      title: 'Showcase: real flows built with Heddle',
+      description:
+        'Flows people actually run, drawn on Heddle’s own canvas: leads, reports, support, refunds, uptime and orders.',
+    },
+    title: 'Showcase',
+    lead: 'Flows people actually run, drawn on Heddle’s own canvas. Open one to look around it, and click a node to see how it is set up.',
+    galleryLabel: 'Flows',
+    open: 'Open',
+    trigger: { webhook: 'On a webhook', schedule: 'On a schedule' } as Record<string, string>,
+    nodes: '{n} nodes',
+    close: 'Close',
+    canvasLabel: 'The flow on Heddle’s canvas',
+    hint: 'Drag to move around, Ctrl and scroll to zoom. Click a node to see how it is set up.',
+    noscript: 'Opening a flow needs JavaScript.',
+    inspector: {
+      label: 'Node details',
+      idle: 'Click a node to see how it is set up.',
+      fields: 'Fields',
+      outputs: 'Goes out through',
+    },
+    checked:
+      'Every flow here passes the checks Heddle makes before it saves one. The credentials are left out, since each person picks their own.',
+    tryIt: {
+      title: 'Build your own',
+      text: 'Heddle installs with one line, on your computer or a server. Draw a flow like these, or describe it and let the AI build it.',
+    },
+    flows: {
+      leads: {
+        title: 'Route new leads',
+        summary: 'A form sends a lead. The flow looks its company up on GitHub, scores it, and sends it to sales, the pipeline or a welcome email.',
+        labels: {
+          form: 'Form sent',
+          keep: 'Keep the lead',
+          lookup: 'Look up the company',
+          score: 'Score it',
+          route: 'Route by tier',
+          sales: 'Tell sales',
+          pipeline: 'Add to the pipeline',
+          welcome: 'Send the guides',
+          join: 'Join',
+          answer: 'Answer the form',
+        },
+        notes: {
+          'why-keep':
+            'The HTTP Request has a body field of its own, which would hide the form’s. So the lead is kept under another name first.',
+        },
+      },
+      'sales-report': {
+        title: 'Daily sales report',
+        summary: 'Every weekday at 8, yesterday’s sales come out of the database, an AI sums them up, and the summary goes to Slack and by email.',
+        labels: {
+          morning: 'Weekdays at 8',
+          sales: 'Yesterday’s sales',
+          summary: 'Sum it up',
+          channel: 'Post in #sales',
+          leadership: 'Email leadership',
+          failed: 'Tell ops it failed',
+        },
+        notes: {
+          bound: 'The query runs as it is written. Values from a run would go in as bound parameters, never as text.',
+        },
+      },
+      support: {
+        title: 'Support triage with AI',
+        summary: 'An AI sorts each new ticket. Bugs go to engineering, billing goes to billing, and questions get a first answer right away.',
+        labels: {
+          ticket: 'New ticket',
+          sort: 'Sort it',
+          route: 'Route by kind',
+          engineering: 'Tell engineering',
+          billing: 'Forward to billing',
+          draft: 'Write an answer',
+          reply: 'Reply to the customer',
+          join: 'Join',
+          answer: 'Tell the help desk',
+        },
+        notes: {
+          copy: 'The answer goes out with support in copy, so a person sees every one.',
+        },
+      },
+      refunds: {
+        title: 'Refunds with approval',
+        summary: 'A refund waits for finance to approve it from a link in an email. If nobody does in two days, finance hears about it.',
+        labels: {
+          request: 'Refund requested',
+          keep: 'Keep the request',
+          ask: 'Ask finance',
+          approval: 'Wait for approval',
+          pay: 'Refund the order',
+          customer: 'Tell the customer',
+          expired: 'Nobody approved it',
+        },
+        notes: {
+          resume: '{{resume_url}} resumes this run. The wait is saved, so it survives a restart of the server.',
+        },
+      },
+      uptime: {
+        title: 'Uptime monitor',
+        summary: 'Every five minutes the site is checked. Redis counts the failures, and on-call hears about it once, on the third in a row.',
+        labels: {
+          every: 'Every 5 minutes',
+          check: 'Check the site',
+          clear: 'Forget the failures',
+          count: 'Count the failure',
+          third: 'Third in a row?',
+          alert: 'Alert on-call',
+        },
+        notes: {
+          once: 'Only the third failure alerts. The ones after it go on counting quietly, until the site is back.',
+        },
+      },
+      orders: {
+        title: 'Orders and stock',
+        summary: 'A shop sends each order. Every item takes stock off in the database, and the customer gets a confirmation once all of them are done.',
+        labels: {
+          order: 'New order',
+          keep: 'Keep the order',
+          each: 'Each item',
+          stock: 'Take it from stock',
+          confirm: 'Confirm the order',
+          answer: 'Answer the shop',
+        },
+        notes: {
+          bound: '{{item.quantity}} and {{item.sku}} go to the database as bound parameters, never pasted into the SQL.',
+        },
+      },
+    } as Record<string, { title: string; summary: string; labels: Record<string, string>; notes: Record<string, string> }>,
   },
   footer: {
     closing: 'Every thread goes where it should.',

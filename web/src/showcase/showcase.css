@@ -1,0 +1,78 @@
+/* What Heddle's app.css gives the editor: the palette, overridden there with warm
+   tones, and the two themes. The editor's own tokens are in editor/rete_custom.css. */
+:root {
+  --color-white: #fbf7ef;
+  --color-gray-50: #f3ebdc;
+  --color-gray-100: #e9dfca;
+  --color-gray-200: #d3c6ac;
+  --color-gray-300: #bfb298;
+  --color-gray-400: #aca391;
+  --color-gray-500: #6e695e;
+  --color-gray-600: #57544c;
+  --color-gray-700: #45443f;
+  --color-gray-800: #33353a;
+  --color-gray-900: #23262b;
+  --color-gray-950: #181a1e;
+
+  --color-slate-50: #f8f2e7;
+  --color-slate-100: #f3ebdc;
+  --color-slate-200: #e3dac8;
+  --color-slate-300: #c9bfac;
+  --color-slate-400: #aca391;
+  --color-slate-500: #8f887a;
+  --color-slate-600: #5c5b56;
+  --color-slate-700: #45474c;
+  --color-slate-800: #33363c;
+  --color-slate-900: #23262b;
+  --color-slate-950: #181a1e;
+
+  --color-primary: #a63a2b;
+  --color-primary-content: #fbf7ef;
+  --color-error: #c2173c;
+  --color-error-content: #fbf7ef;
+
+  --showcase-bg: var(--color-white);
+  --showcase-panel: var(--color-gray-50);
+  --showcase-rule: var(--color-gray-200);
+  --showcase-text: var(--color-gray-900);
+  --showcase-muted: var(--color-gray-500);
+  --showcase-code: var(--color-gray-100);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-primary: #e8907d;
+  --color-primary-content: #181a1e;
+  --color-error: #f0788a;
+  --color-error-content: #181a1e;
+
+  --showcase-bg: var(--color-slate-900);
+  --showcase-panel: var(--color-slate-950);
+  --showcase-rule: var(--color-slate-700);
+  --showcase-text: var(--color-slate-100);
+  --showcase-muted: var(--color-slate-400);
+  --showcase-code: var(--color-slate-800);
+}
+
+/* Read-only: looking at a flow has no use for the node and comment tools. */
+.showcase-canvas .node-actions-container,
+.showcase-canvas .comment-toolbar,
+.showcase-canvas .comment-resize,
+.showcase-canvas .section-actions {
+  display: none !important;
+}
+
+/* The wires are drawn from the sockets, so they stay, but they start no new ones. */
+.showcase-canvas .socket-container {
+  pointer-events: none;
+}
+
+.showcase-canvas .node-name {
+  font-family: var(--font-read);
+}
+
+/* The node whose details are open. */
+.showcase-canvas custom-node[data-focus] .circular-node {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-primary) 35%, transparent) !important;
+}

@@ -1,0 +1,225 @@
+---
+// A drawing of a flow for its card, the way Heddle's canvas draws it: the same
+// node circles, icons, sockets, wires, names and notes, at the same sizes, so it
+// reads as a small picture of the editor. Sizes are custom-node.js's and
+// rete_custom.css's.
+import icons from '../showcase/editor/icons.json';
+
+interface Definition {
+  category: string;
+  icon: string;
+  inputs: string[];
+  outputs: string[];
+}
+
+interface Props {
+  nodes: { id: string; type: string; label: string; controls: Record<string, unknown>; position: { x: number; y: number } }[];
+  connections: { source: string; target: string }[];
+  comments: { id: string; color: string; text: string; width: number; height: number; position: { x: number; y: number } }[];
+  definitions: Record<string, Definition>;
+  labels: Record<string, string>;
+  notes: Record<string, string>;
+}
+
+const { nodes, connections, comments, definitions, labels, notes } = Astro.props;
+const svgs = icons as Record<string, { viewBox: string; fill: string | null; body: string }>;
+
+const size = 88;
+const half = size / 2;
+const socket = 12;
+const iconSize = 35;
+const pad = 40;
+
+// The same table as custom-node.js.
+const colors: Record<string, string> = {
+  trigger: 'var(--node-trigger)',
+  flow_control: 'var(--node-flow-control)',
+  code: 'var(--node-code)',
+  data_manipulation: 'var(--node-data)',
+  http: 'var(--node-integration)',
+  database: 'var(--node-integration)',
+  email: 'var(--node-integration)',
+  ftp: 'var(--node-integration)',
+  google_sheets: 'var(--node-integration)',
+  s3: 'var(--node-integration)',
+  slack: 'var(--node-integration)',
+  utility: 'var(--node-utility)',
+};
+
+const drawn = nodes.map((node) => {
+  const definition = definitions[node.type];
+  const language = node.controls.language;
+  return {
+    ...node,
+    label: labels[node.id] ?? node.label,
+    color: colors[definition?.category ?? ''] ?? 'var(--node-utility)',
+    icon: svgs[definition?.icon ?? ''],
+    inputs: (definition?.inputs.length ?? 0) > 0,
+    outputs: (definition?.outputs.length ?? 0) > 0,
+    badge: language === 'elixir' ? 'EX' : language === 'python' ? 'PY' : null,
+  };
+});
+
+// A note's text, broken into lines the way its box would wrap it.
+const wrap = (text: string, width: number) => {
+  const perLine = Math.floor((width - 24) / 8.4);
+  const lines: string[] = [];
+  let line = '';
+  for (const word of text.split(/\s+/)) {
+    if (line && (line + ' ' + word).length > perLine) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = line ? `${line} ${word}` : word;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+};
+
+const drawnNotes = comments.map((comment) => ({
+  ...comment,
+  lines: wrap(notes[comment.id] ?? comment.text, comment.width),
+}));
+
+// Rete's classic wire, from an output socket to an input one.
+const at = new Map(nodes.map((node) => [node.id, node.position]));
+const wires = connections.flatMap(({ source, target }) => {
+  const from = at.get(source);
+  const to = at.get(target);
+  if (!from || !to) return [];
+  const x1 = from.x + size;
+  const y1 = from.y + half;
+  const x2 = to.x;
+  const y2 = to.y + half;
+  const curve = Math.abs(x2 - x1) * 0.3;
+  return [`M${x1} ${y1} C${x1 + curve} ${y1} ${x2 - curve} ${y2} ${x2} ${y2}`];
+});
+
+// Room for everything, and the names above the nodes.
+const boxes = [
+  ...nodes.map((node) => ({ x: node.position.x - socket, y: node.position.y - 34, w: size + 2 * socket, h: size + 34 })),
+  ...comments.map((comment) => ({ ...comment.position, w: comment.width, h: comment.height })),
+];
+const left = Math.min(...boxes.map((box) => box.x)) - pad;
+const top = Math.min(...boxes.map((box) => box.y)) - pad;
+const width = Math.max(...boxes.map((box) => box.x + box.w)) + pad - left;
+const height = Math.max(...boxes.map((box) => box.y + box.h)) + pad - top;
+---
+
+<svg class="thumb" viewBox={`${left} ${top} ${width} ${height}`} aria-hidden="true" focusable="false">
+  {
+    drawnNotes.map((note) => (
+      <g class="note" style={`--comment: var(--comment-${note.color}); --comment-border: var(--comment-${note.color}-border)`}>
+        <rect x={note.position.x} y={note.position.y} width={note.width} height={note.height} rx="8" />
+        {note.lines.map((line, index) => (
+          <text x={note.position.x + 12} y={note.position.y + 30 + index * 22}>
+            {line}
+          </text>
+        ))}
+      </g>
+    ))
+  }
+
+  {wires.map((d) => <path class="wire" d={d} />)}
+
+  {
+    drawn.map((node) => {
+      const { x, y } = node.position;
+      return (
+        <g class="node" style={`--node: ${node.color}`}>
+          <text class="name" x={x + half} y={y - 10}>
+            {node.label}
+          </text>
+          <circle class="ring" cx={x + half} cy={y + half} r={half - 1.5} />
+          {node.icon && (
+            <svg
+              x={x + half - iconSize / 2}
+              y={y + half - iconSize / 2}
+              width={iconSize}
+              height={iconSize}
+              viewBox={node.icon.viewBox}
+              fill={node.icon.fill ?? undefined}
+              class="icon"
+              set:html={node.icon.body}
+            />
+          )}
+          {node.badge && (
+            <g class="badge">
+              <rect x={x + size - 24} y={y + size - 18} width="20" height="14" rx="3" />
+              <text x={x + size - 14} y={y + size - 7.5}>
+                {node.badge}
+              </text>
+            </g>
+          )}
+          {node.inputs && <circle class="socket" cx={x} cy={y + half} r={socket - 1} />}
+          {node.outputs && <circle class="socket" cx={x + size} cy={y + half} r={socket - 1} />}
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  .thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-read);
+  }
+
+  .wire {
+    fill: none;
+    stroke: var(--editor-wire);
+    stroke-width: 5;
+  }
+
+  .ring {
+    fill: var(--editor-surface);
+    stroke: color-mix(in oklab, var(--node) 67%, transparent);
+    stroke-width: 3;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.08));
+  }
+
+  .icon {
+    color: var(--node);
+  }
+
+  .name {
+    fill: var(--editor-text);
+    font-size: 13px;
+    font-weight: 500;
+    text-anchor: middle;
+  }
+
+  .socket {
+    fill: var(--color-primary);
+    stroke: var(--editor-surface);
+    stroke-width: 2;
+  }
+
+  .badge rect {
+    fill: var(--color-primary);
+    stroke: var(--editor-surface);
+    stroke-width: 1;
+  }
+
+  .badge text {
+    fill: var(--color-primary-content);
+    font-family: var(--font-type);
+    font-size: 9px;
+    font-weight: 800;
+    text-anchor: middle;
+  }
+
+  .note rect {
+    fill: var(--comment);
+    stroke: var(--comment-border);
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.08));
+  }
+
+  .note text {
+    fill: var(--comment-note-text);
+    font-size: 15px;
+  }
+</style>

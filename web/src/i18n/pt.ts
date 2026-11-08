@@ -12,7 +12,7 @@ export const pt: Copy = {
   skip: 'Pular para o conteúdo',
   home: 'Heddle, início',
   navLabel: 'Principal',
-  nav: { what: 'O que faz', early: 'Acesso antecipado', source: 'GitHub' },
+  nav: { what: 'O que faz', showcase: 'Showcase', early: 'Acesso antecipado', source: 'GitHub' },
   switchTo: { label: 'EN', title: 'View in English', lang: 'en', path: '/' },
   hero: {
     lines: ['Automação que', 'é sua de verdade.'],
@@ -45,6 +45,7 @@ export const pt: Copy = {
     failed: 'falhou',
     fig: 'Fig. 1.',
     caption: 'Chega um novo pedido. O fio vermelho é uma execução: o pedido estava pago, então o estoque foi avisado.',
+    watch: '[ Ver fluxos de verdade ]',
   },
   today: {
     title: 'O que vem na caixa',
@@ -84,6 +85,14 @@ export const pt: Copy = {
       {
         title: 'Segredo fica em segredo',
         text: 'Credenciais criptografadas. O fluxo guarda só o nome delas, então uma chave nunca vai parar em um log.',
+      },
+      {
+        title: 'Monte junto',
+        text: 'Quem está no fluxo vê o cursor e as mudanças dos outros na hora. Salva sozinho, e o desfazer volta só o que você fez.',
+      },
+      {
+        title: 'Publique quando estiver pronto',
+        text: 'Edite um rascunho enquanto a produção roda a versão publicada. Cada versão guarda quem mudou o quê e quando, e volta com um clique.',
       },
       {
         title: 'Canvas ou terminal',
@@ -177,6 +186,137 @@ export const pt: Copy = {
     b: 'e a conversa acontece no',
     c: 'Se quiser ajudar, comece pelo',
     contributing: 'guia de contribuição',
+  },
+  showcase: {
+    path: '/pt/showcase/',
+    meta: {
+      title: 'Showcase: fluxos reais feitos no Heddle',
+      description:
+        'Fluxos que as pessoas rodam de verdade, desenhados no canvas do Heddle: leads, relatórios, suporte, reembolsos, monitoramento e pedidos.',
+    },
+    title: 'Showcase',
+    lead: 'Fluxos que as pessoas rodam de verdade, desenhados no canvas do próprio Heddle. Abra um para olhar de perto, e clique num nó para ver como ele está configurado.',
+    galleryLabel: 'Fluxos',
+    open: 'Abrir',
+    trigger: { webhook: 'Por webhook', schedule: 'Agendado' },
+    nodes: '{n} nós',
+    close: 'Fechar',
+    canvasLabel: 'O fluxo no canvas do Heddle',
+    hint: 'Arraste para se mover, Ctrl e a rolagem para dar zoom. Clique num nó para ver como ele está configurado.',
+    noscript: 'Abrir um fluxo precisa de JavaScript.',
+    inspector: {
+      label: 'Detalhes do nó',
+      idle: 'Clique num nó para ver como ele está configurado.',
+      fields: 'Campos',
+      outputs: 'Sai por',
+    },
+    checked:
+      'Todo fluxo daqui passa pelas verificações que o Heddle faz antes de salvar um. As credenciais ficam de fora, porque cada pessoa escolhe as suas.',
+    tryIt: {
+      title: 'Monte o seu',
+      text: 'O Heddle se instala com uma linha, no seu computador ou num servidor. Desenhe um fluxo como estes, ou descreva e deixe a IA montar.',
+    },
+    flows: {
+      leads: {
+        title: 'Encaminhar novos leads',
+        summary: 'Um formulário manda um lead. O fluxo procura a empresa no GitHub, dá uma nota e manda para vendas, para o funil ou para um e-mail de boas-vindas.',
+        labels: {
+          form: 'Formulário enviado',
+          keep: 'Guarda o lead',
+          lookup: 'Procura a empresa',
+          score: 'Dá a nota',
+          route: 'Encaminha pela nota',
+          sales: 'Avisa vendas',
+          pipeline: 'Põe no funil',
+          welcome: 'Manda os guias',
+          join: 'Junta',
+          answer: 'Responde o formulário',
+        },
+        notes: {
+          'why-keep':
+            'O HTTP Request tem um campo body próprio, que esconderia o do formulário. Por isso o lead é guardado com outro nome antes.',
+        },
+      },
+      'sales-report': {
+        title: 'Relatório diário de vendas',
+        summary: 'Todo dia útil às 8h, as vendas de ontem saem do banco, uma IA resume, e o resumo vai para o Slack e por e-mail.',
+        labels: {
+          morning: 'Dias úteis às 8h',
+          sales: 'Vendas de ontem',
+          summary: 'Resume',
+          channel: 'Posta em #sales',
+          leadership: 'Manda à diretoria',
+          failed: 'Avisa ops da falha',
+        },
+        notes: {
+          bound: 'A consulta roda como está escrita. Valores de uma execução entrariam como parâmetros, nunca como texto.',
+        },
+      },
+      support: {
+        title: 'Triagem de suporte com IA',
+        summary: 'Uma IA classifica cada chamado novo. Bugs vão para a engenharia, cobrança vai para o financeiro, e dúvidas recebem uma primeira resposta na hora.',
+        labels: {
+          ticket: 'Novo chamado',
+          sort: 'Classifica',
+          route: 'Encaminha pelo tipo',
+          engineering: 'Avisa a engenharia',
+          billing: 'Encaminha à cobrança',
+          draft: 'Escreve a resposta',
+          reply: 'Responde o cliente',
+          join: 'Junta',
+          answer: 'Avisa o help desk',
+        },
+        notes: {
+          copy: 'A resposta sai com o suporte em cópia, para uma pessoa ver todas.',
+        },
+      },
+      refunds: {
+        title: 'Reembolsos com aprovação',
+        summary: 'Um reembolso espera o financeiro aprovar por um link no e-mail. Se ninguém aprovar em dois dias, o financeiro fica sabendo.',
+        labels: {
+          request: 'Reembolso pedido',
+          keep: 'Guarda o pedido',
+          ask: 'Pergunta ao financeiro',
+          approval: 'Espera a aprovação',
+          pay: 'Reembolsa o pedido',
+          customer: 'Avisa o cliente',
+          expired: 'Ninguém aprovou',
+        },
+        notes: {
+          resume: 'O {{resume_url}} retoma esta execução. A espera fica salva, então sobrevive a um reinício do servidor.',
+        },
+      },
+      uptime: {
+        title: 'Monitor de site',
+        summary: 'A cada cinco minutos o site é verificado. O Redis conta as falhas, e o plantão é avisado uma vez, na terceira seguida.',
+        labels: {
+          every: 'A cada 5 minutos',
+          check: 'Verifica o site',
+          clear: 'Esquece as falhas',
+          count: 'Conta a falha',
+          third: 'Terceira seguida?',
+          alert: 'Avisa o plantão',
+        },
+        notes: {
+          once: 'Só a terceira falha avisa. As seguintes continuam contando em silêncio, até o site voltar.',
+        },
+      },
+      orders: {
+        title: 'Pedidos e estoque',
+        summary: 'Uma loja manda cada pedido. Cada item dá baixa no estoque do banco, e o cliente recebe a confirmação quando todos terminam.',
+        labels: {
+          order: 'Novo pedido',
+          keep: 'Guarda o pedido',
+          each: 'Cada item',
+          stock: 'Dá baixa no estoque',
+          confirm: 'Confirma o pedido',
+          answer: 'Responde a loja',
+        },
+        notes: {
+          bound: '{{item.quantity}} e {{item.sku}} vão ao banco como parâmetros, nunca colados no SQL.',
+        },
+      },
+    },
   },
   footer: {
     closing: 'Cada fio vai aonde deve ir.',

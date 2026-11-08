@@ -1,0 +1,73 @@
+---
+import Mark from './Mark.astro';
+import { links, site } from '../config';
+import type { Copy } from '../i18n/en';
+
+interface Props {
+  t: Copy;
+  // Where the language link goes: the same page in the other language.
+  switchPath?: string;
+  current?: 'home' | 'showcase';
+}
+
+const { t, switchPath = t.switchTo.path, current = 'home' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// On the landing page the sections are right there.
+const home = current === 'home' ? '' : `${base}${t.path}`;
+---
+
+<header class="sheet masthead">
+  <a class="brand" href={`${base}${t.path}`} aria-label={t.home}>
+    <Mark />
+    <span>{site.name}</span>
+  </a>
+  <nav aria-label={t.navLabel}>
+    <a href={`${home}#what`}>{t.nav.what}</a>
+    <a href={`${base}${t.showcase.path}`} aria-current={current === 'showcase' ? 'page' : undefined}
+      >{t.nav.showcase}</a
+    >
+    <a href={`${home}#early`}>{t.nav.early}</a>
+    <a href={links.source} target="_blank" rel="noopener">{t.nav.source}</a>
+    <a href={`${base}${switchPath}`} hreflang={t.switchTo.lang} lang={t.switchTo.lang} title={t.switchTo.title}
+      >{t.switchTo.label}</a
+    >
+  </nav>
+</header>
+
+<style>
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-4) 0;
+    font-family: var(--font-type);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    font-size: 1rem;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  nav a[aria-current='page'] {
+    color: var(--ribbon);
+    text-decoration-thickness: 2px;
+  }
+</style>

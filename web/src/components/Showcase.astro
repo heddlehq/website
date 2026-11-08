@@ -1,0 +1,558 @@
+---
+import Base from '../layouts/Base.astro';
+import Colophon from './Colophon.astro';
+import FlowThumb from './FlowThumb.astro';
+import Masthead from './Masthead.astro';
+import { installCommands } from '../config';
+import gallery from '../data/showcase/flows.json';
+import type { Copy } from '../i18n/en';
+import '../showcase/editor/rete_custom.css';
+import '../showcase/editor/icons.css';
+import '../showcase/showcase.css';
+
+interface Props {
+  t: Copy;
+  // The same page in the other language.
+  alternate: string;
+}
+
+const { t, alternate } = Astro.props;
+const s = t.showcase;
+const definitions = gallery.definitions as Record<string, { category: string }>;
+const categories = Object.fromEntries(Object.entries(definitions).map(([name, d]) => [name, d.category]));
+
+// The services a flow reaches, for its card. Steps of the flow itself aren't news.
+const own = new Set(['trigger', 'flow_control', 'code', 'data_manipulation', 'utility']);
+const service = (type: string) => {
+  if (type.startsWith('AI')) return 'AI';
+  if (type === 'HTTP Request') return 'HTTP';
+  return type.split(':')[0]!;
+};
+
+const cards = gallery.flows.map((flow) => {
+  const text = s.flows[flow.id]!;
+  const trigger = flow.nodes.find((node) => categories[node.type] === 'trigger')?.type.toLowerCase() ?? '';
+  const uses = [
+    ...new Set(flow.nodes.filter((node) => !own.has(categories[node.type] ?? '')).map((node) => service(node.type))),
+  ];
+  return { flow, text, trigger: s.trigger[trigger] ?? '', uses };
+});
+
+// Only what the viewer needs.
+const viewerCopy = { inspector: s.inspector, flows: s.flows };
+---
+
+<Base t={t} page={{ title: s.meta.title, description: s.meta.description, path: s.path, alternate }}>
+  <a class="skip" href="#main">{t.skip}</a>
+  <Masthead t={t} switchPath={alternate} current="showcase" />
+
+  <main id="main">
+    <section class="sheet intro">
+      <h1>{s.title}</h1>
+      <p class="lead">{s.lead}</p>
+    </section>
+
+    <ul class="gallery" aria-label={s.galleryLabel} data-gallery data-copy={JSON.stringify(viewerCopy)}>
+      {
+        cards.map(({ flow, text, trigger, uses }) => (
+          <li>
+            <a class="card" href={`#${flow.id}`} data-open={flow.id}>
+              <span class="thumb-frame">
+                <FlowThumb
+                  nodes={flow.nodes}
+                  connections={flow.connections}
+                  comments={flow.comments}
+                  definitions={gallery.definitions}
+                  labels={text.labels}
+                  notes={text.notes}
+                />
+              </span>
+              <span class="card-body">
+                <span class="meta">
+                  {trigger} · {s.nodes.replace('{n}', String(flow.nodes.length))}
+                </span>
+                <span class="title">{text.title}</span>
+                <span class="summary">{text.summary}</span>
+                <span class="uses">
+                  {uses.map((name) => (
+                    <span class="stamp">{name}</span>
+                  ))}
+                </span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="sheet after">
+      <p class="checked">{s.checked}</p>
+      <noscript><p class="checked">{s.noscript}</p></noscript>
+
+      <section aria-labelledby="try">
+        <h2 id="try">{s.tryIt.title}</h2>
+        <p>{s.tryIt.text}</p>
+        <pre class="command"><code>{installCommands.unix}</code></pre>
+      </section>
+    </div>
+  </main>
+
+  <Colophon t={t} folio={2} />
+
+  <dialog class="viewer" data-viewer aria-labelledby="viewer-title">
+    <header class="viewer-head">
+      <div class="viewer-text">
+        <h2 id="viewer-title" data-title></h2>
+        <p data-summary></p>
+      </div>
+      <div class="viewer-actions">
+        <button type="button" class="close" data-close aria-label={s.close}>×</button>
+      </div>
+    </header>
+    <div class="board" data-board>
+      <div class="canvas-frame">
+        <div class="showcase-canvas" data-canvas role="img" aria-label={s.canvasLabel}></div>
+        <p class="hint">{s.hint}</p>
+      </div>
+      <aside class="inspector" data-inspector aria-label={s.inspector.label} aria-live="polite"></aside>
+    </div>
+  </dialog>
+</Base>
+
+<style>
+  .intro {
+    padding-block: clamp(3rem, 10vh, 6rem) var(--space-5);
+  }
+
+  h1 {
+    font-family: var(--font-type);
+    font-size: clamp(1.75rem, calc(9.4vw - 4px), 3.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .lead {
+    margin-block-start: var(--space-4);
+    font-size: 1.1875rem;
+  }
+
+  h2 {
+    margin-block-end: var(--space-3);
+    font-family: var(--font-type);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-transform: uppercase;
+    text-underline-offset: 0.3em;
+  }
+
+  /* The gallery wants more room than the column of text. */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    gap: var(--space-4) var(--space-3);
+    width: min(100% - 2 * var(--gutter), 76rem);
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--rule);
+    background: var(--paper-seen);
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    border-color: var(--ink);
+    color: inherit;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -22px rgb(35 38 43 / 0.6);
+  }
+
+  .thumb-frame {
+    display: block;
+    aspect-ratio: 16 / 9;
+    /* Every drawing fits the same box, whatever the shape of its flow. */
+    overflow: hidden;
+    padding: var(--space-3);
+    border-block-end: 1px solid var(--rule);
+    background-color: var(--color-white);
+    background-image: radial-gradient(circle, var(--color-gray-200) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  .card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .meta {
+    color: var(--ink-soft);
+    font-family: var(--font-type);
+    font-size: 0.8125rem;
+  }
+
+  .title {
+    font-family: var(--font-type);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .card:hover .title {
+    color: var(--ribbon);
+  }
+
+  .summary {
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .uses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    margin-block-start: auto;
+    padding-block-start: var(--space-2);
+  }
+
+  .stamp {
+    padding: 0 0.4em;
+    border: 1px solid var(--ink-soft);
+    color: var(--ink-soft);
+    font-family: var(--font-type);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .checked {
+    margin-block-start: var(--space-4);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .after section {
+    margin-block-start: var(--space-6);
+  }
+
+  .command {
+    margin: var(--space-3) 0 0;
+    padding: 0.75rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-deep);
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* The flow, opened. */
+  .viewer {
+    width: min(100% - 2rem, 84rem);
+    max-width: none;
+    height: min(100% - 2rem, 52rem);
+    max-height: none;
+    padding: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .viewer[open] {
+    display: flex;
+    flex-direction: column;
+    animation: rise 0.2s ease-out;
+  }
+
+  .viewer::backdrop {
+    background: rgb(35 38 43 / 0.55);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viewer[open] {
+      animation: none;
+    }
+  }
+
+  .viewer-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-3);
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .viewer-text {
+    flex: 1 1 20rem;
+    min-width: 0;
+  }
+
+  .viewer-head h2 {
+    margin: 0 0 var(--space-1);
+  }
+
+  .viewer-head p {
+    max-width: 48rem;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  /* On a phone the canvas gets the room: the dialog fills the screen, and the
+     header sits on one line above it. */
+  @media (max-width: 40rem) {
+    .viewer {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .viewer-head {
+      flex-wrap: nowrap;
+      align-items: center;
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .viewer-head h2 {
+      margin: 0;
+      font-size: 0.9375rem;
+    }
+
+    .viewer-head p,
+    .hint {
+      display: none;
+    }
+  }
+
+  .viewer-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--space-3);
+    align-items: center;
+    font-family: var(--font-type);
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .viewer-actions a {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .close {
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--rule);
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .close:hover {
+    border-color: var(--ribbon);
+    color: var(--ribbon);
+  }
+
+  .board {
+    display: grid;
+    flex: 1;
+    grid-template-rows: minmax(18rem, 1fr) auto;
+    min-height: 0;
+    background: var(--showcase-bg);
+    color: var(--showcase-text);
+  }
+
+  .canvas-frame {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .showcase-canvas {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .hint {
+    position: absolute;
+    inset-inline: var(--space-3);
+    bottom: var(--space-2);
+    margin: 0;
+    color: var(--showcase-muted);
+    font-family: var(--font-type);
+    font-size: 0.8125rem;
+    pointer-events: none;
+  }
+
+  .inspector {
+    max-height: 40vh;
+    overflow-y: auto;
+    padding: var(--space-3);
+    border-block-start: 1px solid var(--showcase-rule);
+    background: var(--showcase-panel);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 60rem) {
+    .board {
+      grid-template-columns: minmax(0, 1fr) 22rem;
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    .inspector {
+      max-height: none;
+      border-block-start: 0;
+      border-inline-start: 1px solid var(--showcase-rule);
+    }
+  }
+
+  .inspector :global(h3) {
+    margin: 0;
+    font-family: var(--font-type);
+    font-size: 1.125rem;
+  }
+
+  .inspector :global(h4) {
+    margin: var(--space-3) 0 var(--space-1);
+    color: var(--showcase-muted);
+    font-family: var(--font-type);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .inspector :global(p) {
+    margin: 0;
+  }
+
+  .inspector :global(.kind) {
+    color: var(--color-primary);
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+  }
+
+  .inspector :global(.muted) {
+    color: var(--showcase-muted);
+  }
+
+  .inspector :global(dl) {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+  }
+
+  .inspector :global(dt) {
+    color: var(--showcase-muted);
+  }
+
+  .inspector :global(dd) {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .inspector :global(dd.block) {
+    grid-column: 1 / -1;
+  }
+
+  .inspector :global(pre) {
+    max-height: 16rem;
+    margin: 0;
+    padding: var(--space-2);
+    overflow: auto;
+    border-radius: 4px;
+    background: var(--showcase-code);
+    font-family: var(--font-type);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .inspector :global(.outputs) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .inspector :global(.port) {
+    color: var(--color-primary);
+    font-family: var(--font-type);
+    font-size: 0.875rem;
+  }
+</style>
+
+<script>
+  import gallery from '../data/showcase/flows.json';
+  import type { Copy, Gallery } from '../showcase/viewer';
+
+  const list = document.querySelector<HTMLElement>('[data-gallery]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-viewer]');
+
+  if (list && dialog) {
+    const copy = JSON.parse(list.dataset.copy ?? '{}') as Copy;
+    // The canvas only loads when a flow is opened.
+    let opening: Promise<ReturnType<typeof import('../showcase/viewer').viewer>> | null = null;
+    const load = () =>
+      (opening ??= import('../showcase/viewer').then(({ viewer }) => viewer(dialog, gallery as unknown as Gallery, copy)));
+
+    const openFromHash = async () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      if (!id || !gallery.flows.some((flow) => flow.id === id)) {
+        if (dialog.open) dialog.close();
+        return;
+      }
+      await (await load()).open(id);
+    };
+
+    // The address names the flow that is open, so it can be shared.
+    window.addEventListener('hashchange', openFromHash);
+    dialog.addEventListener('close', () => {
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      list.querySelector<HTMLElement>(`[data-open="${dialog.dataset.flow}"]`)?.focus();
+    });
+    list.addEventListener('click', (event) => {
+      const card = (event.target as Element).closest<HTMLElement>('[data-open]');
+      if (card) dialog.dataset.flow = card.dataset.open;
+    });
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    // A click on the backdrop closes it too.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    openFromHash();
+  }
+</script>

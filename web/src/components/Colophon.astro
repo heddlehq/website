@@ -1,0 +1,45 @@
+---
+import { links, site } from '../config';
+import type { Copy } from '../i18n/en';
+
+interface Props {
+  t: Copy;
+  // The page number at the foot, like a printed sheet.
+  folio: number;
+}
+
+const { t, folio } = Astro.props;
+---
+
+<footer class="sheet colophon">
+  <p class="closing">{t.footer.closing}</p>
+  <p>
+    {site.name}
+    {site.version}. <a href={links.license}>{t.footer.license}</a>.
+  </p>
+  <p class="folio" aria-hidden="true">- {folio} -</p>
+</footer>
+
+<style>
+  .colophon {
+    margin-block-start: var(--space-6);
+    padding-block-end: var(--space-4);
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+
+  .closing {
+    margin-block-end: var(--space-4);
+    color: var(--ink);
+    font-family: var(--font-type);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .folio {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-type);
+    text-align: center;
+  }
+</style>
