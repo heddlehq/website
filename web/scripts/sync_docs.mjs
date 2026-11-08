@@ -59,6 +59,13 @@ const escape = (text) =>
 
 // The icons of the nodes, from the editor's own: Heroicons and the services' logos.
 const ui = join(heddle, 'apps', 'heddle_ui', 'priv');
+// Without them every node is drawn empty, so stop rather than publish that.
+for (const dir of [join(ui, 'heroicons'), join(ui, 'static', 'images', 'services')]) {
+  if (!existsSync(dir)) {
+    console.error(`No icons in ${dir}. Check out apps/heddle_ui/priv along with docs.`);
+    process.exit(1);
+  }
+}
 const SETS = [
   ['-solid', '24/solid'],
   ['-mini', '20/solid'],
