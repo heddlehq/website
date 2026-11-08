@@ -41,7 +41,11 @@ jobs:
           repository: heddlehq/Heddle
           ref: ${{ steps.heddle.outputs.ref }}
           path: heddle-src
-          sparse-checkout: docs
+          # The docs draw the nodes with the editor's icons, which live in the app.
+          sparse-checkout: |
+            docs
+            apps/heddle_ui/priv/heroicons
+            apps/heddle_ui/priv/static/images/services
       - uses: actions/setup-node@v4
         with:
           node-version: 22
