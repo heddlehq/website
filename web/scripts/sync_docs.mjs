@@ -1,6 +1,9 @@
 // Copies the documentation from the Heddle repository into the site.
 //
-//     node scripts/sync_docs.mjs [path to the heddle repository]
+//     node scripts/sync_docs.mjs [path to the heddle repository] [--if-present]
+//
+// `npm run dev` and `npm run build` run it with --if-present, which leaves the docs
+// as they are when there is no Heddle repository next to this one.
 //
 // The pages are written there, in docs/site/en and docs/site/pt, so they change with
 // the code they describe. The node pages are made here from docs/reference/nodes.json,
@@ -11,11 +14,17 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const web = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const heddle = resolve(process.argv[2] ?? join(web, '..', 'heddle'));
+const args = process.argv.slice(2);
+const ifPresent = args.includes('--if-present');
+const heddle = resolve(args.find((arg) => !arg.startsWith('--')) ?? join(web, '..', 'heddle'));
 const docs = join(heddle, 'docs');
 const repo = 'https://github.com/heddlehq/Heddle';
 
 if (!existsSync(join(docs, 'site', 'en'))) {
+  if (ifPresent) {
+    console.log(`No documentation in ${docs}, so the docs stay as they are.`);
+    process.exit(0);
+  }
   console.error(`No documentation in ${docs}. Pass the path to the heddle repository.`);
   process.exit(1);
 }

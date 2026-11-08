@@ -20,6 +20,10 @@ function baseLinks() {
   return () => walk;
 }
 
+// The documentation is copied in by scripts/sync_docs.mjs. Without it, the site
+// builds with no docs rather than failing on a sidebar that names missing pages.
+const hasDocs = existsSync('src/content/docs/docs/index.md');
+
 // The nodes, by category, from the reference scripts/sync_docs.mjs copies in.
 const reference = 'src/data/docs/nodes.json';
 /** @type {{ id: string, label: string, nodes: { slug: string }[] }[]} */
@@ -57,7 +61,7 @@ export default defineConfig({
         '@fontsource/ia-writer-quattro/latin-700.css',
         './src/styles/docs.css',
       ],
-      sidebar: [
+      sidebar: hasDocs ? [
         { slug: 'docs' },
         group('Getting started', 'Primeiros passos', 'docs/start'),
         group('Tutorials', 'Tutoriais', 'docs/tutorials'),
@@ -77,7 +81,7 @@ export default defineConfig({
         },
         group('Reference', 'Referência', 'docs/reference'),
         group('Self-hosting', 'Hospedagem própria', 'docs/self-hosting'),
-      ],
+      ] : [],
     }),
   ],
 });
