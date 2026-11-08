@@ -10,10 +10,14 @@ const base = (process.env.BASE_PATH ?? '').replace(/\/$/, '');
 // Pages link to each other as /docs/..., the way they live in the Heddle repository.
 // Under a subpath, those links need it in front.
 function baseLinks() {
-  /** @param {{ type: string, url?: string, children?: any[] }} node */
+  /** @param {{ type: string, url?: string, value?: string, children?: any[] }} node */
   const walk = (node) => {
     if ((node.type === 'link' || node.type === 'definition') && node.url && /^\/(?!\/)/.test(node.url)) {
       if (base && !node.url.startsWith(base + '/')) node.url = base + node.url;
+    }
+    // The drawings and cards scripts/sync_docs.mjs writes are HTML.
+    if (node.type === 'html' && base && node.value) {
+      node.value = node.value.replace(/href="\/(?!\/)/g, `href="${base}/`);
     }
     for (const child of node.children ?? []) walk(child);
   };
@@ -54,6 +58,26 @@ export default defineConfig({
       },
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/heddlehq/Heddle' }],
       editLink: { baseUrl: 'https://github.com/heddlehq/Heddle/edit/main/docs/site/' },
+      // Code on paper in light mode and on ink in dark, in the site's typewriter face.
+      expressiveCode: {
+        themes: ['github-dark-dimmed', 'rose-pine-dawn'],
+        styleOverrides: {
+          borderRadius: '0.75rem',
+          borderColor: 'var(--doc-border)',
+          codeFontFamily: "'Courier Prime', 'Courier New', monospace",
+          codeFontSize: '0.88rem',
+          codeLineHeight: '1.6',
+          codeBackground: ({ theme }) => (theme.type === 'dark' ? '#1f2226' : '#efe6d4'),
+          frames: {
+            shadowColor: 'transparent',
+            editorTabBarBackground: ({ theme }) => (theme.type === 'dark' ? '#26292e' : '#e6dcc6'),
+            editorActiveTabBackground: ({ theme }) => (theme.type === 'dark' ? '#1f2226' : '#efe6d4'),
+            editorActiveTabIndicatorTopColor: 'var(--sl-color-accent)',
+            terminalTitlebarBackground: ({ theme }) => (theme.type === 'dark' ? '#26292e' : '#e6dcc6'),
+            terminalBackground: ({ theme }) => (theme.type === 'dark' ? '#1f2226' : '#efe6d4'),
+          },
+        },
+      },
       customCss: [
         '@fontsource/courier-prime/latin-400.css',
         '@fontsource/courier-prime/latin-700.css',
