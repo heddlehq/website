@@ -1,0 +1,55 @@
+/* The documentation in the site's paper, ink and ribbon. See global.css. */
+:root {
+  --sl-font: 'iA Writer Quattro', 'Courier Prime', Georgia, serif;
+  --sl-font-mono: 'Courier Prime', 'Courier New', Courier, monospace;
+
+  /* Dark: ink, with a lighter ribbon, which is unreadable on ink as it is. */
+  --sl-color-accent-low: #3d2420;
+  --sl-color-accent: #e8907d;
+  --sl-color-accent-high: #f6d3ca;
+  --sl-color-white: #f3ebdc;
+  --sl-color-gray-1: #e9dfca;
+  --sl-color-gray-2: #cfc4ae;
+  --sl-color-gray-3: #9c9483;
+  --sl-color-gray-4: #5f5b52;
+  --sl-color-gray-5: #3a3c40;
+  --sl-color-gray-6: #23262b;
+  --sl-color-black: #181a1e;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #ecd2c9;
+  --sl-color-accent: #a63a2b;
+  --sl-color-accent-high: #5e1f16;
+  --sl-color-white: #23262b;
+  --sl-color-gray-1: #2f3136;
+  --sl-color-gray-2: #45464a;
+  --sl-color-gray-3: #57544c;
+  --sl-color-gray-4: #8a8476;
+  --sl-color-gray-5: #d3c6ac;
+  --sl-color-gray-6: #e9dfca;
+  --sl-color-gray-7: #f0e8d8;
+  --sl-color-black: #f3ebdc;
+}
+
+.site-title {
+  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+  font-weight: 700;
+}
+
+/* Headings in the typewriter face of the site. */
+.sl-markdown-content :is(h2, h3, h4) {
+  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+}
+
+/* The fields and outputs of a node. */
+.node-io {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+.node-io code {
+  border: 1px solid var(--sl-color-gray-5);
+}

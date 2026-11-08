@@ -14,6 +14,16 @@ npm run build    # static output in dist/
 - Domain: the `SITE_URL` and `BASE_PATH` env vars set the public address. The Pages workflow in `.github/workflows/pages.yml` passes them.
 - Logo: `public/logo.svg` is the vector version of `brand-src/logo-agy-2.png`, generated with `agy`.
 
+## Documentation
+
+`/docs/` and `/pt/docs/` are the documentation, built with [Starlight](https://starlight.astro.build). Its text lives in the Heddle repository, so it changes with the code it describes:
+
+- `docs/site/en` and `docs/site/pt` hold the pages, in Markdown.
+- `docs/reference/nodes.json` describes every node. `mix heddle.docs` writes it from the definitions of the nodes and from `docs/nodes/`, which says what each one returns.
+- `docs/examples` holds the flows the tutorials offer to import.
+
+`node scripts/sync_docs.mjs [path to heddle]` copies them in and writes a page per node. What it writes isn't kept in git. The Pages workflow runs it against the latest release of Heddle, every morning and on each push, so the documentation matches what `heddle install` gives. To preview a change to the docs, run it against your checkout of Heddle, then `npm run dev`.
+
 ## Showcase
 
 `/showcase/` and `/pt/showcase/` are a gallery of real flows. A card opens its flow on Heddle's own canvas, read-only, and a click on a node shows how it is set up.

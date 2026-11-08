@@ -1,6 +1,7 @@
 export const en = {
   lang: 'en',
   path: '/',
+  docsPath: '/docs/',
   og: 'og.png',
   meta: {
     title: 'Heddle: automation you actually own',
@@ -10,7 +11,7 @@ export const en = {
   skip: 'Skip to content',
   home: 'Heddle, home',
   navLabel: 'Main',
-  nav: { what: 'What it does', showcase: 'Showcase', early: 'Early access', source: 'GitHub' },
+  nav: { what: 'What it does', showcase: 'Showcase', docs: 'Docs', early: 'Early access', source: 'GitHub' },
   switchTo: { label: 'PT', title: 'Ver em português', lang: 'pt-BR', path: '/pt/' },
   hero: {
     lines: ['Automation you', 'actually own.'],

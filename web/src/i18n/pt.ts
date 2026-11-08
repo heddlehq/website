@@ -3,6 +3,7 @@ import type { Copy } from './en';
 export const pt: Copy = {
   lang: 'pt-BR',
   path: '/pt/',
+  docsPath: '/pt/docs/',
   og: 'og-pt.png',
   meta: {
     title: 'Heddle: automação que é sua de verdade',
@@ -12,7 +13,7 @@ export const pt: Copy = {
   skip: 'Pular para o conteúdo',
   home: 'Heddle, início',
   navLabel: 'Principal',
-  nav: { what: 'O que faz', showcase: 'Showcase', early: 'Acesso antecipado', source: 'GitHub' },
+  nav: { what: 'O que faz', showcase: 'Showcase', docs: 'Docs', early: 'Acesso antecipado', source: 'GitHub' },
   switchTo: { label: 'EN', title: 'View in English', lang: 'en', path: '/' },
   hero: {
     lines: ['Automação que', 'é sua de verdade.'],

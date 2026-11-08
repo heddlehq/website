@@ -26,6 +26,7 @@ const home = current === 'home' ? '' : `${base}${t.path}`;
     <a href={`${base}${t.showcase.path}`} aria-current={current === 'showcase' ? 'page' : undefined}
       >{t.nav.showcase}</a
     >
+    <a href={`${base}${t.docsPath}`}>{t.nav.docs}</a>
     <a href={`${home}#early`}>{t.nav.early}</a>
     <a href={links.source} target="_blank" rel="noopener">{t.nav.source}</a>
     <a href={`${base}${switchPath}`} hreflang={t.switchTo.lang} lang={t.switchTo.lang} title={t.switchTo.title}
