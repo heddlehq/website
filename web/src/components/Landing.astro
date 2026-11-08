@@ -16,6 +16,7 @@ interface Props {
 
 const { t } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const docs = `${base}${t.docsPath}`;
 const number = (value: number) => value.toLocaleString(t.lang);
 const gigabytes = (megabytes: number) =>
   (megabytes / 1024).toLocaleString(t.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -255,10 +256,10 @@ const gigabytes = (megabytes: number) =>
       }
       <p>{t.selfHost.after}</p>
       <p class="small">{t.selfHost.safety}</p>
-      <p class="actions"><a href={links.install}>{t.selfHost.guide}</a></p>
+      <p class="actions"><a href={`${docs}start/installation/`}>{t.selfHost.guide}</a></p>
       <p class="small">
-        {t.selfHost.tech} <a href={links.scaling}>{t.selfHost.scaling}</a>
-        {t.selfHost.techEnd} <a href={links.api}>{t.selfHost.api}</a>
+        {t.selfHost.tech} <a href={`${docs}self-hosting/scaling/`}>{t.selfHost.scaling}</a>
+        {t.selfHost.techEnd} <a href={`${docs}reference/api/`}>{t.selfHost.api}</a>
         {t.selfHost.techTail}
       </p>
     </section>

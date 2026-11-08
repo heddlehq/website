@@ -26,6 +26,7 @@ const home = current === 'home' ? '' : `${base}${t.path}`;
     <a href={`${base}${t.showcase.path}`} aria-current={current === 'showcase' ? 'page' : undefined}
       >{t.nav.showcase}</a
     >
+    <a href={`${base}${t.docsPath}`}>{t.nav.docs}</a>
     <a href={`${home}#early`}>{t.nav.early}</a>
     <a href={links.source} target="_blank" rel="noopener">{t.nav.source}</a>
     <a href={`${base}${switchPath}`} hreflang={t.switchTo.lang} lang={t.switchTo.lang} title={t.switchTo.title}
@@ -35,7 +36,9 @@ const home = current === 'home' ? '' : `${base}${t.path}`;
 </header>
 
 <style>
+  /* Wider than the column of text, so the links fit on one line. */
   .masthead {
+    width: min(100% - 2 * var(--gutter), 60rem);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -56,18 +59,51 @@ const home = current === 'home' ? '' : `${base}${t.path}`;
 
   nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--space-3);
-    font-size: 1rem;
+    align-items: center;
+    gap: 0 1.1rem;
+    font-size: 0.92rem;
   }
 
   nav a {
     display: inline-block;
+    white-space: nowrap;
     padding-block: var(--space-2);
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
   }
 
   nav a[aria-current='page'] {
     color: var(--ribbon);
-    text-decoration-thickness: 2px;
+  }
+
+  /* The other language, set apart. */
+  nav a[hreflang] {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* On a phone the links stay on one line, and scroll sideways. */
+  @media (max-width: 40rem) {
+    nav {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      mask-image: linear-gradient(to right, #000 85%, transparent);
+    }
+  }
+
+  nav a[hreflang]:hover {
+    border-color: var(--ink);
+    text-decoration: none;
   }
 </style>

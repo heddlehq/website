@@ -4,7 +4,7 @@ const repo = 'https://github.com/heddlehq/Heddle';
 
 export const site = {
   name: 'Heddle',
-  version: '0.5.0',
+  version: '0.6.0',
 };
 
 export const waitlistEndpoint = 'https://heddle-waitlist.pedrohfonseca-1981.workers.dev';
@@ -20,9 +20,8 @@ export const installCommands = {
 
 export const links = {
   source: repo,
-  install: `${repo}/blob/main/guides/installation.md`,
-  scaling: `${repo}/blob/main/guides/scaling.md`,
-  api: `${repo}/blob/main/docs/api/PUBLIC_API_GUIDE.md`,
+  // Absolute, because the prompt for an AI agent carries it.
+  install: `${installBase}/docs/start/installation/`,
   license: `${repo}/blob/main/LICENSE`,
   contributing: `${repo}/blob/main/CONTRIBUTING.md`,
   roadmap: 'https://github.com/heddlehq/roadmap',

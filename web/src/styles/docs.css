@@ -1,0 +1,754 @@
+/* The documentation in the site's paper, ink and ribbon. See global.css, and the
+   editor's own colors in Heddle's rete_custom.css, which the drawings follow. */
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  --sl-font: 'iA Writer Quattro', 'Courier Prime', Georgia, serif;
+  --sl-font-mono: 'Courier Prime', 'Courier New', Courier, monospace;
+  --doc-type: 'Courier Prime', 'Courier New', Courier, monospace;
+
+  --sl-text-h1: 2.4rem;
+  --sl-text-h2: 1.55rem;
+  --sl-text-h3: 1.2rem;
+  --sl-text-h4: 1.05rem;
+  --sl-content-width: 46rem;
+  --sl-sidebar-width: 17.5rem;
+
+  /* Dark: ink, with a lighter ribbon, which is unreadable on ink as it is. */
+  --sl-color-accent-low: #3a2420;
+  --sl-color-accent: #e8907d;
+  --sl-color-accent-high: #f6d3ca;
+  --sl-color-white: #f3ebdc;
+  --sl-color-gray-1: #e9dfca;
+  --sl-color-gray-2: #d4c9b3;
+  --sl-color-gray-3: #a59d8c;
+  --sl-color-gray-4: #6c675d;
+  --sl-color-gray-5: #3a3c40;
+  --sl-color-gray-6: #26292e;
+  --sl-color-black: #1b1d21;
+
+  --doc-surface: #23262b;
+  --doc-surface-raised: #2a2d33;
+  --doc-border: #383b41;
+  --doc-soft: #b8ae9c;
+  --doc-wire: #5c5a55;
+  --doc-grid: rgb(243 235 220 / 0.07);
+  --doc-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+
+  --doc-node-trigger: #7fb796;
+  --doc-node-flow: #e8907d;
+  --doc-node-code: #7db3bf;
+  --doc-node-data: #d9a95c;
+  --doc-node-integration: #c795bc;
+  --doc-node-ai: #b9a2ec;
+  --doc-node-utility: #a59d8c;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f0d9cf;
+  --sl-color-accent: #a63a2b;
+  --sl-color-accent-high: #6e2219;
+  --sl-color-white: #23262b;
+  --sl-color-gray-1: #2f3136;
+  --sl-color-gray-2: #45464a;
+  --sl-color-gray-3: #5f5a50;
+  --sl-color-gray-4: #8a8476;
+  --sl-color-gray-5: #d8ccb3;
+  --sl-color-gray-6: #ebe2cf;
+  --sl-color-gray-7: #f1e9da;
+  --sl-color-black: #f3ebdc;
+
+  --doc-surface: #f8f3e9;
+  --doc-surface-raised: #fbf8f1;
+  --doc-border: #ddd1b8;
+  --doc-soft: #6a6559;
+  --doc-wire: #b9ad95;
+  --doc-grid: rgb(35 38 43 / 0.08);
+  --doc-shadow: 0 1px 2px rgb(60 45 20 / 0.06), 0 10px 28px -14px rgb(60 45 20 / 0.28);
+
+  --doc-node-trigger: #3f7d5e;
+  --doc-node-flow: #a63a2b;
+  --doc-node-code: #2f6f7e;
+  --doc-node-data: #a8701a;
+  --doc-node-integration: #8a4f7d;
+  --doc-node-ai: #6e4fb5;
+  --doc-node-utility: #7a7466;
+}
+
+/* Paper fibre, as on the rest of the site. */
+:root[data-theme='light'] body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .22 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--sl-color-accent);
+  color: var(--sl-color-black);
+}
+
+/* ------------------------------------------------------------------ chrome */
+
+.header {
+  background: color-mix(in oklab, var(--sl-color-black) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom-color: var(--doc-border);
+}
+
+.site-title {
+  font-family: var(--doc-type);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--sl-color-white);
+}
+
+.site-title img {
+  height: 1.9rem;
+}
+
+/* The sidebar: quiet, with the page you are on marked in ribbon. */
+.sidebar-pane {
+  background: transparent;
+  border-inline-end-color: var(--doc-border);
+}
+
+.sidebar-content .top-level > li > details > summary .group-label,
+.sidebar-content .top-level > li > details > summary .group-label .large,
+.sidebar-content .top-level > li > a {
+  font-family: var(--doc-type);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-2);
+}
+
+.sidebar-content ul ul a {
+  font-size: 0.92rem;
+  color: var(--doc-soft);
+  border-radius: 0.4rem;
+  padding-block: 0.28rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.sidebar-content ul ul a:hover {
+  color: var(--sl-color-white);
+  background: color-mix(in oklab, var(--sl-color-gray-5) 45%, transparent);
+}
+
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high) !important;
+  font-weight: 600;
+}
+
+.sidebar-content ul ul {
+  border-inline-start-color: var(--doc-border);
+}
+
+/* The table of contents on the right. */
+starlight-toc h2,
+mobile-starlight-toc h2 {
+  font-family: var(--doc-type);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--doc-soft);
+}
+
+starlight-toc a[aria-current='true'] {
+  color: var(--sl-color-accent);
+}
+
+/* ------------------------------------------------------------------ type */
+
+.content-panel h1,
+.sl-markdown-content :is(h2, h3, h4) {
+  font-family: var(--doc-type);
+  letter-spacing: -0.015em;
+  color: var(--sl-color-white);
+}
+
+.content-panel h1 {
+  font-weight: 700;
+  line-height: 1.12;
+}
+
+.sl-markdown-content h2 {
+  margin-top: 2.6rem;
+  padding-top: 0.25rem;
+}
+
+/* A short ribbon thread above each section, like the landing's. */
+.sl-markdown-content h2::before {
+  content: '';
+  display: block;
+  width: 1.75rem;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 0.7rem;
+  background: var(--sl-color-accent);
+}
+
+.sl-markdown-content {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--sl-color-gray-2);
+}
+
+.sl-markdown-content strong {
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content a:not(:where(.docs-card, .node-card, .node-chip, .flow-download, .docs-column a)) {
+  color: var(--sl-color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in oklab, var(--sl-color-accent) 45%, transparent);
+  transition: text-decoration-color 0.15s;
+}
+
+.sl-markdown-content a:not(:where(.docs-card, .node-card, .node-chip, .flow-download, .docs-column a)):hover {
+  text-decoration-color: currentColor;
+}
+
+.sl-markdown-content :not(pre) > code {
+  background: color-mix(in oklab, var(--sl-color-gray-5) 55%, transparent);
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.1em 0.38em;
+  font-size: 0.88em;
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content blockquote {
+  border-inline-start: 3px solid var(--sl-color-accent);
+  background: var(--doc-surface);
+  border-radius: 0 0.6rem 0.6rem 0;
+  padding: 0.8rem 1.1rem;
+  font-style: normal;
+  color: var(--sl-color-gray-2);
+}
+
+/* ------------------------------------------------------------------ tables */
+
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--doc-border);
+  border-radius: 0.75rem;
+  background: var(--doc-surface);
+  font-size: 0.93rem;
+  overflow: hidden;
+}
+
+.sl-markdown-content :is(th, td) {
+  border: none;
+  border-bottom: 1px solid var(--doc-border);
+  padding: 0.6rem 0.9rem;
+  vertical-align: top;
+}
+
+.sl-markdown-content tr:last-child td {
+  border-bottom: none;
+}
+
+.sl-markdown-content th {
+  background: color-mix(in oklab, var(--sl-color-gray-5) 40%, transparent);
+  font-family: var(--doc-type);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-2);
+  text-align: start;
+}
+
+.sl-markdown-content th:empty {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ the home page */
+
+.hero {
+  padding-block: 3rem 2rem;
+  gap: 2.5rem;
+}
+
+.hero h1 {
+  font-family: var(--doc-type);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--sl-color-white);
+}
+
+.hero .tagline {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--doc-soft);
+}
+
+.hero .sl-link-button.primary {
+  background: var(--sl-color-accent);
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-black);
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+.hero .sl-link-button.minimal {
+  border-radius: 999px;
+}
+
+/* The drawing beside the title gets the room a drawing needs. */
+@media (min-width: 50rem) {
+  main .hero {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+main .hero > .hero-html {
+  width: 100%;
+}
+
+.flow-art {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--doc-border);
+  background-color: var(--doc-surface);
+  background-image: radial-gradient(var(--doc-grid) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+  box-shadow: var(--doc-shadow);
+}
+
+.docs-cards {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.25rem 0.5rem;
+}
+
+@media (min-width: 50rem) {
+  .docs-cards-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .docs-cards-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.sl-markdown-content .docs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.3rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 1rem;
+  background: var(--doc-surface);
+  text-decoration: none;
+  color: var(--doc-soft);
+  line-height: 1.5;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  margin: 0;
+}
+
+.sl-markdown-content .docs-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--sl-color-accent) 55%, var(--doc-border));
+  box-shadow: var(--doc-shadow);
+}
+
+.sl-markdown-content .docs-card strong {
+  font-family: var(--doc-type);
+  font-size: 1.08rem;
+  color: var(--sl-color-white);
+}
+
+.docs-card-icon {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-bottom: 0.4rem;
+  border-radius: 0.7rem;
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent);
+}
+
+.docs-card-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.docs-columns {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 50rem) {
+  .docs-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.docs-column {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 1rem;
+  background: var(--doc-surface);
+}
+
+.sl-markdown-content :is(.docs-cards, .docs-columns, .node-grid) > *,
+.sl-markdown-content .docs-column > * {
+  margin: 0;
+}
+
+.sl-markdown-content .docs-column-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+  font-family: var(--doc-type);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-2);
+}
+
+.docs-column-title svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--sl-color-accent);
+}
+
+.sl-markdown-content .docs-column a {
+  padding-block: 0.3rem;
+  color: var(--sl-color-white);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--doc-border);
+}
+
+.sl-markdown-content .docs-column a:last-child {
+  border-bottom: none;
+}
+
+.sl-markdown-content .docs-column a:hover {
+  color: var(--sl-color-accent);
+}
+
+/* ------------------------------------------------------------------ node pages */
+
+.node-hero {
+  display: flex;
+  gap: 1.3rem;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+
+.node-hero-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--doc-surface-raised);
+  border: 3px solid color-mix(in oklab, var(--node) 70%, transparent);
+  color: var(--node);
+  box-shadow: var(--doc-shadow);
+}
+
+.node-hero-icon svg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.sl-markdown-content .node-hero-text > * {
+  margin: 0;
+}
+
+.sl-markdown-content .node-hero-text p {
+  margin-top: 0.4rem;
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content .node-chip {
+  display: inline-block;
+  padding: 0.12rem 0.65rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--node) 16%, transparent);
+  color: var(--node);
+  font-family: var(--doc-type);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.node-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  margin: 0 0 0.5rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 0.85rem;
+  background: var(--doc-surface);
+}
+
+.sl-markdown-content .node-facts > div {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.sl-markdown-content .node-facts dt {
+  font-family: var(--doc-type);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--doc-soft);
+}
+
+.sl-markdown-content .node-facts dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.port {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.05rem 0.55rem 0.05rem 0.45rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 999px;
+  background: var(--doc-surface-raised);
+  font-family: var(--doc-type);
+  font-size: 0.82rem;
+  color: var(--sl-color-white);
+}
+
+.port::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--sl-color-accent);
+}
+
+.port-none {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--doc-soft);
+}
+
+/* The index of nodes: cards with the node's circle. */
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sl-markdown-content .node-card {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 0.85rem;
+  background: var(--doc-surface);
+  text-decoration: none;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.sl-markdown-content .node-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--node) 60%, var(--doc-border));
+  box-shadow: var(--doc-shadow);
+}
+
+.node-card-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid color-mix(in oklab, var(--node) 65%, transparent);
+  background: var(--doc-surface-raised);
+  color: var(--node);
+}
+
+.node-card-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.node-card-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.node-card-text strong {
+  font-family: var(--doc-type);
+  font-size: 0.95rem;
+  color: var(--sl-color-white);
+}
+
+.node-card-text span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0.15rem;
+  font-size: 0.84rem;
+  color: var(--doc-soft);
+}
+
+/* ------------------------------------------------------------------ drawings of flows */
+
+.flow-figure {
+  margin: 1.8rem 0 2.2rem;
+  border: 1px solid var(--doc-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--doc-surface);
+  box-shadow: var(--doc-shadow);
+}
+
+.flow-canvas {
+  padding: 0.75rem;
+  background-image: radial-gradient(var(--doc-grid) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+.sl-markdown-content .flow-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--doc-border);
+  font-size: 0.88rem;
+  color: var(--doc-soft);
+}
+
+.sl-markdown-content .flow-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: var(--sl-color-accent);
+  color: var(--sl-color-black);
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+
+.sl-markdown-content .flow-download:hover {
+  filter: brightness(1.08);
+}
+
+.flow-download-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.flow-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 26rem;
+  font-family: var(--sl-font);
+}
+
+.flow-drawing .wire {
+  fill: none;
+  stroke: var(--doc-wire);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.flow-drawing .ring {
+  fill: var(--doc-surface-raised);
+  stroke: color-mix(in oklab, var(--node) 70%, transparent);
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.1));
+}
+
+.flow-drawing .glyph {
+  color: var(--node);
+}
+
+.flow-drawing .name {
+  fill: var(--sl-color-white);
+  font-size: 21px;
+  font-weight: 600;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--doc-surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.flow-drawing .socket {
+  fill: var(--sl-color-accent);
+  stroke: var(--doc-surface);
+  stroke-width: 2.5;
+}
+
+.flow-drawing .badge rect {
+  fill: var(--sl-color-accent);
+}
+
+.flow-drawing .badge text {
+  fill: var(--sl-color-black);
+  font-family: var(--doc-type);
+  font-size: 9.5px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+/* ------------------------------------------------------------------ small screens */
+
+@media (max-width: 40rem) {
+  .sl-markdown-content table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .node-hero {
+    align-items: flex-start;
+  }
+
+  .node-hero-icon {
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+
+  .node-hero-icon svg {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+}

@@ -3,7 +3,15 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # The documentation comes from the latest release of Heddle, so a new release shows
+  # up on the next morning's build, or at once with a manual run.
+  schedule:
+    - cron: "0 6 * * *"
   workflow_dispatch:
+    inputs:
+      heddle_ref:
+        description: "Tag or branch of Heddle to take the documentation from. Blank is the latest release."
+        required: false
 
 permissions:
   contents: read
@@ -22,6 +30,18 @@ jobs:
         working-directory: web
     steps:
       - uses: actions/checkout@v4
+      - id: heddle
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ inputs.heddle_ref }}
+        run: echo "ref=${REF:-$(gh release view --repo heddlehq/Heddle --json tagName --jq .tagName)}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: heddlehq/Heddle
+          ref: ${{ steps.heddle.outputs.ref }}
+          path: heddle-src
+          sparse-checkout: docs
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -30,6 +50,7 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
       - run: npm ci
+      - run: node scripts/sync_docs.mjs ../heddle-src
       - run: npm run build
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
