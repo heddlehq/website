@@ -264,7 +264,7 @@ const WORDS = {
     notes: 'How to use it',
     api: 'In a flow file',
     apiLead: 'How the node looks in a flow sent to the [API](/docs/reference/api/) or imported, with its defaults:',
-    types: { text: 'Text', textarea: 'Text, several lines', select: 'Choice', model: 'Model', code: 'Code', 'variable-select': 'Variable' },
+    types: { text: 'Text', textarea: 'Text, several lines', select: 'Choice', model: 'Model', code: 'Code', 'variable-select': 'Variable', flow: 'Flow', form_fields: 'Form fields', schema: 'Rules, one per field' },
   },
   pt: {
     all: 'Todos os nós',
@@ -286,7 +286,7 @@ const WORDS = {
     notes: 'Como usar',
     api: 'Num arquivo de fluxo',
     apiLead: 'Como o nó aparece num fluxo enviado pela [API](/pt/docs/reference/api/) ou importado, com os padrões:',
-    types: { text: 'Texto', textarea: 'Texto, várias linhas', select: 'Escolha', model: 'Modelo', code: 'Código', 'variable-select': 'Variável' },
+    types: { text: 'Texto', textarea: 'Texto, várias linhas', select: 'Escolha', model: 'Modelo', code: 'Código', 'variable-select': 'Variável', flow: 'Fluxo', form_fields: 'Campos do formulário', schema: 'Regras, uma por campo' },
   },
 };
 
