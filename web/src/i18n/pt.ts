@@ -41,15 +41,15 @@ export const pt: Copy = {
     points: [
       {
         title: 'Pensa uma vez, roda sempre',
-        text: 'Um agente descobre os passos uma única vez e deixa um fluxo pronto. Dali em diante ele roda como qualquer programa, sem um modelo decidindo de novo a cada execução.',
+        text: 'Deixe um AI Agent fazer a tarefa uma vez e transforme o que ele fez em passos com um clique. Dali em diante o fluxo roda como qualquer programa, sem um modelo decidindo de novo a cada execução.',
       },
       {
         title: 'Sem tokens por execução',
-        text: 'Chamar um modelo para cada pedido, cada e-mail, cada linha sai caro. Um fluxo custa quase nada para rodar, e os passos de IA ficam só onde fazem falta.',
+        text: 'Chamar um modelo para cada pedido, cada e-mail, cada linha sai caro. Um fluxo custa quase nada para rodar, os passos de IA ficam só onde fazem falta, e cada execução mostra quanto custaram as chamadas ao modelo.',
       },
       {
         title: 'O mesmo resultado sempre',
-        text: 'Mesma entrada, mesma saída. Cada execução guarda o que entrou e o que cada passo fez, para você explicar a qualquer um por que algo aconteceu.',
+        text: 'Mesma entrada, mesma saída. Cada execução guarda o que entrou e o que cada passo fez, e quando um passo precisa de uma pessoa, a execução espera a aprovação dela.',
       },
       {
         title: 'Qualquer modelo, até o seu',
