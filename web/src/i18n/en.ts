@@ -39,15 +39,15 @@ export const en = {
     points: [
       {
         title: 'Think once, run forever',
-        text: 'An agent works out the steps a single time and leaves a flow behind. From then on it runs like any program, with no model deciding again on each run.',
+        text: 'Let an AI Agent do a task once, then turn what it did into steps with one click. From then on the flow runs like any program, with no model deciding again on each run.',
       },
       {
         title: 'No tokens per run',
-        text: 'Calling a model for every order, every email, every row adds up. A flow costs next to nothing to run, and AI steps go only where they are needed.',
+        text: 'Calling a model for every order, every email, every row adds up. A flow costs next to nothing to run, AI steps go only where they are needed, and each run shows what its model calls cost.',
       },
       {
         title: 'The same result every time',
-        text: 'Same input, same output. Every run keeps what came in and what each step did, so you can tell anyone why something happened.',
+        text: 'Same input, same output. Every run keeps what came in and what each step did, and when a step needs a person, the run waits for their approval.',
       },
       {
         title: 'Any model, even your own',
