@@ -33,6 +33,30 @@ export const pt: Copy = {
     after:
       'Cada círculo é um passo, chamado de nó. Slack, Google Sheets, e-mail e armazenamento de arquivos têm passos próprios, qualquer outro serviço com API está a uma requisição HTTP de distância, e quando um passo precisa de lógica de verdade, você escreve em Elixir ou Python.',
   },
+  why: {
+    title: 'Por que não só pedir para uma IA?',
+    claim: 'A IA descobre como fazer uma vez.',
+    claimAccent: 'O Heddle faz todas as vezes.',
+    lead: 'Qualquer modelo resolve uma tarefa uma vez. Uma empresa precisa dela resolvida do mesmo jeito milhares de vezes por mês, por centavos, com registro de cada execução. Então deixe a IA montar o fluxo, e deixe o Heddle rodar.',
+    points: [
+      {
+        title: 'Pensa uma vez, roda sempre',
+        text: 'Um agente descobre os passos uma única vez e deixa um fluxo pronto. Dali em diante ele roda como qualquer programa, sem um modelo decidindo de novo a cada execução.',
+      },
+      {
+        title: 'Sem tokens por execução',
+        text: 'Chamar um modelo para cada pedido, cada e-mail, cada linha sai caro. Um fluxo custa quase nada para rodar, e os passos de IA ficam só onde fazem falta.',
+      },
+      {
+        title: 'O mesmo resultado sempre',
+        text: 'Mesma entrada, mesma saída. Cada execução guarda o que entrou e o que cada passo fez, para você explicar a qualquer um por que algo aconteceu.',
+      },
+      {
+        title: 'Qualquer modelo, até o seu',
+        text: 'Claude, GPT, Gemini, Grok, ou um modelo na sua máquina pelo Ollama ou qualquer servidor compatível com a OpenAI. Agentes montam e rodam fluxos pelo servidor MCP embutido.',
+      },
+    ],
+  },
   figure: {
     title: 'Um novo pedido desenhado como um fluxo de fios',
     desc: 'Um novo pedido leva a uma verificação: está pago? Se sim, o estoque é avisado. Se não, fica registrado. Se avisar o estoque falhar, isso também fica registrado. Os dois caminhos terminam no fim. Um fio vermelho marca uma execução: novo pedido, pago, estoque avisado, fim.',
@@ -54,7 +78,7 @@ export const pt: Copy = {
     claimAccent: 'já conectadas.',
     lead: 'Inúmeros nós prontos. Coloque um no canvas, escolha uma credencial, e ele roda. Qualquer outro serviço com API está a uma requisição HTTP de distância.',
     stampsLabel: 'Funciona com',
-    stamps: ['Slack', 'Google Sheets', 'E-mail', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    stamps: ['Slack', 'Google Sheets', 'E-mail', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'Ollama', 'MCP'],
     stampsMore: 'e muito mais',
     statsLabel: 'O Heddle em números',
     stats: [

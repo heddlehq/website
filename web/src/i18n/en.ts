@@ -31,6 +31,30 @@ export const en = {
     after:
       'Each circle is a step, called a node. Slack, Google Sheets, email and file storage have steps of their own, anything else with an API is one HTTP request away, and when a step needs real logic you can write it in Elixir or Python.',
   },
+  why: {
+    title: 'Why not just ask an AI?',
+    claim: 'AI works it out once.',
+    claimAccent: 'Heddle does it every time.',
+    lead: 'Any model can solve a task once. A business needs it solved the same way thousands of times a month, for cents, with a record of each run. So let the AI build the flow, and let Heddle run it.',
+    points: [
+      {
+        title: 'Think once, run forever',
+        text: 'An agent works out the steps a single time and leaves a flow behind. From then on it runs like any program, with no model deciding again on each run.',
+      },
+      {
+        title: 'No tokens per run',
+        text: 'Calling a model for every order, every email, every row adds up. A flow costs next to nothing to run, and AI steps go only where they are needed.',
+      },
+      {
+        title: 'The same result every time',
+        text: 'Same input, same output. Every run keeps what came in and what each step did, so you can tell anyone why something happened.',
+      },
+      {
+        title: 'Any model, even your own',
+        text: 'Claude, GPT, Gemini, Grok, or a model on your machine through Ollama or any OpenAI-compatible server. Agents build and run flows through the built-in MCP server.',
+      },
+    ],
+  },
   figure: {
     title: 'A new order drawn as a flow of threads',
     desc: 'A new order leads to a check: is it paid? If yes, the warehouse is told. If no, it is logged. If telling the warehouse fails, that is logged too. Both paths end at done. A red thread marks one run: new order, paid, warehouse told, done.',
@@ -52,7 +76,7 @@ export const en = {
     claimAccent: 'already wired.',
     lead: 'Countless ready-made nodes. Drop one on the canvas, pick a credential, and it runs. Anything else with an API is one HTTP request away.',
     stampsLabel: 'Works with',
-    stamps: ['Slack', 'Google Sheets', 'Email', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'MCP'],
+    stamps: ['Slack', 'Google Sheets', 'Email', 'S3', 'FTP', 'CSV', 'HTTP', 'Claude', 'GPT', 'Gemini', 'Grok', 'Ollama', 'MCP'],
     stampsMore: 'and more',
     statsLabel: 'Heddle in numbers',
     stats: [

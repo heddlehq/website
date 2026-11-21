@@ -59,8 +59,24 @@ const gigabytes = (megabytes: number) =>
       <p class="actions"><a href={`${base}${t.showcase.path}`}>{t.figure.watch}</a></p>
     </section>
 
+    <section aria-labelledby="why">
+      <h2 id="why" data-n="2.">{t.why.title}</h2>
+      <p class="claim">{t.why.claim} <span>{t.why.claimAccent}</span></p>
+      <p class="lead">{t.why.lead}</p>
+      <div class="features">
+        {
+          t.why.points.map(({ title, text }) => (
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
     <section aria-labelledby="today">
-      <h2 id="today" data-n="2.">{t.today.title}</h2>
+      <h2 id="today" data-n="3.">{t.today.title}</h2>
       <p class="claim">{t.today.claim} <span>{t.today.claimAccent}</span></p>
       <p class="lead">{t.today.lead}</p>
       <ul class="stamps" aria-label={t.today.stampsLabel}>
@@ -91,7 +107,7 @@ const gigabytes = (megabytes: number) =>
     </section>
 
     <section aria-labelledby="bench">
-      <h2 id="bench" data-n="3.">{t.bench.title}</h2>
+      <h2 id="bench" data-n="4.">{t.bench.title}</h2>
       <div class="tabs" role="tablist" aria-label={t.bench.tabsLabel} data-tabs>
         <button type="button" role="tab" id="tab-speed" aria-controls="panel-speed" aria-selected="true">
           {t.bench.tabs.speed}
@@ -205,7 +221,7 @@ const gigabytes = (megabytes: number) =>
     </section>
 
     <section aria-labelledby="early">
-      <h2 id="early" data-n="4.">{t.early.title}</h2>
+      <h2 id="early" data-n="5.">{t.early.title}</h2>
       <p>{t.early.intro}</p>
       <form
         class="join"
@@ -236,7 +252,7 @@ const gigabytes = (megabytes: number) =>
     </section>
 
     <section aria-labelledby="self-host">
-      <h2 id="self-host" data-n="5.">{t.selfHost.title}</h2>
+      <h2 id="self-host" data-n="6.">{t.selfHost.title}</h2>
       <p>{t.selfHost.intro}</p>
       {
         [
@@ -265,7 +281,7 @@ const gigabytes = (megabytes: number) =>
     </section>
 
     <section aria-labelledby="open">
-      <h2 id="open" data-n="6.">{t.open.title}</h2>
+      <h2 id="open" data-n="7.">{t.open.title}</h2>
       <p>
         {t.open.a} <a href={links.roadmap}>{t.open.roadmap}</a>
         {t.open.b} <a href={links.discord}>Discord</a>.
